@@ -1,6 +1,8 @@
 var app = app || {};
 
 (function () {
+    moment().format();
+    
     var sammy = Sammy(function () {
         var sidebarSelector = '#sidebar-container',
             containerSelector = '#main-container';
@@ -29,6 +31,10 @@ var app = app || {};
             app.CourseController.getCourses(containerSelector);
         });
         
+        this.get('#/courses/:courseId/', function () {
+            app.CourseController.getCourse(this, containerSelector);
+        });
+        
         this.get('#/courses/add/', function () {
             app.CourseController.getAddCourse(containerSelector);
         });
@@ -37,13 +43,19 @@ var app = app || {};
             app.CourseController.postAddCourse(this);
         });
         
+        this.get('#/courses/:courseId/lectures/add/', function () {
+            app.CourseController.getAddLecture(this, containerSelector);
+        });
+        
+        this.post('#/courses/:courseId/lectures/add/', function () {
+            app.CourseController.postAddLecture(this, containerSelector);
+        });
+        
         this.get('#/submissions/', function () {
             app.SubmissionController.getSubmissions(containerSelector);
         });
         
-        this.get('#/courses/:courseId', function () {
-            app.CourseController.getCourse(this, containerSelector);
-        });
+        
     });
     
     sammy.run('#/');

@@ -10,8 +10,12 @@
         <tbody>
             {{#lectures}}
             <tr>
-                <td>
-                    <strong>Introduction to course</strong>
+                <td class="lecture-td">
+                    <strong>{{title}}</strong>
+                    <div class="lecture-deadline">
+                        <i class="fa fa-hourglass-end"></i>
+                        <span>&nbsp; Deadline: {{deadline}}</span>
+                    </div>
                 </td>
                 <td>
                     <ul class="lecture-resource-list">
@@ -34,10 +38,15 @@
                             </a>
                         </li>
                     </ul>
+                    {{#isUploadActive}}
                     <label class="btn btn-warning">
                         Upload
                         <input type="file" data-lecture-id="{{id}}" style="display: none;"/>
                     </label>
+                    {{/isUploadActive}}
+                    {{^isUploadActive}}
+                        The deadline is passed.
+                    {{/isUploadActive}}
                 </td>
             </tr>
             {{/lectures}}

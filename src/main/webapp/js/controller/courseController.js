@@ -7,28 +7,35 @@ app.CourseController = (function () {
                 id: 1,
                 title: 'Java EE',
                 description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
-                lectures: [{id: 1, title: 'Introduction to course'}, {id: 2, title: 'JPA'}]
+                lectures: [{id: 1, title: 'Introduction to course', deadline: new Date()}, {id: 2, title: 'JPA', deadline: new Date(2016, 7, 1)}]
             },
             {
                 id: 2,
                 title: 'AngularJS',
                 description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
-                lectures: [{id: 1, title: 'Introduction to course'}, {id: 2, title: 'Angular Seed'}]
+                lectures: [{id: 1, title: 'Introduction to course', deadline: new Date(2016, 5, 20)}, {id: 2, title: 'Angular Seed', deadline: new Date(2016, 6, 1)}]
             },
             {
                 id: 3,
                 title: 'JavaScript',
                 description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
-                lectures: [{id: 1, title: 'Introduction to course'}, {id: 2, title: 'Basics'}]
+                lectures: [{id: 1, title: 'Introduction to course', deadline: new Date()}, {id: 2, title: 'Basics', deadline: new Date()}]
             }
         ]
     };
-    
+    var user = {
+        role: 'trainer'
+    };
     
     function getCourse(context, selector) {
         var courseId = context.params['courseId'];
         
-        app.CourseView.renderCourse(selector, courses.courses[courseId]);
+        if (user.role === 'trainee') {
+            app.CourseView.renderTraineeCourse(selector, courses.courses[courseId]);
+        } else if (user.role === 'trainer') {
+            app.CourseView.renderTrainerCourse(selector, courses.courses[courseId]);
+        }
+        
         /*
         app.CourseDao.getCourse(courseId)
                 .done(function (course) {
@@ -41,7 +48,12 @@ app.CourseController = (function () {
     }
     
     function getCourses(selector) {
-        app.CourseView.renderCourses(selector, courses);
+        if (user.role === 'trainee') {
+            app.CourseView.renderTraineeCourses(selector, courses);
+        } else if (user.role === 'trainer') {
+            app.CourseView.renderTrainerCourses(selector, courses);
+        }
+        
         /*
         app.CourseDao.getCourses()
                 .done(function (courses) {
@@ -61,7 +73,8 @@ app.CourseController = (function () {
         var title = context.params['title'],
             description = context.params['description'];
         
-        courses.push({title: title, description: description, lectures: []});
+        courses.courses.push({title: title, description: description, lectures: []});
+        context.redirect('#/courses/');
         /*
         app.CourseDao.addCourse(title, description)
             .done(function (course) {
@@ -75,10 +88,28 @@ app.CourseController = (function () {
         */
     }
     
+    function getAddLecture(context, selector) {
+        var id = context.params['courseId'];
+        
+        app.CourseView.renderAddLecture(selector, id);
+    }
+    
+    function postAddLecture(context, selector) {
+        var id = context.params['courseId'],
+            title = context.params['title'],
+            deadline = context.params['deadline'],
+            homework = context.params['homework'];
+    
+        console.log(deadline);
+        console.log(homework);
+    }
+    
     return {
         getCourse: getCourse,
         getCourses: getCourses,
         getAddCourse: getAddCourse,
-        postAddCourse: postAddCourse
+        postAddCourse: postAddCourse,
+        getAddLecture: getAddLecture,
+        postAddLecture: postAddLecture
     };
 }());
