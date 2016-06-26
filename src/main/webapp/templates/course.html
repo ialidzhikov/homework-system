@@ -1,0 +1,46 @@
+<div class="row">
+    <h2 class="col-sm-12 text-xs-center">{{title}}</h2>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Lecture</th>
+                <th>Materials</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#lectures}}
+            <tr>
+                <td>
+                    <strong>Introduction to course</strong>
+                </td>
+                <td>
+                    <ul class="lecture-resource-list">
+                        <li>
+                            <a href="#/">
+                                <i class="fa fa-file-powerpoint-o"></i>
+                                <span>&nbsp; Presentation</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#/">
+                                <i class="fa fa-video-camera"></i>
+                                <span>&nbsp; Video</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#/">
+                                <i class="fa fa-file-pdf-o"></i>
+                                <span>&nbsp; Homework</span>
+                            </a>
+                        </li>
+                    </ul>
+                    <label class="btn btn-warning">
+                        Upload
+                        <input type="file" data-lecture-id="{{id}}" style="display: none;"/>
+                    </label>
+                </td>
+            </tr>
+            {{/lectures}}
+        </tbody>
+    </table>
+</div>
