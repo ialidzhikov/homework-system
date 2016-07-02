@@ -43,12 +43,12 @@
                                 </td>
                                 <td>
                                     {{#mark}}
-                                    <a href="#/">
-                                        <button class="btn btn-success">Evaluated</button>
-                                    </a>
+                                    <a href="#/submissions/{{id}}/">
+                                    	<button class="btn btn-primary">View</button>
+                                	</a>
                                     {{/mark}}
                                     {{^mark}}
-                                    <a href="#/">
+                                    <a href="#/submissions/{{id}}/">
                                         <button class="btn btn-warning">Evaluate</button>
                                     </a>
                                     {{/mark}}

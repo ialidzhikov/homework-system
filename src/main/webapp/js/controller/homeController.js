@@ -27,7 +27,8 @@ app.HomeController = (function () {
         }
     ];
     var user = {
-        role: 'trainer'
+    	fullName: 'Gosho Petrov',
+        role: 'admin'
     };
     
     function getLogin(selector) {
@@ -35,12 +36,10 @@ app.HomeController = (function () {
     }
     
     function postLogin(context) {
-        var email = context.params['email'],
+        var username = context.params['username'],
             password = context.params['password'];
         
-        context.redirect('#/home/');
-        /*
-        app.UserDao.loginUser(email, password)
+        app.UserDao.login(username, password)
             .done(function (user) {
                 
                 context.redirect('#/');
@@ -50,11 +49,14 @@ app.HomeController = (function () {
             .error(function (error) {
                 console.log(error);
             });
-        */
     }
     
     function getSidebar(selector) {
-        app.HomeView.renderSidebar(selector);
+    	if (user.role == 'trainer' || user.role == 'trainee') {
+    		app.HomeView.renderSidebar(selector);
+    	} else if (user.role == 'admin') {
+    		app.HomeView.renderAdminSidebar(selector);
+    	}
     }
     
     function getHome(selector) {
@@ -92,6 +94,8 @@ app.HomeController = (function () {
                     console.log(error);
                 });
             */ 
+        } else if (user.role === 'admin') {
+        	app.HomeView.renderAdminHome(selector);
         }
     }
     

@@ -1,16 +1,16 @@
 var app = app || {};
 
 app.UserDao = (function () {
-    var HOSTNAME = '';
+    var HOSTNAME = '/webapi/hmwsrest/v1/';
     
     
-    function login(email, password) {
+    function login(username, password) {
         return $.ajax({
             method: 'POST',
-            url: HOSTNAME + 'user/login',
+            url: HOSTNAME + '/user/login',
             dataType: 'json',
             data: {
-                email: email,
+                username: username,
                 password: password
             }
         });
