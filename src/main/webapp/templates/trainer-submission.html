@@ -1,0 +1,64 @@
+<div class="row">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header card-primary card-inverse">
+                <h3 class="card-title">Submission</h3>
+            </div>
+            <div class="card-block">
+                <form method="POST" action="#/submissions/{{id}}/" role="form">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Course</th>
+                                <th>Lecture</th>
+                                <th>Submitted By</th>
+                                <th>Submitted On</th>
+                                <th>File</th>
+                                <th>Mark</th>
+                                <th>Evaluate</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{id}}</td>
+                                <td>{{courseName}}</td>
+                                <td>{{lectureName}}</td>
+                                <td>{{submittedBy}}</td>
+                                <td>{{submittedOn}}</td>
+                                <td>
+                                    <a href="#/">
+                                        <i class="fa fa-archive"></i>
+                                        <span>&nbsp; Solution</span>
+                                    </a>
+                                </td>
+                                <td>
+                                    {{#mark}}
+                                        {{mark}}/10
+                                    {{/mark}}
+                                    {{^mark}}
+                                        <div class="form-group col-md-2">
+                                            <input type="text" class="form-control" name="mark" />
+                                        </div>
+                                    {{/mark}}
+                                </td>
+                                <td>
+                                    {{#mark}}
+                                    <a href="#/">
+                                        <button class="btn btn-success" disabled="true">Evaluated</button>
+                                    </a>
+                                    {{/mark}}
+                                    {{^mark}}
+                                    <a href="#/">
+                                        <button class="btn btn-warning">Evaluate</button>
+                                    </a>
+                                    {{/mark}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

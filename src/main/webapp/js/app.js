@@ -55,6 +55,9 @@ var app = app || {};
             app.SubmissionController.getSubmissions(containerSelector);
         });
         
+        this.get('#/submissions/:submissionId/', function () {
+            app.SubmissionController.getSubmission(this, containerSelector);
+        });
         
     });
     

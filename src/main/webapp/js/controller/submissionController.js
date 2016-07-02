@@ -3,9 +3,10 @@ var app = app || {};
 app.SubmissionController = (function () {
     var submissions = [
         {
-            id: 1,
+            id: 0,
             courseName: 'Java EE',
             lectureName: 'Introduction to course',
+            submittedBy: 'Pesho',
             submittedOn: '6/25/2016 15:33',
             mark: 8
         },
@@ -13,53 +14,61 @@ app.SubmissionController = (function () {
             id: 1,
             courseName: 'Java EE',
             lectureName: 'Introduction to course',
+            submittedBy: 'Gosho',
             submittedOn: '6/25/2016 15:33',
             mark: 8
         },
         {
-            id: 1,
+            id: 2,
             courseName: 'Java EE',
+            submittedBy: 'Gosho',
             lectureName: 'Introduction to course',
             submittedOn: '6/25/2016 15:33',
-            mark: 8
+            mark: null
         },
         {
-            id: 1,
+            id: 3,
             courseName: 'Java EE',
             lectureName: 'Introduction to course',
+            submittedBy: 'Pesho',
             submittedOn: '6/25/2016 15:33',
-            mark: 8
-        },
-        {
-            id: 1,
-            courseName: 'Java EE',
-            lectureName: 'Introduction to course',
-            submittedOn: '6/25/2016 15:33',
-            mark: 8
-        },
-        {
-            id: 1,
-            courseName: 'Java EE',
-            lectureName: 'Introduction to course',
-            submittedOn: '6/25/2016 15:33',
-            mark: 8
+            mark: null
         }
     ];
-    
+    var user = {
+        role: 'trainer'
+    };
     
     function getSubmissions(selector) {
-        app.SubmissionView.renderSubmissions(selector, submissions);
+        if (user.role === 'trainee') {
+            app.SubmissionView.renderTraineeSubmissions(selector, submissions);
+            /*
+            app.SubmissionDao.getSubmissionsByTraineeId()
+                    .done(function (submissions) {
+                        app.SubmissionView.renderSubmissions(selector, submissions);
+                    })
+                    .error(function (error) {
+                        console.log(error);
+                    });
+            */
+        } else if (user.role === 'trainer') {
+            app.SubmissionView.renderTrainerSubmissions(selector, submissions);
+        }
         
-        app.SubmissionDao.getSubmissionsByUserId()
-                .done(function (submissions) {
-                    app.SubmissionView.renderSubmissions(selector, submissions);
-                })
-                .error(function (error) {
-                    console.log(error);
-                });
+    }
+    
+    function getSubmission(context, selector) {
+        var id = context.params['submissionId'];
+        
+        if (user.role === 'trainee') {
+            
+        } else if (user.role === 'trainer') {
+            app.SubmissionView.renderTrainerSubmission(selector, submissions[id]);
+        }
     }
     
     return {
-        getSubmissions: getSubmissions
+        getSubmissions: getSubmissions,
+        getSubmission: getSubmission
     };
 }());
