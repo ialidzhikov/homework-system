@@ -90,18 +90,24 @@
 			<artifactId>weld-se-core</artifactId>
 			<version>2.3.3.Final</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>com.sap.cloud</groupId>
+			<artifactId>neo-java-web-api</artifactId>
+			<version>2.32.11</version>
+			<scope>provided</scope>
+		</dependency>
 
 		<dependency>
 			<groupId>org.jboss.weld.servlet</groupId>
 			<artifactId>weld-servlet</artifactId>
 			<version>2.3.3.Final</version>
 		</dependency>
-
-		<!-- https://mvnrepository.com/artifact/org.eclipse.persistence/javax.persistence -->
-		<dependency>
+		
+	    <dependency>
 			<groupId>org.eclipse.persistence</groupId>
-			<artifactId>javax.persistence</artifactId>
-			<version>2.1.1</version>
+			<artifactId>eclipselink</artifactId>
+			<version>2.5.0</version>
 		</dependency>
 
 	</dependencies>

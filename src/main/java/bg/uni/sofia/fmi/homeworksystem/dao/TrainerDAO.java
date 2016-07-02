@@ -9,9 +9,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import bg.uni.sofia.fmi.homeworksystem.model.Lecture;
@@ -23,7 +23,7 @@ import bg.uni.sofia.fmi.homeworksystem.model.UploadedSubmission;
 @Singleton
 public class TrainerDAO {
 	
-	@PersistenceContext
+	@Inject
 	private EntityManager em;
 
 	public void addTrainer(Trainer trainer) {

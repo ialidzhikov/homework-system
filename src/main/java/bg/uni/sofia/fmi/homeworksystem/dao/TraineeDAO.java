@@ -4,9 +4,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
 import bg.uni.sofia.fmi.homeworksystem.model.Trainee;
@@ -15,7 +15,7 @@ import bg.uni.sofia.fmi.homeworksystem.model.Trainee;
 @Singleton
 public class TraineeDAO {
 
-	@PersistenceContext
+	@Inject
 	private EntityManager em;
 
 	public void addTrainee(Trainee trainee) {

@@ -1,5 +1,6 @@
 package bg.uni.sofia.fmi.homeworksystem.services;
 
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -11,10 +12,19 @@ import javax.ws.rs.core.Response;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import bg.uni.sofia.fmi.homeworksystem.contracts.User;
+import bg.uni.sofia.fmi.homeworksystem.dao.TraineeDAO;
+import bg.uni.sofia.fmi.homeworksystem.dao.TrainerDAO;
 
+@RequestScoped
 @Path("hmwsrest/v1/user")
 public class HomeService {
+	
+	@Inject
+	private TraineeDAO traineeDAO;
+	
+	@Inject
+	private TrainerDAO trainerDAO;
+
 	
 	@Path("/login")
 	@POST
@@ -24,7 +34,7 @@ public class HomeService {
 		JsonObject userData = new JsonParser().parse(data).getAsJsonObject();
 		String username = userData.get("username").toString();
 		String pass = userData.get("password").toString();
-		//TODO
+		traineeDAO.getAllTrainees();
 		
 		return Response.ok("{\"role\": \"trainee\", \"fullname\" : \"Gosho Petrov\"}", MediaType.APPLICATION_JSON).build();
 	}
