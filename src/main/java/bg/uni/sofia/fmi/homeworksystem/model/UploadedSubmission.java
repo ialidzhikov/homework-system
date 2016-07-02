@@ -6,10 +6,6 @@ import java.util.Date;
 
 import javax.persistence.*;
 
-/**
- * Entity implementation class for Entity: UploadedHomework
- *
- */
 @Entity
 public class UploadedSubmission implements Serializable {
 
@@ -35,9 +31,10 @@ public class UploadedSubmission implements Serializable {
 
 	public UploadedSubmission() {
 		super();
+		// TODO Auto-generated constructor stub
 	}
 
-	public UploadedSubmission(Submission submission, Trainee trainee, Date uploadDate, Double mark, byte[] file) {
+	public UploadedSubmission(Submission submission, Trainee trainee, Date uploadDate, byte[] file) {
 		super();
 		this.submission = submission;
 		this.trainee = trainee;
@@ -98,9 +95,9 @@ public class UploadedSubmission implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + Arrays.hashCode(file);
-		result = prime * result + ((submission == null) ? 0 : submission.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((mark == null) ? 0 : mark.hashCode());
+		result = prime * result + ((submission == null) ? 0 : submission.hashCode());
 		result = prime * result + ((trainee == null) ? 0 : trainee.hashCode());
 		result = prime * result + ((uploadDate == null) ? 0 : uploadDate.hashCode());
 		return result;
@@ -117,11 +114,6 @@ public class UploadedSubmission implements Serializable {
 		UploadedSubmission other = (UploadedSubmission) obj;
 		if (!Arrays.equals(file, other.file))
 			return false;
-		if (submission == null) {
-			if (other.submission != null)
-				return false;
-		} else if (!submission.equals(other.submission))
-			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -131,6 +123,11 @@ public class UploadedSubmission implements Serializable {
 			if (other.mark != null)
 				return false;
 		} else if (!mark.equals(other.mark))
+			return false;
+		if (submission == null) {
+			if (other.submission != null)
+				return false;
+		} else if (!submission.equals(other.submission))
 			return false;
 		if (trainee == null) {
 			if (other.trainee != null)
@@ -147,8 +144,8 @@ public class UploadedSubmission implements Serializable {
 
 	@Override
 	public String toString() {
-		return "UploadedHomework [id=" + id + ", homework=" + submission + ", student=" + trainee + ", uploadDate="
-				+ uploadDate + ", mark=" + mark + ", file=" + Arrays.toString(file) + "]";
+		return "UploadedSubmission [id=" + id + ", submission=" + submission + ", trainee=" + trainee + ", uploadDate="
+				+ uploadDate + ", mark=" + mark + "]";
 	}
 
 }

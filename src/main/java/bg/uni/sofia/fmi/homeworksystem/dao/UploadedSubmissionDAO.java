@@ -14,14 +14,13 @@ public class UploadedSubmissionDAO {
 	@PersistenceContext
 	private EntityManager em;
 
-	public void uploadSubmission(UploadedSubmission uploadedSubmission) {
+	public void addUploadedSubmission(UploadedSubmission uploadedSubmission){
 		em.persist(uploadedSubmission);
-		Submission submission = uploadedSubmission.getSubmission();
-		submission.getUploadedSubmissions().add(uploadedSubmission);
-		em.merge(submission);
 		Trainee trainee = uploadedSubmission.getTrainee();
 		trainee.getUploadedSubmissions().add(uploadedSubmission);
 		em.merge(trainee);
+		Submission submission = uploadedSubmission.getSubmission();
+		submission.getUploadedSubmissions().add(uploadedSubmission);
+		em.merge(submission);
 	}
-
 }

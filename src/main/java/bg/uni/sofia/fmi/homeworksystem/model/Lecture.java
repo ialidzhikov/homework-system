@@ -4,13 +4,21 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "getAllLectures", query = "SELECT l FROM Lecture l") })
 public class Lecture implements Serializable {
 
-	private static final long serialVersionUID = 3562220133819544012L;
+	private static final long serialVersionUID = 4419124196015509182L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,12 +30,20 @@ public class Lecture implements Serializable {
 
 	@ManyToOne
 	private Trainer trainer;
-
+	
 	@OneToMany(mappedBy = "lecture", fetch = FetchType.EAGER)
 	private List<Submission> submissions = new LinkedList<>();
 
 	public Lecture() {
 		super();
+	}
+
+	public List<Submission> getSubmissions() {
+		return submissions;
+	}
+
+	public void setSubmissions(List<Submission> submissions) {
+		this.submissions = submissions;
 	}
 
 	public Lecture(String name, Boolean isFavouriteToTrainer, Trainer trainer) {
@@ -60,21 +76,13 @@ public class Lecture implements Serializable {
 	public void setIsFavouriteToTrainer(Boolean isFavouriteToTrainer) {
 		this.isFavouriteToTrainer = isFavouriteToTrainer;
 	}
-
+	
 	public Trainer getTrainer() {
 		return trainer;
 	}
 
-	public void setTrainer(Trainer teacher) {
-		this.trainer = teacher;
-	}
-
-	public List<Submission> getSubmissions() {
-		return submissions;
-	}
-
-	public void setSubmissions(List<Submission> homeworks) {
-		this.submissions = homeworks;
+	public void setTrainer(Trainer trainer) {
+		this.trainer = trainer;
 	}
 
 	@Override
@@ -122,7 +130,7 @@ public class Lecture implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Subject [id=" + id + ", name=" + name + ", isFavouriteToTeacher=" + isFavouriteToTrainer + ", trainer="
+		return "Lecture [id=" + id + ", name=" + name + ", isFavouriteToTrainer=" + isFavouriteToTrainer + ", trainer="
 				+ trainer + "]";
 	}
 

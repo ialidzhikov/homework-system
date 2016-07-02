@@ -2,6 +2,8 @@ package bg.uni.sofia.fmi.homeworksystem.model;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -14,11 +16,10 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 @Entity
-@NamedQueries({
-    @NamedQuery(name = "getAllTrainers", query = "SELECT t FROM Trainer t")})
+@NamedQueries({ @NamedQuery(name = "getAllTrainers", query = "SELECT t FROM Trainer t") })
 public class Trainer implements Serializable {
 
-	private static final long serialVersionUID = -2555686285403843084L;
+	private static final long serialVersionUID = 6925326038482471293L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,7 +35,7 @@ public class Trainer implements Serializable {
 
 	private String email;
 
-	@OneToMany(mappedBy="trainer", fetch=FetchType.EAGER)
+	@OneToMany(mappedBy = "trainer", fetch = FetchType.EAGER)
 	private Set<Lecture> lectures = new HashSet<>();
 
 	public Trainer() {
@@ -97,7 +98,7 @@ public class Trainer implements Serializable {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 	public Set<Lecture> getLectures() {
 		return lectures;
 	}
@@ -163,8 +164,8 @@ public class Trainer implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Teacher [id=" + id + ", userName=" + userName + ", degree=" + degree + ", name=" + name + ", email="
-				+ email + "]";
+		return "Trainer [id=" + id + ", userName=" + userName + ", password=" + password + ", degree=" + degree
+				+ ", name=" + name + ", email=" + email + ", lectures=" + lectures + "]";
 	}
 
 }

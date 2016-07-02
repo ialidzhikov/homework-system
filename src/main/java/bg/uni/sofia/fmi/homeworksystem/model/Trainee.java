@@ -1,14 +1,14 @@
 package bg.uni.sofia.fmi.homeworksystem.model;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.*;
 
+
 @Entity
+@NamedQueries({ @NamedQuery(name = "getAllTrainees", query = "SELECT t FROM Trainee t") })
 public class Trainee implements Serializable {
 
 	private static final long serialVersionUID = -4509815250067041676L;
@@ -26,10 +26,8 @@ public class Trainee implements Serializable {
 	private String email;
 
 	private String fieldOfStudy;
-
-	@OneToMany(orphanRemoval=true, cascade = CascadeType.ALL)
-	@JoinColumn(name="TraineeID", referencedColumnName = "id")
-	private Set<Lecture> assignedLectures = new HashSet<>();
+	
+	
 
 	@OneToMany(mappedBy = "trainee", fetch = FetchType.EAGER)
 	private List<UploadedSubmission> uploadedSubmissions = new LinkedList<>();
@@ -38,13 +36,13 @@ public class Trainee implements Serializable {
 		super();
 	}
 
-	public Trainee(String facultyNumber, String name, String password, String email, String objectOfStudy) {
+	public Trainee(String facultyNumber, String password, String name, String email, String fieldOfStudy) {
 		super();
 		this.facultyNumber = facultyNumber;
-		this.name = name;
 		this.password = password;
+		this.name = name;
 		this.email = email;
-		this.fieldOfStudy = objectOfStudy;
+		this.fieldOfStudy = fieldOfStudy;
 	}
 
 	public Long getId() {
@@ -87,20 +85,12 @@ public class Trainee implements Serializable {
 		this.email = email;
 	}
 
-	public String getObjectOfStudy() {
+	public String getFieldOfStudy() {
 		return fieldOfStudy;
 	}
 
-	public void setObjectOfStudy(String objectOfStudy) {
-		this.fieldOfStudy = objectOfStudy;
-	}
-
-	public Set<Lecture> getAssignedLectures() {
-		return assignedLectures;
-	}
-
-	public void setAssignedLectures(Set<Lecture> assignedLectures) {
-		this.assignedLectures = assignedLectures;
+	public void setFieldOfStudy(String fieldOfStudy) {
+		this.fieldOfStudy = fieldOfStudy;
 	}
 
 	public List<UploadedSubmission> getUploadedSubmissions() {
@@ -117,9 +107,9 @@ public class Trainee implements Serializable {
 		int result = 1;
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((facultyNumber == null) ? 0 : facultyNumber.hashCode());
+		result = prime * result + ((fieldOfStudy == null) ? 0 : fieldOfStudy.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((fieldOfStudy == null) ? 0 : fieldOfStudy.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
 		return result;
 	}
@@ -143,6 +133,11 @@ public class Trainee implements Serializable {
 				return false;
 		} else if (!facultyNumber.equals(other.facultyNumber))
 			return false;
+		if (fieldOfStudy == null) {
+			if (other.fieldOfStudy != null)
+				return false;
+		} else if (!fieldOfStudy.equals(other.fieldOfStudy))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -152,11 +147,6 @@ public class Trainee implements Serializable {
 			if (other.name != null)
 				return false;
 		} else if (!name.equals(other.name))
-			return false;
-		if (fieldOfStudy == null) {
-			if (other.fieldOfStudy != null)
-				return false;
-		} else if (!fieldOfStudy.equals(other.fieldOfStudy))
 			return false;
 		if (password == null) {
 			if (other.password != null)
@@ -168,8 +158,9 @@ public class Trainee implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Student [id=" + id + ", facultyNumber=" + facultyNumber + ", name=" + name + ", email=" + email
-				+ ", objectOfStudy=" + fieldOfStudy + "]";
+		return "Trainee [id=" + id + ", facultyNumber=" + facultyNumber + ", password=" + password + ", name=" + name
+				+ ", email=" + email + ", fieldOfStudy=" + fieldOfStudy + "]";
 	}
-
+   
+	
 }

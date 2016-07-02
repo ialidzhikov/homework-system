@@ -11,7 +11,7 @@ import javax.persistence.*;
 @NamedQueries({ @NamedQuery(name = "getAllSubmissions", query = "SELECT s FROM Submission s") })
 public class Submission implements Serializable {
 
-	private static final long serialVersionUID = 2401186518092236541L;
+	private static final long serialVersionUID = -4918417868982503112L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -24,60 +24,73 @@ public class Submission implements Serializable {
 
 	@Temporal(TemporalType.DATE)
 	private Date endDate;
-
+	
 	@OneToMany(mappedBy = "submission", fetch = FetchType.EAGER)
 	private Set<UploadedSubmission> uploadedSubmissions = new HashSet<>();
-
-	public Submission() {
-		super();
-	}
-
-	public Submission(Lecture lecture, String task, Date endDate) {
-		super();
-		this.lecture = lecture;
-		this.task = task;
-		this.endDate = endDate;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Lecture getLecture() {
-		return lecture;
-	}
-
-	public void setLecture(Lecture lecture) {
-		this.lecture = lecture;
-	}
-
-	public String getTask() {
-		return task;
-	}
-
-	public void setTask(String task) {
-		this.task = task;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
+	
 
 	public Set<UploadedSubmission> getUploadedSubmissions() {
 		return uploadedSubmissions;
 	}
 
+
 	public void setUploadedSubmissions(Set<UploadedSubmission> uploadedSubmissions) {
 		this.uploadedSubmissions = uploadedSubmissions;
 	}
+
+
+	public Submission() {
+		super();
+	}
+
+
+	public Submission(String task, Date endDate, Lecture lecture) {
+		super();
+		this.task = task;
+		this.endDate = endDate;
+		this.lecture = lecture;
+	}
+
+
+	public Long getId() {
+		return id;
+	}
+
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+
+	public Lecture getLecture() {
+		return lecture;
+	}
+
+
+	public void setLecture(Lecture lecture) {
+		this.lecture = lecture;
+	}
+
+
+	public String getTask() {
+		return task;
+	}
+
+
+	public void setTask(String task) {
+		this.task = task;
+	}
+
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
 
 	@Override
 	public int hashCode() {
@@ -89,6 +102,7 @@ public class Submission implements Serializable {
 		result = prime * result + ((task == null) ? 0 : task.hashCode());
 		return result;
 	}
+
 
 	@Override
 	public boolean equals(Object obj) {
@@ -122,9 +136,11 @@ public class Submission implements Serializable {
 		return true;
 	}
 
+
 	@Override
 	public String toString() {
-		return "Homework [id=" + id + ", subject=" + lecture + ", task=" + task + ", endDate=" + endDate + "]";
+		return "Submission [id=" + id + ", lecture=" + lecture + ", task=" + task + ", endDate=" + endDate + "]";
 	}
-
+   
+	
 }
