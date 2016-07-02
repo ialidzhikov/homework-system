@@ -12,7 +12,7 @@ var app = app || {};
         });
         
         this.get('#/', function () {
-            app.HomeController.getRoot(containerSelector, sidebarSelector);
+            this.redirect('#/home/');
         });
         
         this.get('#/login/', function () {

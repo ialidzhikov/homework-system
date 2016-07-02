@@ -40,9 +40,9 @@ app.HomeController = (function () {
             password = context.params['password'];
         
         app.UserDao.login(username, password)
-            .done(function (user) {
+            .success(function (user) {
                 
-                context.redirect('#/');
+                context.redirect('#/home/');
         
                 app.NotificationManager.notifySuccess("You have successfully logged in!");
             })

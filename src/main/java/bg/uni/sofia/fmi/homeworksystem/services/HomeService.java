@@ -26,7 +26,7 @@ public class HomeService {
 		String pass = userData.get("password").toString();
 		//TODO
 		
-		return Response.ok().entity("role : trainee, fullname : Ismail ne pie bira").build();
+		return Response.ok("{\"role\": \"trainee\", \"fullname\" : \"Gosho Petrov\"}", MediaType.APPLICATION_JSON).build();
 	}
 	
 	@Path("/admin/register")
@@ -34,6 +34,7 @@ public class HomeService {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response register(String data) {
+		
 		JsonObject userData = new JsonParser().parse(data).getAsJsonObject();
 		String username = userData.get("username").toString();
 		String pass = userData.get("password").toString();
