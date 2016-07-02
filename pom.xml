@@ -1,104 +1,112 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
 
-  <groupId>bg.uni_sofia.fmi.java_ee</groupId>
-  <artifactId>homework-system</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>war</packaging>
+	<groupId>bg.uni_sofia.fmi.java_ee</groupId>
+	<artifactId>homework-system</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 
-  <name>homework-system</name>
-  <build>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-war-plugin</artifactId>
-        <version>2.6</version>
-        <configuration>
-          <failOnMissingWebXml>false</failOnMissingWebXml>
-        </configuration>
-      </plugin>
-      
-      <plugin>
-            <artifactId>maven-compiler-plugin</artifactId>
-            <version>2.0.2</version>
-            <configuration>
-                <source>1.7</source>
-                <target>1.7</target>
-            </configuration>
-        </plugin>
-    </plugins>
-  </build>
-  
-  <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.glassfish.jersey</groupId>
-                <artifactId>jersey-bom</artifactId>
-                <version>${jersey.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-  </dependencyManagement>
+	<name>homework-system</name>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
 
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-    
-    <dependency>
-            <groupId>org.glassfish.jersey.containers</groupId>
-            <artifactId>jersey-container-servlet-core</artifactId>
-            <!-- use the following artifactId if you don't need servlet 2.x compatibility -->
-            <!-- artifactId>jersey-container-servlet</artifactId -->
-        </dependency>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.0.2</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
-        <dependency>
-            <groupId>org.glassfish.jersey.media</groupId>
-            <artifactId>jersey-media-moxy</artifactId>
-        </dependency>
-        
-        <dependency>
-		    <groupId>org.glassfish.jersey.media</groupId>
-		    <artifactId>jersey-media-json-processing</artifactId>
-		    <version>${jersey.version}</version>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.glassfish.jersey</groupId>
+				<artifactId>jersey-bom</artifactId>
+				<version>${jersey.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
 		</dependency>
 
-        <dependency>
+		<dependency>
+			<groupId>org.glassfish.jersey.containers</groupId>
+			<artifactId>jersey-container-servlet-core</artifactId>
+			<!-- use the following artifactId if you don't need servlet 2.x compatibility -->
+			<!-- artifactId>jersey-container-servlet</artifactId -->
+		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-moxy</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.glassfish.jersey.media</groupId>
+			<artifactId>jersey-media-json-processing</artifactId>
+			<version>${jersey.version}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.glassfish.jersey.media</groupId>
 			<artifactId>jersey-media-multipart</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.6.2</version>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>org.glassfish.jersey.ext.cdi</groupId>
-		    <artifactId>jersey-cdi1x</artifactId>
-		    <version>${jersey.version}</version>
+			<groupId>org.glassfish.jersey.ext.cdi</groupId>
+			<artifactId>jersey-cdi1x</artifactId>
+			<version>${jersey.version}</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.jboss.weld.se</groupId>
 			<artifactId>weld-se-core</artifactId>
 			<version>2.3.3.Final</version>
 		</dependency>
-		
+
 		<dependency>
-		    <groupId>org.jboss.weld.servlet</groupId>
-		    <artifactId>weld-servlet</artifactId>
-		    <version>2.3.3.Final</version>
-		 </dependency>
-  </dependencies>
-  
-  <properties>
-        <jersey.version>2.22.1</jersey.version>
-  </properties>
+			<groupId>org.jboss.weld.servlet</groupId>
+			<artifactId>weld-servlet</artifactId>
+			<version>2.3.3.Final</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.eclipse.persistence/javax.persistence -->
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>javax.persistence</artifactId>
+			<version>2.1.1</version>
+		</dependency>
+
+	</dependencies>
+
+	<properties>
+		<jersey.version>2.22.1</jersey.version>
+	</properties>
 </project>
