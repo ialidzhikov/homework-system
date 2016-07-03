@@ -24,7 +24,6 @@ public class SendMailsJob extends AbstractJob<User> {
 	private final Logger LOGGER = LoggerFactory.getLogger(SendMailsJob.class);
 
 	public void execute(JobExecutionContext jExeCtx) throws JobExecutionException {
-		// LOGGER.error("RABOTIM");
 		List<TrainerEmailScheduler> trainerEmailSchedulers = getAllTrainerEmailSchedulers();
 		Map<Trainer, List<TrainerEmailScheduler>> emailRecievers = new HashMap<>();
 		for (TrainerEmailScheduler trainerEmailScheduler : trainerEmailSchedulers) {

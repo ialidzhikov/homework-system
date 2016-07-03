@@ -6,7 +6,6 @@ import javax.interceptor.Interceptor;
 import javax.interceptor.InvocationContext;
 
 import bg.uni.sofia.fmi.homeworksystem.dao.TrainerEmailSchedulerDAO;
-import bg.uni.sofia.fmi.homeworksystem.dao.UploadedSubmissionDAO;
 import bg.uni.sofia.fmi.homeworksystem.model.Course;
 import bg.uni.sofia.fmi.homeworksystem.model.Lecture;
 import bg.uni.sofia.fmi.homeworksystem.model.Trainee;
