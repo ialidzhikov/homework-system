@@ -42,7 +42,11 @@ public class MockData {
 	private void createCourses () {
 		Course course = new Course("Java EE", "Java EE course description", true, ismail);
 		Lecture lecture = new Lecture("JAX-RS", new Date(), course);
+		Lecture lecture2 = new Lecture("Servlets", new Date(), course);
+		Lecture lecture3 = new Lecture("CDI", new Date(), course);
 		course.addLecture(lecture);
+		course.addLecture(lecture2);
+		course.addLecture(lecture3);
 		ismail.addCourse(course);
 		this.update(ismail);
 	}
