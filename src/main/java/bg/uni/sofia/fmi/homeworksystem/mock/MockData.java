@@ -43,11 +43,15 @@ public class MockData {
 	
 	private void createCourses () throws ParseException {
 		Course course = new Course("Java EE", "Java EE course description", true, ismail);
-		Lecture lectureJersey = new Lecture("Jersey", "JAX-RS", new Date(), course);
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-		Lecture lectureRest = new Lecture("RESTful", "REST", formatter.parse("2016-08-01"), course);
+		Lecture lectureJersey = new Lecture("Jersey", "JAX-RS", formatter.parse("2016-08-10"), course);
+		Lecture lecture = new Lecture("JAX_RS", "JAX-RS", formatter.parse(""), course);
+		Lecture lecture2 = new Lecture("Servlets", "Servlets", new Date(), course);
+		Lecture lecture3 = new Lecture("CDI", "CDI", new Date(), course);
 		course.addLecture(lectureJersey);
-		course.addLecture(lectureRest);
+		course.addLecture(lecture);
+		course.addLecture(lecture2);
+		course.addLecture(lecture3);
 		ismail.addCourse(course);
 		this.update(ismail);
 	}

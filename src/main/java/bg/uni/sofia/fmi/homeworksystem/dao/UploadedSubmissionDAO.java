@@ -6,6 +6,8 @@ import javax.inject.Singleton;
 import javax.persistence.EntityTransaction;
 import javax.persistence.RollbackException;
 
+import bg.uni.sofia.fmi.homeworksystem.email.RecordMarks;
+import bg.uni.sofia.fmi.homeworksystem.email.RecordUploadSubmission;
 import bg.uni.sofia.fmi.homeworksystem.model.Lecture;
 import bg.uni.sofia.fmi.homeworksystem.model.Trainee;
 import bg.uni.sofia.fmi.homeworksystem.model.UploadedSubmission;
@@ -15,6 +17,7 @@ import bg.uni.sofia.fmi.homeworksystem.model.UploadedSubmission;
 public class UploadedSubmissionDAO extends AbstractDAO<UploadedSubmission>{
 	
 	@Override
+	@RecordUploadSubmission
 	public boolean save(final UploadedSubmission uploadedSubmission) {
     	EntityTransaction transaction = em.getTransaction();
         transaction.begin();
@@ -40,5 +43,13 @@ public class UploadedSubmissionDAO extends AbstractDAO<UploadedSubmission>{
 
 	public List<UploadedSubmission> getAllUploadedSubmissions() {
 		return em.createNamedQuery("getAllUploadedSubmissions", UploadedSubmission.class).getResultList();
+	}
+	
+	@RecordMarks
+	public void evaluateUploadedSubmission(UploadedSubmission uploadedSubmission, Double mark){
+		em.getTransaction().begin();
+		uploadedSubmission.setMark(mark);
+		em.merge(uploadedSubmission);
+		em.getTransaction().commit();
 	}
 }
