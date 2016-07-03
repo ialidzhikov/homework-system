@@ -7,9 +7,10 @@
 		<class>bg.uni.sofia.fmi.homeworksystem.model.Trainee</class>
 		<class>bg.uni.sofia.fmi.homeworksystem.model.Trainer</class>
 		<class>bg.uni.sofia.fmi.homeworksystem.model.UploadedSubmission</class>
+		<class>bg.uni.sofia.fmi.homeworksystem.model.TrainerEmailScheduler</class>
 		<properties>
 <!-- 			<property name="eclipselink.ddl-generation" value="drop-and-create-tables"/> -->
-			<property name="eclipselink.ddl-generation" value="create-or-extend-tables"/>
+			<property name="eclipselink.ddl-generation" value="create-tables"/>
 			<property name="eclipselink.logging.level" value="FINE"/>
 		</properties>
 	</persistence-unit>

@@ -98,7 +98,7 @@ public class Course implements Serializable, Jsonable {
 		this.description = description;
 	}
 
-	public Boolean getIsFavouriteToTrainer() {
+	public Boolean isFavouriteToTrainer() {
 		return isFavouriteToTrainer;
 	}
 
