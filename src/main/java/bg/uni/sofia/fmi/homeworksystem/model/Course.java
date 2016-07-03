@@ -29,18 +29,18 @@ public class Course implements Serializable {
 	private String name;
 
 	private String description;
-	
+
 	private Boolean isFavouriteToTrainer;
 
 	@ManyToOne
 	private Trainer trainer;
 
-	@OneToMany(mappedBy = "course", fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(mappedBy = "course", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Lecture> lectures = new LinkedList<>();
 
-	@ManyToMany(targetEntity=Trainee.class)
+	@ManyToMany(targetEntity = Trainee.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Trainee> trainees = new LinkedList<>();
-	
+
 	public List<Trainee> getTrainees() {
 		return trainees;
 	}
@@ -154,7 +154,7 @@ public class Course implements Serializable {
 	@Override
 	public String toString() {
 		return "Course [id=" + id + ", name=" + name + ", isFavouriteToTrainer=" + isFavouriteToTrainer + ", trainer="
-				+ trainer + "]";
+				+ trainer.getName() + "]";
 	}
 
 }

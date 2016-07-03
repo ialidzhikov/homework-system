@@ -124,7 +124,7 @@ public class Lecture implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Lecture [id=" + id + ", course=" + course + ", task=" + task + ", endDate=" + endDate + "]";
+		return "Lecture [id=" + id + ", course=" + course.getName() + ", task=" + task + ", endDate=" + endDate + "]";
 	}
 
 }

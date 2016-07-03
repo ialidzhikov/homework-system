@@ -145,7 +145,7 @@ public class UploadedSubmission implements Serializable {
 
 	@Override
 	public String toString() {
-		return "UploadedSubmission [id=" + id + ", lecture=" + lecture + ", trainee=" + trainee + ", uploadDate="
+		return "UploadedSubmission [id=" + id + ", lecture=" + lecture.getTask() + ", trainee=" + trainee.getName() + ", uploadDate="
 				+ uploadDate + ", mark=" + mark + "]";
 	}
 
