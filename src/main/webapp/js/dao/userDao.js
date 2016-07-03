@@ -79,12 +79,33 @@ app.UserDao = (function () {
     	});
     }
     
+    function getTrainerById(id) {
+    	return $.ajax({
+    		method: 'GET',
+    		url: HOSTNAME + 'trainers/' + id,
+    		dataType: 'json',
+    		contentType: 'application/json',
+    	});
+    }
+    
     function getAllTrainers() {
     	return $.ajax({
     		method: 'GET',
     		url: HOSTNAME + 'trainers',
     		dataType: 'json',
     		contentType: 'application/json'
+    	});
+    }
+    
+    function deleteTrainer(id) {
+    	return $.ajax({
+    		method: 'DELETE',
+    		url: HOSTNAME + 'trainers',
+    		dataType: 'json',
+    		contentType: 'application/json',
+    		data: JSON.stringify({
+    			id: id
+    		})
     	});
     }
     
@@ -109,12 +130,14 @@ app.UserDao = (function () {
     return {
         login: login,
         getAuthenticated: getAuthenticated,
-        getTraineeById: getTraineeById,
         addTrainee: addTrainee,
+        getTraineeById: getTraineeById,
         getAllTrainees: getAllTrainees,
         deleteTrainee: deleteTrainee,
         addTrainer: addTrainer,
+        getTrainerById: getTrainerById,
         getAllTrainers: getAllTrainers,
+        deleteTrainer: deleteTrainer,
         logout: logout
     };
 }());

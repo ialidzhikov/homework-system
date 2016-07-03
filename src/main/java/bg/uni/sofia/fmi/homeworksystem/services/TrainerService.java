@@ -8,6 +8,7 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -28,6 +29,19 @@ public class TrainerService{
 	
 	@Inject
 	private CurrentUserContext userCtx;
+	
+	@Path("/{id}")
+	@GET
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getTraineeById(@PathParam("id") Long id) {
+		Trainer trainer = trainerDAO.getById(Trainer.class, id);
+		if(trainer != null){
+			return Response.ok(trainer.toJson().toString(), MediaType.APPLICATION_JSON).build();
+		}
+		
+		return Response.status(Status.BAD_REQUEST).build();
+	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -58,11 +72,13 @@ public class TrainerService{
 	
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response delete(String data) {
-		Trainer tempTrainerObj = createTempTrainerObj(data);
-		Trainer trainerToDelete = trainerDAO.findTrainerByUserName(tempTrainerObj.getUserName());
+		JsonObject trainerJson = new JsonParser().parse(data).getAsJsonObject();
+		Long id = trainerJson.get("id").getAsLong();
+		Trainer trainerToDelete = trainerDAO.getById(Trainer.class, id);
 		if(trainerDAO.delete(trainerToDelete)){
-			return Response.status(Status.OK).build();
+			return Response.ok("{}").build();
 		}
 		return Response.status(Status.BAD_REQUEST).build();
 	}

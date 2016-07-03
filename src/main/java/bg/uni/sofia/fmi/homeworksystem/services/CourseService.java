@@ -42,7 +42,6 @@ public class CourseService {
 			Response.status(Status.FORBIDDEN).build();
 		}
 		
-		
 		Course course = this.courseDAO.getById(Course.class, id);
 		return Response.ok(course).build();
 	}

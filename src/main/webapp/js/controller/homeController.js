@@ -26,30 +26,6 @@ app.HomeController = (function () {
             description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.'
         }
     ];
-    var trainees = [
-        {
-        	id: 0,
-        	name: 'Gosho',
-        	email: 'pesho@gmail.com',
-        	facultyNumber: 71570,
-        	fieldOfStudy: 'Computer Science'
-        },
-        {
-        	id: 1,
-        	name: 'Pesho',
-        	email: 'pesho@gmail.com',
-        	facultyNumber: 71570,
-        	fieldOfStudy: 'Computer Science'
-        },
-        {
-        	id: 2,
-        	username: 'mariyka',
-        	name: 'Mariyka',
-        	email: 'pesho@gmail.com',
-        	facultyNumber: 71570,
-        	fieldOfStudy: 'Computer Science'
-        }
-    ];
     
     function getLogin(selector) {
         app.HomeView.renderLogin(selector);
@@ -191,7 +167,27 @@ app.HomeController = (function () {
     function getDeleteTrainer(context, selector) {
     	var id = context.params['trainerId'];
     	
-    	app.HomeView.renderDeleteTrainer(selector, trainers[id]);
+    	app.UserDao.getTrainerById(id)
+			.success(function (trainer) {
+				app.HomeView.renderDeleteTrainer(selector, trainer);
+			})
+			.error(function (error) {
+				console.log(error);
+			});
+    }
+    
+    function postDeleteTrainer(context) {
+    	var id = context.params['trainerId'];
+    	
+    	app.UserDao.deleteTrainer(id)
+    		.success(function () {
+    			context.redirect('#/home/');
+    			
+    			app.NotificationManager.notifySuccess("You have successfully deleted trainer!");
+    		})
+    		.error(function (error) {
+    			console.log(error);
+    		});
     }
     
     function getLogout(context) {
@@ -218,6 +214,7 @@ app.HomeController = (function () {
         getAddTrainer: getAddTrainer,
         postAddTrainer: postAddTrainer,
         getDeleteTrainer: getDeleteTrainer,
+        postDeleteTrainer: postDeleteTrainer,
         getLogout: getLogout
     };
 }());
