@@ -47,8 +47,18 @@ app.UserDao = (function () {
     	});
     }
     
+    function getAuthenticated() {
+    	return $.ajax({
+    		method: 'GET',
+    		url: HOSTNAME + 'user/authenticated',
+    		dataType: 'json',
+    		contentType: 'application/json'
+    	});
+    }
+    
     return {
         login: login,
         addTrainee: addTrainee,
+        getAuthenticated: getAuthenticated
     };
 }());

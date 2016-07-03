@@ -77,12 +77,16 @@ public class CourseService {
 		Trainer trainer = this.trainerDAO.getById(Trainer.class, userId);
 		
 		JsonObject courseData = new JsonParser().parse(data).getAsJsonObject();
-		String name = courseData.get("name").toString();
-		String description = courseData.get("description").toString();
+		String name = courseData.get("name").getAsString();
+		String description = courseData.get("description").getAsString();
 		
 		Course course = new Course(name, description, false, trainer);
+		this.courseDAO.save(course);
 		
-		return Response.ok(course).build();
+		List<Course> courses = this.courseDAO.getAllCourses();
+		
+		String response = String.format("{\"name\": \"%s\"}", name);
+		return Response.ok(response).build();
 	}
 	
 }
