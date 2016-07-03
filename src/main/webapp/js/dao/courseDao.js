@@ -32,16 +32,18 @@ app.CourseDao = (function () {
         });
     }
     
-    function addLecture(courseId, task, deadline) {
+    function addLecture(courseId, title, deadline, task) {
         return $.ajax({
             method: 'POST',
             url: HOSTNAME + 'course/lecture',
             dataType: 'json',
-            data: {
+            contentType: 'application/json',
+            data: JSON.stringify({
                 courseId: courseId,
-                task: task,
-                endDate: deadline
-            }
+                name: title,
+                endDate: deadline,
+                task: task
+            })
         });
     }
     

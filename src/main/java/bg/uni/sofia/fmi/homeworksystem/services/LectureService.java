@@ -56,6 +56,7 @@ public class LectureService {
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	@Path("/lecture")
 	public Response addLecture(String data) {
 		JsonObject userData = new JsonParser().parse(data).getAsJsonObject();
@@ -63,7 +64,7 @@ public class LectureService {
 		String name = userData.get("name").getAsString();
 		String task = userData.get("task").getAsString();
 		String endDateStr = userData.get("endDate").getAsString();
-		SimpleDateFormat dateFormat = new SimpleDateFormat("DD-MMM-YYYY HH:mm");
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date endDate = null;
 		try {
 			endDate = dateFormat.parse(endDateStr);
@@ -74,6 +75,6 @@ public class LectureService {
 		Course course = courseDAO.getById(Course.class, courseId);
 		Lecture newLecture = new Lecture(name, task, endDate, course);
 		lectureDAO.save(newLecture);
-		return Response.ok().build();
+		return Response.ok("{}").build();
 	}
 }

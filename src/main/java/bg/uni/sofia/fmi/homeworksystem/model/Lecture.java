@@ -149,8 +149,9 @@ public class Lecture implements Serializable, Jsonable, EntityObject {
 	public JsonObject toJson() {
 		final JsonObject lecture = new JsonObject();
 		lecture.addProperty("id", this.getId());
+		lecture.addProperty("name", this.getName());
 		lecture.addProperty("task", this.getTask());
-		SimpleDateFormat formatter = new SimpleDateFormat("DD-MMM-YYYY HH:mm");
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-YYYY HH:mm");
 		lecture.addProperty("endDate", formatter.format(this.getEndDate()));
 		
 		JsonArray uploadedSubmissions = new JsonArray();
