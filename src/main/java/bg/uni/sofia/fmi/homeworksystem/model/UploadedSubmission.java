@@ -7,6 +7,7 @@ import java.util.Date;
 import javax.persistence.*;
 
 @Entity
+@NamedQueries({ @NamedQuery(name = "getAllUploadedSubmissions", query = "SELECT u FROM UploadedSubmission u")})
 public class UploadedSubmission implements Serializable {
 
 	private static final long serialVersionUID = -6894627518598913945L;
