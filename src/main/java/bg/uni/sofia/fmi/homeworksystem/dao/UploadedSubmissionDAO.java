@@ -1,5 +1,7 @@
 package bg.uni.sofia.fmi.homeworksystem.dao;
 
+import java.util.List;
+
 import javax.inject.Singleton;
 import javax.persistence.EntityTransaction;
 import javax.persistence.RollbackException;
@@ -35,4 +37,8 @@ public class UploadedSubmissionDAO extends AbstractDAO<UploadedSubmission>{
         
         return true;
     }
+
+	public List<UploadedSubmission> getAllUploadedSubmissions() {
+		return em.createNamedQuery("getAllUploadedSubmissions", UploadedSubmission.class).getResultList();
+	}
 }

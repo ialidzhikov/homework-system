@@ -27,9 +27,14 @@ public class EntityManagerProducer {
     
     @Produces
     @RequestScoped
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     public EntityManager getEntityManager() {
-        if (emf == null) {
+        checkForEMProducer();
+        return emf.createEntityManager();
+    }
+
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	private void checkForEMProducer() {
+		if (emf == null) {
             try {
                 final InitialContext initialContext = new InitialContext();
                 final DataSource ds = (DataSource) initialContext
@@ -45,9 +50,7 @@ public class EntityManagerProducer {
                 e.printStackTrace();
             }
         }
-
-        return emf.createEntityManager();
-    }
+	}
     
 	public void closeEntityManager(@Disposes EntityManager em) {
 		if(em.isOpen()) {

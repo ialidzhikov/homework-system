@@ -58,9 +58,4 @@ public class LectureDAO extends AbstractDAO<Lecture>{
 	public List<Lecture> getAllLectures (){
 		return em.createNamedQuery("getAllLectures", Lecture.class).getResultList();
 	}
-	
-	public void deleteAll() {
-		// TODO Auto-generated method stub
-		em.createQuery("DELETE FROM Lecture").executeUpdate();
-	}
 }

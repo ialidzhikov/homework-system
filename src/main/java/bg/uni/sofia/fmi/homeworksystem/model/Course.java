@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -33,14 +34,25 @@ public class Course implements Serializable, Jsonable {
 	private String name;
 
 	private String description;
-	
+
 	private Boolean isFavouriteToTrainer;
 
 	@ManyToOne
 	private Trainer trainer;
 
-	@OneToMany(mappedBy = "course", fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
+	@OneToMany(mappedBy = "course", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Lecture> lectures = new LinkedList<>();
+
+	@ManyToMany(targetEntity = Trainee.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<Trainee> trainees = new LinkedList<>();
+
+	public List<Trainee> getTrainees() {
+		return trainees;
+	}
+
+	public void setTrainees(List<Trainee> trainees) {
+		this.trainees = trainees;
+	}
 
 	public Course() {
 		super();
@@ -148,7 +160,7 @@ public class Course implements Serializable, Jsonable {
 	@Override
 	public String toString() {
 		return "Course [id=" + id + ", name=" + name + ", isFavouriteToTrainer=" + isFavouriteToTrainer + ", trainer="
-				+ trainer + "]";
+				+ trainer.getName() + "]";
 	}
 	
 	@Override

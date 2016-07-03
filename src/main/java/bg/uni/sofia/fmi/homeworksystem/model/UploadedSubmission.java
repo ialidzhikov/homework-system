@@ -12,6 +12,7 @@ import com.google.gson.JsonObject;
 import bg.uni.sofia.fmi.homeworksystem.contracts.Jsonable;
 
 @Entity
+@NamedQueries({ @NamedQuery(name = "getAllUploadedSubmissions", query = "SELECT u FROM UploadedSubmission u")})
 public class UploadedSubmission implements Serializable, Jsonable {
 
 	private static final long serialVersionUID = -6894627518598913945L;
@@ -149,7 +150,7 @@ public class UploadedSubmission implements Serializable, Jsonable {
 
 	@Override
 	public String toString() {
-		return "UploadedSubmission [id=" + id + ", lecture=" + lecture + ", trainee=" + trainee + ", uploadDate="
+		return "UploadedSubmission [id=" + id + ", lecture=" + lecture.getTask() + ", trainee=" + trainee.getName() + ", uploadDate="
 				+ uploadDate + ", mark=" + mark + "]";
 	}
 	
