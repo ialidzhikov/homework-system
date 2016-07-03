@@ -51,7 +51,6 @@ app.CourseController = (function () {
 	    		
 	    		app.CourseDao.getAllCourses()
 			        .done(function (courses) {
-			        	console.log(courses);
 			        	if (role === 'TRAINEE') {
 			                app.CourseView.renderTraineeCourses(selector, courses);
 			            } else if (role === 'TRAINER') {

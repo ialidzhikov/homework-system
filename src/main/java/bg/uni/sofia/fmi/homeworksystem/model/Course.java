@@ -19,11 +19,12 @@ import javax.persistence.OneToMany;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import bg.uni.sofia.fmi.homeworksystem.contracts.EntityObject;
 import bg.uni.sofia.fmi.homeworksystem.contracts.Jsonable;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "getAllCourses", query = "SELECT c FROM Course c") })
-public class Course implements Serializable, Jsonable {
+public class Course implements Serializable, Jsonable, EntityObject{
 
 	private static final long serialVersionUID = 4419124196015509182L;
 
@@ -112,6 +113,10 @@ public class Course implements Serializable, Jsonable {
 
 	public void setTrainer(Trainer trainer) {
 		this.trainer = trainer;
+	}
+	
+	public void addLecture(Lecture lecture) {
+		this.lectures.add(lecture);
 	}
 
 	@Override

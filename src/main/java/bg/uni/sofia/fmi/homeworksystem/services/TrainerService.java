@@ -8,12 +8,13 @@ import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -27,36 +28,57 @@ public class TrainerService{
 	private TrainerDAO trainerDAO;
 	
 	@Inject
-	private CurrentTrainerContext trainerContext;
+	private CurrentUserContext userCtx;
+	
+	@Path("/{id}")
+	@GET
+	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getTraineeById(@PathParam("id") Long id) {
+		Trainer trainer = trainerDAO.getById(Trainer.class, id);
+		if(trainer != null){
+			return Response.ok(trainer.toJson().toString(), MediaType.APPLICATION_JSON).build();
+		}
+		
+		return Response.status(Status.BAD_REQUEST).build();
+	}
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAll() {
-		if(trainerContext.getTrainer() == null){
+		if(userCtx.getUser() == null){
 			Response.status(Status.FORBIDDEN).build();
 		}
 		List<Trainer> allTrainers = this.trainerDAO.getAllTrainers();
-		GenericEntity<List<Trainer>> genericEntity = new GenericEntity<List<Trainer>>(allTrainers) {};
-		return Response.ok(genericEntity).build();
+		
+		JsonArray allTrainersJson = new JsonArray();
+		for (Trainer trainer : allTrainers) {
+			allTrainersJson.add(trainer.toJson());
+		}
+		
+		return Response.ok(allTrainersJson.toString(), MediaType.APPLICATION_JSON).build();
 	}
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response add(String data) {
 		Trainer tempTrainerObj = createTempTrainerObj(data);
 		if(trainerDAO.save(tempTrainerObj)){
-			return Response.status(Status.CREATED).build();
+			return Response.status(Status.CREATED).entity("{}").build();
 		}
 		return Response.status(Status.BAD_REQUEST).build();
 	}
 	
 	@DELETE
 	@Consumes(MediaType.APPLICATION_JSON)
+	@Produces(MediaType.APPLICATION_JSON)
 	public Response delete(String data) {
-		Trainer tempTrainerObj = createTempTrainerObj(data);
-		Trainer trainerToDelete = trainerDAO.findTrainerByUserName(tempTrainerObj.getUserName());
+		JsonObject trainerJson = new JsonParser().parse(data).getAsJsonObject();
+		Long id = trainerJson.get("id").getAsLong();
+		Trainer trainerToDelete = trainerDAO.getById(Trainer.class, id);
 		if(trainerDAO.delete(trainerToDelete)){
-			return Response.status(Status.OK).build();
+			return Response.ok("{}").build();
 		}
 		return Response.status(Status.BAD_REQUEST).build();
 	}
@@ -64,7 +86,7 @@ public class TrainerService{
 	private Trainer createTempTrainerObj(String data){
 		
 		JsonObject trainerData = new JsonParser().parse(data).getAsJsonObject();
-		String userName= trainerData.get("userName").getAsString();
+		String userName= trainerData.get("username").getAsString();
 		String name= trainerData.get("name").getAsString();
 		String password = trainerData.get("password").getAsString();
 		String degree = trainerData.get("degree").getAsString();

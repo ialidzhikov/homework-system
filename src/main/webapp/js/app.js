@@ -24,7 +24,7 @@ var app = app || {};
         });
         
         this.get('#/home/', function () {
-            app.HomeController.getHome(containerSelector);
+            app.HomeController.getHome(this, containerSelector);
         });
         
         this.get('#/courses/', function () {
@@ -89,6 +89,10 @@ var app = app || {};
         
         this.post('#/trainers/:trainerId/delete/', function () {
         	app.HomeController.postDeleteTrainer(this, containerSelector 	);
+        });
+        
+        this.get('#/logout/', function () {
+        	app.HomeController.getLogout(this);
         });
     });
     

@@ -42,7 +42,6 @@ public class CourseService {
 			Response.status(Status.FORBIDDEN).build();
 		}
 		
-		
 		Course course = this.courseDAO.getById(Course.class, id);
 		return Response.ok(course).build();
 	}
@@ -82,8 +81,6 @@ public class CourseService {
 		
 		Course course = new Course(name, description, false, trainer);
 		this.courseDAO.save(course);
-		
-		List<Course> courses = this.courseDAO.getAllCourses();
 		
 		String response = String.format("{\"name\": \"%s\"}", name);
 		return Response.ok(response).build();

@@ -11,11 +11,12 @@ import javax.persistence.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import bg.uni.sofia.fmi.homeworksystem.contracts.EntityObject;
 import bg.uni.sofia.fmi.homeworksystem.contracts.Jsonable;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "getAllLectures", query = "SELECT l FROM Lecture l") })
-public class Lecture implements Serializable, Jsonable {
+public class Lecture implements Serializable, Jsonable, EntityObject {
 
 	private static final long serialVersionUID = -4918417868982503112L;
 
