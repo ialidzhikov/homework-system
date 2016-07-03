@@ -2,6 +2,8 @@ package bg.uni.sofia.fmi.homeworksystem.mock;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -24,7 +26,7 @@ public class MockData {
 	
 	private Trainer ismail;
 	
-	public void createUsers(@Observes @Initialized(ApplicationScoped.class) Object init) {
+	public void createUsers(@Observes @Initialized(ApplicationScoped.class) Object init) throws ParseException {
 		Trainer admin = new Trainer("admin", getHashedPassword("admin"), "PhD", "Admin", "");
 		Trainer stoyo = new Trainer("Stoyo", getHashedPassword("1"), "PhD", "Stoyan Vellev", "iliqnvidenov92@gmail.com");
 		ismail = new Trainer("Ismail", getHashedPassword("1"), "PhD" ,"Ismail Alidzhikov", "i.alidjikov@gmail.com");
@@ -39,11 +41,14 @@ public class MockData {
 		this.createCourses();
 	}
 	
-	private void createCourses () {
+	private void createCourses () throws ParseException {
 		Course course = new Course("Java EE", "Java EE course description", true, ismail);
-		Lecture lecture = new Lecture("JAX-RS", new Date(), course);
-		Lecture lecture2 = new Lecture("Servlets", new Date(), course);
-		Lecture lecture3 = new Lecture("CDI", new Date(), course);
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		Lecture lectureJersey = new Lecture("Jersey", "JAX-RS", formatter.parse("2016-08-10"), course);
+		Lecture lecture = new Lecture("JAX_RS", "JAX-RS", formatter.parse(""), course);
+		Lecture lecture2 = new Lecture("Servlets", "Servlets", new Date(), course);
+		Lecture lecture3 = new Lecture("CDI", "CDI", new Date(), course);
+		course.addLecture(lectureJersey);
 		course.addLecture(lecture);
 		course.addLecture(lecture2);
 		course.addLecture(lecture3);

@@ -26,7 +26,9 @@ public class Lecture implements Serializable, Jsonable, EntityObject {
 
 	@ManyToOne
 	private Course course;
-
+	
+	private String name;
+	
 	private String task;
 
 	@Temporal(TemporalType.DATE)
@@ -47,8 +49,9 @@ public class Lecture implements Serializable, Jsonable, EntityObject {
 		super();
 	}
 
-	public Lecture(String task, Date endDate, Course course) {
+	public Lecture(String name, String task, Date endDate, Course course) {
 		super();
+		this.name = name;
 		this.task = task;
 		this.endDate = endDate;
 		this.course = course;
@@ -60,6 +63,14 @@ public class Lecture implements Serializable, Jsonable, EntityObject {
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Course getCourse() {
@@ -138,8 +149,9 @@ public class Lecture implements Serializable, Jsonable, EntityObject {
 	public JsonObject toJson() {
 		final JsonObject lecture = new JsonObject();
 		lecture.addProperty("id", this.getId());
+		lecture.addProperty("name", this.getName());
 		lecture.addProperty("task", this.getTask());
-		SimpleDateFormat formatter = new SimpleDateFormat("DD-MMM-YYYY HH:mm");
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-YYYY HH:mm");
 		lecture.addProperty("endDate", formatter.format(this.getEndDate()));
 		
 		JsonArray uploadedSubmissions = new JsonArray();

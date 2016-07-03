@@ -23,8 +23,8 @@ import bg.uni.sofia.fmi.homeworksystem.job.SendMailsJob;
 @ApplicationScoped
 public class JobSchedulerImpl implements JobScheduler{
 	private Scheduler scheduler;
-	private static final int SCHEDULE_HOUR = 1;
-	private static final int SCHEDULE_MINUTE = 9;
+	private static final int SCHEDULE_HOUR = 18;
+	private static final int SCHEDULE_MINUTE = 00;
 	 
    @Inject
    private CdiJobFactory cdiJobFactory;

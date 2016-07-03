@@ -37,6 +37,9 @@ public class HomeService {
 		String username = userData.get("username").getAsString();
 		String pass = userData.get("password").getAsString();
 		User user = userDAO.validateCredentials(username, pass);
+		if (user == null) {
+			return Response.status(Status.FORBIDDEN).build();
+		}
 		
 		userCtx.setUser(user);
 		return Response.ok("{}").build();

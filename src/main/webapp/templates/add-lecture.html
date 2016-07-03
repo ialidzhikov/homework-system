@@ -8,7 +8,7 @@
                 <div class="card-block">
                     <div class="row">
                         <div class="col-md-4">
-                            <form method="POST" action="#/courses/{{id}}/lectures/" role="form">
+                            <form method="POST" action="#/courses/{{id}}/lectures/add/" role="form">
                                 <div class="form-group">
                                     <label for="title">Title:</label>
                                     <input type="text" class="form-control" id="title" name="title" placeholder="Lecture title..."/>
@@ -18,13 +18,10 @@
                                     <input type="date" class="form-control" id="deadline" name="deadline"/>
                                 </div>
                                 <div class="form-group">
-                                    <label for="homework">Homework:</label>
-                                    <label class="btn btn-warning">
-                                        Upload
-                                        <input type="file" id="homework" name="homework" style="display: none;"/>
-                                    </label>
+                                    <label for="homework">Task:</label>
+                                    <textarea class="form-control" id="task" name="task"></textarea>
                                 </div>
-                                <a href="#/courses/{{id}}/">
+                                <a href="#/courses/{{id}}">
                                     <button type="button" class="btn btn-default">
                                         <i class="fa fa-arrow-left"></i><span>&nbsp;&nbsp; Back</span>
                                     </button>

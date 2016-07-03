@@ -2,20 +2,23 @@ var app = app || {};
 
 app.CourseView = (function () {
     
-    function renderTraineeCourse(selector, course) {
+    function renderTraineeCourse(selector, lectures) {
         $.get('templates/trainee-course.html', function (template) {
-            course.lectures.forEach(function (lecture) {
-                lecture.isUploadActive = lecture.deadline > new Date();
-                lecture.deadline = moment(lecture.deadline).format('DD-MMM-YYYY HH:mm');
+            lectures.forEach(function (lecture) {
+                lecture.isUploadActive = new Date(lecture.endDate) > new Date();
+                lecture.endDate = moment(lecture.endDate).format('DD-MMM-YYYY HH:mm');
             });
-            var html  = Mustache.render(template, course);
+            var html  = Mustache.render(template, { lectures: lectures});
             $(selector).html(html);
             
             $('input:file').on('change', function() {
                 var lectureId = $(this).attr('data-lecture-id');
                 var file = this.files[0];
                 
-                app.CourseDao.addHomework(lectureId, file)
+                console.log(lectureId);
+                console.log(file);
+                
+                app.SubmissionDao.addHomework(lectureId, file)
                 	.success(function (success) {
                 		console.log(success);
                 	})
@@ -26,13 +29,13 @@ app.CourseView = (function () {
         });
     }
     
-    function renderTrainerCourse(selector, course) {
+    function renderTrainerCourse(selector, lectures, courseId) {
         $.get('templates/trainer-course.html', function (template) {
-            course.lectures.forEach(function (lecture) {
-                lecture.isUploadActive = lecture.deadline > new Date();
-                lecture.deadline = moment(lecture.deadline).format('DD-MMM-YYYY HH:mm');
+            lectures.forEach(function (lecture) {
+                lecture.isUploadActive = lecture.endDate > new Date();
+                lecture.endDate = moment(lecture.endDate).format('DD-MMM-YYYY HH:mm');
             });
-            var html  = Mustache.render(template, course);
+            var html  = Mustache.render(template, { courseId: courseId, lectures: lectures });
             $(selector).html(html);
         });
     }

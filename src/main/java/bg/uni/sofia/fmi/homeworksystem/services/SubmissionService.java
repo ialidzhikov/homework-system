@@ -46,8 +46,8 @@ public class SubmissionService {
 	@POST
 	@Path("/{lectureId}")
 	@Consumes(MediaType.MULTIPART_FORM_DATA)
-	public Response addUsersFromFile(@FormDataParam("submission") final InputStream submissionInpStream,
-            @FormDataParam("submission") final FormDataContentDisposition fileDetail, @PathParam("lectureId") String lectureIdStr) {
+	public Response addUsersFromFile(@FormDataParam("file") final InputStream submissionInpStream,
+            @FormDataParam("file") final FormDataContentDisposition fileDetail, @PathParam("lectureId") String lectureIdStr) {
 		byte[] upSubmissionAsByteArray = this.inputStreamToByteArray(submissionInpStream);
 		if (upSubmissionAsByteArray == null) {
 			return Response.status(400).entity(INCOMPATIBLE_FILE_ERROR_TEXT).build();

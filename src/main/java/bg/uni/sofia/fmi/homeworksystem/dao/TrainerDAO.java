@@ -17,7 +17,6 @@ import javax.persistence.TypedQuery;
 
 import bg.uni.sofia.fmi.homeworksystem.model.Course;
 import bg.uni.sofia.fmi.homeworksystem.model.Lecture;
-import bg.uni.sofia.fmi.homeworksystem.model.Trainee;
 import bg.uni.sofia.fmi.homeworksystem.model.Trainer;
 import bg.uni.sofia.fmi.homeworksystem.model.UploadedSubmission;
 

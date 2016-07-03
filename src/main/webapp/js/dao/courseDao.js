@@ -6,7 +6,7 @@ app.CourseDao = (function () {
     function getCourse(courseId) {
         return $.ajax({
             method: 'GET',
-            url: HOSTNAME + 'courses/' + courseId,
+            url: HOSTNAME + 'course/' + courseId + '/lecture',
             dataType: 'json'
         });
     }
@@ -32,15 +32,18 @@ app.CourseDao = (function () {
         });
     }
     
-    function addHomework(lectureId, file) {
+    function addLecture(courseId, title, deadline, task) {
         return $.ajax({
             method: 'POST',
-            url: HOSTNAME + 'courses/homeworks',
+            url: HOSTNAME + 'course/lecture',
             dataType: 'json',
-            data: {
-                lectureId: lectureId,
-                file: file
-            }
+            contentType: 'application/json',
+            data: JSON.stringify({
+                courseId: courseId,
+                name: title,
+                endDate: deadline,
+                task: task
+            })
         });
     }
     
@@ -48,6 +51,6 @@ app.CourseDao = (function () {
         getCourse: getCourse,
         getAllCourses: getAllCourses,
         addCourse: addCourse,
-        addHomework: addHomework
+        addLecture: addLecture
     };
 }());

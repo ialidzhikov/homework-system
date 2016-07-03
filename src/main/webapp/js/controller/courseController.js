@@ -25,23 +25,27 @@ app.CourseController = (function () {
     };
     
     function getCourse(context, selector) {
-        var courseId = context.params['courseId'];
+        var id = context.params['courseId'];
         
-        if (user.role === 'trainee') {
-            app.CourseView.renderTraineeCourse(selector, courses.courses[courseId]);
-        } else if (user.role === 'trainer') {
-            app.CourseView.renderTrainerCourse(selector, courses.courses[courseId]);
-        }
-        
-        /*
-        app.CourseDao.getCourse(courseId)
-                .done(function (course) {
-                    app.CourseView.renderCourse(selector, course);
-                })
-                .error(function (error) {
-                    console.log(error);
-                });
-        */
+        app.UserDao.getAuthenticated()
+        	.success(function (authenticated) {
+        		app.CourseDao.getCourse(id)
+	                .done(function (lectures) {
+	                	var role = authenticated.role;
+	            		
+	            		if (role === 'TRAINEE' || role === 'ADMIN') {
+	            			app.CourseView.renderTraineeCourse(selector, lectures, id);
+	            		} else if (role === 'TRAINER') {
+	            			app.CourseView.renderTrainerCourse(selector, lectures, id);
+	            		}
+	                })
+	                .error(function (error) {
+	                    console.log(error);
+	                });
+        	})
+        	.error(function (error) {
+        		console.log(error);
+        	});
     }
     
     function getCourses(selector) {
@@ -95,10 +99,17 @@ app.CourseController = (function () {
         var id = context.params['courseId'],
             title = context.params['title'],
             deadline = context.params['deadline'],
-            homework = context.params['homework'];
+            task = context.params['task'];
     
-        console.log(deadline);
-        console.log(homework);
+        app.CourseDao.addLecture(id, title, deadline, task)
+        	.success(function () {
+        		context.redirect('#/courses/' +  id);
+        		
+        		app.NotificationManager.notifySuccess('You have successfully add new lecture!');
+        	})
+        	.error(function (error) {
+        		console.log(error);
+        	});
     }
     
     return {
