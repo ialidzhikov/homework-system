@@ -46,7 +46,7 @@ app.CourseView = (function () {
     
     function renderTrainerCourses(selector, courses) {
         $.get('templates/trainer-courses.html', function (template) {
-            var html = Mustache.render(template, courses);
+            var html = Mustache.render(template, { courses: courses });
             $(selector).html(html);
         });
     }

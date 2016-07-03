@@ -26,10 +26,6 @@ app.HomeController = (function () {
             description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.'
         }
     ];
-    var user = {
-    	fullName: 'Gosho Petrov',
-        role: 'trainer'
-    };
     var trainees = [
         {
         	id: 0,
@@ -91,8 +87,14 @@ app.HomeController = (function () {
             });
     }
     
-    function getSidebar(selector) {
-		app.HomeView.renderSidebar(selector);
+    function getSidebar(context, selector) {
+    	app.UserDao.getAuthenticated()
+    		.success(function (authenticated) {
+    			app.HomeView.renderSidebar(selector, authenticated);
+    		})
+    		.error(function (error) {
+    			context.redirect('#/login/');
+    		});
     }
     
     function getHome(selector) {
