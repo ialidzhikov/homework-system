@@ -19,13 +19,6 @@ app.HomeController = (function () {
             mark: null
         }
     ];
-    var courses = [
-        {
-            id: 1,
-            title: 'Java EE',
-            description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.'
-        }
-    ];
     
     function getLogin(selector) {
         app.HomeView.renderLogin(selector);
@@ -43,6 +36,8 @@ app.HomeController = (function () {
             })
             .error(function (error) {
                 console.log(error);
+                
+                app.NotificationManager.notifyError("Invalid username or password!");
             });
     }
     

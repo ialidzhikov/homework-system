@@ -60,6 +60,7 @@ public class LectureService {
 	public Response addLecture(String data) {
 		JsonObject userData = new JsonParser().parse(data).getAsJsonObject();
 		long courseId = Long.parseLong(userData.get("courseId").getAsString());
+		String name = userData.get("name").getAsString();
 		String task = userData.get("task").getAsString();
 		String endDateStr = userData.get("endDate").getAsString();
 		SimpleDateFormat dateFormat = new SimpleDateFormat("DD-MMM-YYYY HH:mm");
@@ -71,7 +72,7 @@ public class LectureService {
 		}
 		
 		Course course = courseDAO.getById(Course.class, courseId);
-		Lecture newLecture = new Lecture(task, endDate, course);
+		Lecture newLecture = new Lecture(name, task, endDate, course);
 		lectureDAO.save(newLecture);
 		return Response.ok().build();
 	}

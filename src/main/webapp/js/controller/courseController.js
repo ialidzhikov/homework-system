@@ -25,13 +25,21 @@ app.CourseController = (function () {
     };
     
     function getCourse(context, selector) {
-        var courseId = context.params['courseId'];
+        var id = context.params['courseId'];
         
-        if (user.role === 'trainee') {
-            app.CourseView.renderTraineeCourse(selector, courses.courses[courseId]);
-        } else if (user.role === 'trainer') {
-            app.CourseView.renderTrainerCourse(selector, courses.courses[courseId]);
-        }
+        app.UserDao.getAuthenticated()
+        	.success(function (authenticated) {
+        		var role = authenticated.role;
+        		
+        		if (role === 'TRAINEE' || role === 'ADMIN') {
+        			app.CourseView.renderTraineeCourse(selector, courses.courses[0]);
+        		} else if (role === 'TRAINER') {
+        			app.CourseView.renderTrainerCourse(selector, courses.courses[0]);
+        		}
+        	})
+        	.error(function (error) {
+        		console.log(error);
+        	});
         
         /*
         app.CourseDao.getCourse(courseId)
