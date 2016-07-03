@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import bg.uni.sofia.fmi.homeworksystem.contracts.EntityObject;
 import bg.uni.sofia.fmi.homeworksystem.contracts.Jsonable;
 import bg.uni.sofia.fmi.homeworksystem.contracts.User;
 import bg.uni.sofia.fmi.homeworksystem.utils.Role;
@@ -24,7 +25,7 @@ import bg.uni.sofia.fmi.homeworksystem.utils.Role;
 @Entity
 @NamedQueries({ @NamedQuery(name = "getAllTrainers", query = "SELECT t FROM Trainer t"),
 	@NamedQuery(name = "getTrainerByUsernameAndPass", query = "SELECT t FROM Trainer t WHERE t.userName = :username AND t.password = :password")})
-public class Trainer implements Serializable, User, Jsonable {
+public class Trainer implements Serializable, User, Jsonable, EntityObject {
 
 	private static final long serialVersionUID = 6925326038482471293L;
 

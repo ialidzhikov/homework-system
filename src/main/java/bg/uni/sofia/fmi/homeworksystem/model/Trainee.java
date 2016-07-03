@@ -9,6 +9,7 @@ import javax.persistence.*;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import bg.uni.sofia.fmi.homeworksystem.contracts.EntityObject;
 import bg.uni.sofia.fmi.homeworksystem.contracts.Jsonable;
 import bg.uni.sofia.fmi.homeworksystem.contracts.User;
 import bg.uni.sofia.fmi.homeworksystem.utils.Role;
@@ -17,7 +18,7 @@ import bg.uni.sofia.fmi.homeworksystem.utils.Role;
 @Entity
 @NamedQueries({ @NamedQuery(name = "getAllTrainees", query = "SELECT t FROM Trainee t"),
 @NamedQuery(name = "getTraineeByUsernameAndPass", query = "SELECT t FROM Trainer t WHERE t.userName = :username AND t.password = :password")})
-public class Trainee implements Serializable, User, Jsonable {
+public class Trainee implements Serializable, User, Jsonable, EntityObject {
 
 	private static final long serialVersionUID = -4509815250067041676L;
 
@@ -186,7 +187,7 @@ public class Trainee implements Serializable, User, Jsonable {
 	
 	@Override
 	public String getUsername() {
-		return this.getUsername();
+		return this.getFacultyNumber();
 	}
 	
 	@Override

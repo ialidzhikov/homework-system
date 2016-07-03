@@ -51,7 +51,7 @@ public class LectureService {
 			jArray.add(c.toJson());
 		}
 		
-		return Response.ok(jArray.toString()).build();
+		return Response.ok(jArray.toString(), MediaType.APPLICATION_JSON).build();
 	}
 	
 	@POST
