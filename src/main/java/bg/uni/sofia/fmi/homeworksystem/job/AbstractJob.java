@@ -13,5 +13,5 @@ import bg.uni.sofia.fmi.homeworksystem.cdi.EntityManagerProducer;
 public abstract class AbstractJob<T> implements Job{
 	private final Logger LOGGER = LoggerFactory.getLogger(AbstractJob.class);
 	protected EntityManagerProducer emp = new EntityManagerProducer();
-	private final EntityManager em = emp.getEntityManager();
+	protected final EntityManager em = emp.getEntityManager();
 }
