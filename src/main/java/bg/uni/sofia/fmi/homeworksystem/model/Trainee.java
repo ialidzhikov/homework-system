@@ -186,7 +186,7 @@ public class Trainee implements Serializable, User, Jsonable {
 	
 	@Override
 	public String getUsername() {
-		return this.getUsername();
+		return this.getFacultyNumber();
 	}
 	
 	@Override

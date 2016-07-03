@@ -55,4 +55,13 @@ public class HomeService {
 				user.getUserRole(), user.getUsername());
 		return Response.ok(response).build();
 	}
+	
+	@Path("/logout")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response logout() {
+		userCtx.setUser(null);
+		
+		return Response.ok("{}").build();
+	}
 }

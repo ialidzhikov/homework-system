@@ -177,6 +177,10 @@ public class Trainer implements Serializable, User, Jsonable {
 
 	@Override
 	public Role getUserRole() {
+		if (this.getUserName().equals("admin")) {
+			return Role.ADMIN;
+		}
+		
 		return Role.TRAINER;
 	}
 	
