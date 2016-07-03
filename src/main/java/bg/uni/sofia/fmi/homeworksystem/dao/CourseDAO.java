@@ -61,6 +61,8 @@ public class CourseDAO extends AbstractDAO<Course>{
 
 	public void deleteAll() {
 		// TODO Auto-generated method stub
+		em.getTransaction().begin();
 		em.createQuery("DELETE FROM Course").executeUpdate();
+		em.getTransaction().commit();
 	}
 }

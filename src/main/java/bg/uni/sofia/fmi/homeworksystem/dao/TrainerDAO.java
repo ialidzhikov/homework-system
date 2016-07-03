@@ -104,7 +104,8 @@ public class TrainerDAO extends AbstractDAO<Trainer> {
 
 	/// TODO
 	public void deleteAll() {
+		em.getTransaction().begin();
 		em.createQuery("DELETE FROM Trainer").executeUpdate();
-
+		em.getTransaction().commit();
 	}
 }

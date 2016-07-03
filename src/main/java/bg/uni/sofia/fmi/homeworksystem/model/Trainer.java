@@ -168,7 +168,7 @@ public class Trainer implements Serializable, User {
 	@Override
 	public String toString() {
 		return "Trainer [id=" + id + ", userName=" + userName + ", password=" + password + ", degree=" + degree
-				+ ", name=" + name + ", email=" + email + ", courses=" + courses + "]";
+				+ ", name=" + name + ", email=" + email + "]";
 	}
 
 	@Override

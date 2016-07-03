@@ -78,4 +78,11 @@ public class TraineeDAO extends AbstractDAO<Trainee>{
 		}
 		return password;
 	}
+	
+	/// TODO
+		public void deleteAll() {
+			em.getTransaction().begin();
+			em.createQuery("DELETE FROM Trainee").executeUpdate();
+			em.getTransaction().commit();
+		}
 }
