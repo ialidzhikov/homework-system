@@ -25,7 +25,7 @@ public class Lecture implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date endDate;
 
-	@OneToMany(mappedBy = "lecture", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "lecture", fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
 	private Set<UploadedSubmission> uploadedSubmissions = new HashSet<>();
 
 	public Set<UploadedSubmission> getUploadedSubmissions() {

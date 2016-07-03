@@ -30,7 +30,7 @@ public class Trainee implements Serializable, User {
 
 	private String fieldOfStudy;
 
-	@OneToMany(mappedBy = "trainee", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "trainee", fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
 	private List<UploadedSubmission> uploadedSubmissions = new LinkedList<>();
 
 	public Trainee() {

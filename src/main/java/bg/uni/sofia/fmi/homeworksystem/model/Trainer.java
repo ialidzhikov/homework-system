@@ -2,10 +2,9 @@ package bg.uni.sofia.fmi.homeworksystem.model;
 
 import java.io.Serializable;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -38,7 +37,7 @@ public class Trainer implements Serializable, User {
 
 	private String email;
 
-	@OneToMany(mappedBy = "trainer", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "trainer", fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
 	private Set<Course> courses = new HashSet<>();
 
 	public Trainer() {

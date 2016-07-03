@@ -9,9 +9,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
 
 import bg.uni.sofia.fmi.homeworksystem.model.Course;
@@ -21,23 +21,26 @@ import bg.uni.sofia.fmi.homeworksystem.model.UploadedSubmission;
 
 
 @Singleton
-public class TrainerDAO {
+public class TrainerDAO extends AbstractDAO<Trainer> {
 	
-	@Inject
-	private EntityManager em;
-
-	public void addTrainer(Trainer trainer) {
-		trainer.setPassword(getHashedPassword(trainer.getPassword()));
-		em.persist(trainer);
-	}
-
-	public Trainer validateTrainerCredentials(String userName, String password) {
-		String txtQuery = "SELECT t FROM Trainer t WHERE t.userName=:userName AND t.password=:password";
-		TypedQuery<Trainer> query = em.createQuery(txtQuery, Trainer.class);
-		query.setParameter("userName", userName);
-		query.setParameter("password", getHashedPassword(password));
-		return queryTrainer(query);
-	}
+	@Override
+	public boolean save(final Trainer trainer) {
+    	EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        trainer.setPassword(getHashedPassword(trainer.getPassword()));
+        em.persist(trainer);
+        try {
+            transaction.commit();
+        } catch (final RollbackException re) {
+        	if (transaction.isActive()) {
+        		transaction.rollback();
+        	}
+        	
+            return false;
+        }
+        
+        return true;
+    }
 
 	public Trainer findTrainerByUserName(String userName) {
 		String txtQuery = "SELECT t FROM Trainer t WHERE t.userName=:userName";

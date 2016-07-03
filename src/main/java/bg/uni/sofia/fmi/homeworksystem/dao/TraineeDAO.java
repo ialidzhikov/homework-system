@@ -4,32 +4,35 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
-import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
 
 import bg.uni.sofia.fmi.homeworksystem.model.Trainee;
 
 
 @Singleton
-public class TraineeDAO {
+public class TraineeDAO extends AbstractDAO<Trainee>{
 
-	@Inject
-	private EntityManager em;
-
-	public void addTrainee(Trainee trainee) {
-		trainee.setPassword(getHashedPassword(trainee.getPassword()));
-		em.persist(trainee);
-	}
-
-	public Trainee validateTraineeCredentials(String facultyNumber, String password) {
-		String txtQuery = "SELECT t FROM Trainee t WHERE t.facultyNumber=:facultyNumber AND t.password=:password";
-		TypedQuery<Trainee> query = em.createQuery(txtQuery, Trainee.class);
-		query.setParameter("facultyNumber", facultyNumber);
-		query.setParameter("password", getHashedPassword(password));
-		return queryTrainee(query);
-	}
+	@Override
+	public boolean save(final Trainee trainee) {
+    	EntityTransaction transaction = em.getTransaction();
+        transaction.begin();
+        trainee.setPassword(getHashedPassword(trainee.getPassword()));
+        em.persist(trainee);
+        try {
+            transaction.commit();
+        } catch (final RollbackException re) {
+        	if (transaction.isActive()) {
+        		transaction.rollback();
+        	}
+        	
+            return false;
+        }
+        
+        return true;
+    }
 
 	public Trainee findStudentByFacultyNumber(String facultyNumber) {
 		String txtQuery = "SELECT t FROM Trainee t WHERE t.facultyNumber=:facultyNumber";
