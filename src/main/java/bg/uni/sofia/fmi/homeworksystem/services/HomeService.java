@@ -13,11 +13,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import bg.uni.sofia.fmi.homeworksystem.contracts.User;
-import bg.uni.sofia.fmi.homeworksystem.dao.CourseDAO;
-import bg.uni.sofia.fmi.homeworksystem.dao.TrainerDAO;
 import bg.uni.sofia.fmi.homeworksystem.dao.UserDAO;
-import bg.uni.sofia.fmi.homeworksystem.model.Course;
-import bg.uni.sofia.fmi.homeworksystem.model.Trainer;
 
 @RequestScoped
 @Path("hmwsrest/v1/user")
