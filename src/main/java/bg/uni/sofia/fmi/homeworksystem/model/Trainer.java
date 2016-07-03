@@ -14,13 +14,17 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import bg.uni.sofia.fmi.homeworksystem.contracts.Jsonable;
 import bg.uni.sofia.fmi.homeworksystem.contracts.User;
 import bg.uni.sofia.fmi.homeworksystem.utils.Role;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "getAllTrainers", query = "SELECT t FROM Trainer t"),
 	@NamedQuery(name = "getTrainerByUsernameAndPass", query = "SELECT t FROM Trainer t WHERE t.userName = :username AND t.password = :password")})
-public class Trainer implements Serializable, User {
+public class Trainer implements Serializable, User, Jsonable {
 
 	private static final long serialVersionUID = 6925326038482471293L;
 
@@ -175,5 +179,22 @@ public class Trainer implements Serializable, User {
 	public Role getUserRole() {
 		return Role.TRAINER;
 	}
-
+	
+	@Override
+	public JsonObject toJson() {
+		final JsonObject trainer = new JsonObject();
+		trainer.addProperty("id", this.getId());
+		trainer.addProperty("username", this.getUserName());
+		trainer.addProperty("name", this.getName());
+		trainer.addProperty("degree", this.getDegree());
+		trainer.addProperty("email", this.getEmail());
+		
+		JsonArray courses = new JsonArray();
+		for (Course course : this.getCourses()) {
+			courses.add(course.toJson());
+		}
+		trainer.add("courses", courses);
+		
+		return trainer;
+	}
 }

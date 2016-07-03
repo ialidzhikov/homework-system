@@ -15,9 +15,14 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import bg.uni.sofia.fmi.homeworksystem.contracts.Jsonable;
+
 @Entity
 @NamedQueries({ @NamedQuery(name = "getAllCourses", query = "SELECT c FROM Course c") })
-public class Course implements Serializable {
+public class Course implements Serializable, Jsonable {
 
 	private static final long serialVersionUID = 4419124196015509182L;
 
@@ -49,9 +54,10 @@ public class Course implements Serializable {
 		this.lectures = lectures;
 	}
 
-	public Course(String name, Boolean isFavouriteToTrainer, Trainer trainer) {
+	public Course(String name, String description, Boolean isFavouriteToTrainer, Trainer trainer) {
 		super();
 		this.name = name;
+		this.description = description;
 		this.isFavouriteToTrainer = isFavouriteToTrainer;
 		this.trainer = trainer;
 	}
@@ -144,5 +150,21 @@ public class Course implements Serializable {
 		return "Course [id=" + id + ", name=" + name + ", isFavouriteToTrainer=" + isFavouriteToTrainer + ", trainer="
 				+ trainer + "]";
 	}
-
+	
+	@Override
+	public JsonObject toJson() {
+		final JsonObject course = new JsonObject();
+		course.addProperty("id", this.id);
+		course.addProperty("name", this.name);
+		course.addProperty("description", this.description);
+		course.addProperty("isFavouriteToTrainer", this.isFavouriteToTrainer);
+		
+		JsonArray lectures = new JsonArray();
+		for (Lecture lecture : this.getLectures()) {
+			lectures.add(lecture.toJson());
+		}
+		course.add("lectures", lectures);
+		
+		return course;
+	}
 }

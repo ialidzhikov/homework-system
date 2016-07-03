@@ -1,13 +1,18 @@
 package bg.uni.sofia.fmi.homeworksystem.model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 
 import javax.persistence.*;
 
+import com.google.gson.JsonObject;
+
+import bg.uni.sofia.fmi.homeworksystem.contracts.Jsonable;
+
 @Entity
-public class UploadedSubmission implements Serializable {
+public class UploadedSubmission implements Serializable, Jsonable {
 
 	private static final long serialVersionUID = -6894627518598913945L;
 
@@ -147,5 +152,17 @@ public class UploadedSubmission implements Serializable {
 		return "UploadedSubmission [id=" + id + ", lecture=" + lecture + ", trainee=" + trainee + ", uploadDate="
 				+ uploadDate + ", mark=" + mark + "]";
 	}
-
+	
+	@Override
+	public JsonObject toJson() {
+		final JsonObject uploadedSubmission = new JsonObject();
+		uploadedSubmission.addProperty("id", this.getId());
+		SimpleDateFormat formatter = new SimpleDateFormat("DD-MMM-YYYY HH:mm");
+		uploadedSubmission.addProperty("uploadDate", formatter.format(this.getUploadDate()));
+		uploadedSubmission.addProperty("mark", this.getMark());
+		uploadedSubmission.add("lecture", this.getLecture().toJson());
+		uploadedSubmission.add("trainee", this.getTrainee().toJson());
+		
+		return uploadedSubmission;
+	}
 }

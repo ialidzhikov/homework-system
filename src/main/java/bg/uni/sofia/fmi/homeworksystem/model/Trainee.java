@@ -6,14 +6,18 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import bg.uni.sofia.fmi.homeworksystem.contracts.Jsonable;
 import bg.uni.sofia.fmi.homeworksystem.contracts.User;
 import bg.uni.sofia.fmi.homeworksystem.utils.Role;
 
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "getAllTrainees", query = "SELECT t FROM Trainee t"),
-	@NamedQuery(name = "getTraineeByUsernameAndPass", query = "SELECT t FROM Trainer t WHERE t.userName = :username AND t.password = :password")})
-public class Trainee implements Serializable, User {
+@NamedQuery(name = "getTraineeByUsernameAndPass", query = "SELECT t FROM Trainer t WHERE t.userName = :username AND t.password = :password")})
+public class Trainee implements Serializable, User, Jsonable {
 
 	private static final long serialVersionUID = -4509815250067041676L;
 
@@ -169,5 +173,21 @@ public class Trainee implements Serializable, User {
 		return Role.TRAINEE;
 	}
    
-	
+	@Override
+	public JsonObject toJson() {
+		final JsonObject trainee = new JsonObject();
+		trainee.addProperty("id", this.getId());
+		trainee.addProperty("facultyNumber", this.getFacultyNumber());
+		trainee.addProperty("name", this.getName());
+		trainee.addProperty("email", this.getEmail());
+		trainee.addProperty("fieldOfStudy", this.getFieldOfStudy());
+		
+		JsonArray uploadedSubmissions = new JsonArray();
+		for (UploadedSubmission uploadedSubmission : this.getUploadedSubmissions()) {
+			uploadedSubmissions.add(uploadedSubmission.toJson());
+		}
+		trainee.add("uploadedSubmissions", uploadedSubmissions);
+		
+		return trainee;
+	}
 }

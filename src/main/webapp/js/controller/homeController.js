@@ -28,7 +28,7 @@ app.HomeController = (function () {
     ];
     var user = {
     	fullName: 'Gosho Petrov',
-        role: 'admin'
+        role: 'trainer'
     };
     var trainees = [
         {

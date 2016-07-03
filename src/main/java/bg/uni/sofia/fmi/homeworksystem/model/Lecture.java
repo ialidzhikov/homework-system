@@ -1,15 +1,21 @@
 package bg.uni.sofia.fmi.homeworksystem.model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.*;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import bg.uni.sofia.fmi.homeworksystem.contracts.Jsonable;
+
 @Entity
 @NamedQueries({ @NamedQuery(name = "getAllLectures", query = "SELECT l FROM Lecture l") })
-public class Lecture implements Serializable {
+public class Lecture implements Serializable, Jsonable {
 
 	private static final long serialVersionUID = -4918417868982503112L;
 
@@ -125,6 +131,23 @@ public class Lecture implements Serializable {
 	@Override
 	public String toString() {
 		return "Lecture [id=" + id + ", course=" + course + ", task=" + task + ", endDate=" + endDate + "]";
+	}
+	
+	@Override
+	public JsonObject toJson() {
+		final JsonObject lecture = new JsonObject();
+		lecture.addProperty("id", this.getId());
+		lecture.addProperty("task", this.getTask());
+		SimpleDateFormat formatter = new SimpleDateFormat("DD-MMM-YYYY HH:mm");
+		lecture.addProperty("endDate", formatter.format(this.getEndDate()));
+		
+		JsonArray uploadedSubmissions = new JsonArray();
+		for (UploadedSubmission uploadedSubmission : this.getUploadedSubmissions()) {
+			uploadedSubmissions.add(uploadedSubmission.getId());
+		}
+		lecture.add("uploadedSubmissions", uploadedSubmissions);
+		
+		return lecture;
 	}
 
 }

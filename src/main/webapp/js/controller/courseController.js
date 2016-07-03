@@ -24,7 +24,7 @@ app.CourseController = (function () {
         ]
     };
     var user = {
-        role: 'trainer'
+        role: 'trainee'
     };
     
     function getCourse(context, selector) {
@@ -48,6 +48,13 @@ app.CourseController = (function () {
     }
     
     function getCourses(selector) {
+    	/*
+    	if (user.role === 'trainee') {
+            app.CourseView.renderTraineeCourses(selector, courses);
+        } else if (user.role === 'trainer') {
+            app.CourseView.renderTrainerCourses(selector, courses);
+        }*/
+    	
     	app.CourseDao.getAllCourses()
 	        .done(function (courses) {
 	        	console.log(courses);

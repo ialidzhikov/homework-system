@@ -19,27 +19,12 @@ app.CourseDao = (function () {
         });
     }
     
-    function getCoursesByTraineeId(traineeId) {
-        return $.ajax({
-            method: 'GET',
-            url: HOSTNAME + 'courses?query={"traineeId": "' + traineeId + '"}',
-            dataType: 'json'
-        });
-    }
-    
-    function getCoursesByTrainerId(trainerId) {
-        return $.ajax({
-            method: 'GET',
-            url: HOSTNAME + 'courses?query={"trainerId": "' + trainerId + '"}',
-            dataType: 'json'
-        });
-    }
-    
     function addCourse(name, description) {
         return $.ajax({
             method: 'POST',
             url: HOSTNAME + 'courses/add',
             dataType: 'json',
+            contentType: 'application/json',
             data: JSON.stringify({
                 name: name,
                 description: description
@@ -62,10 +47,7 @@ app.CourseDao = (function () {
     return {
         getCourse: getCourse,
         getAllCourses: getAllCourses,
-        getCoursesByTraineeId: getCoursesByTraineeId,
-        getCoursesByTrainerId: getCoursesByTrainerId,
         addCourse: addCourse,
         addHomework: addHomework
-        
     };
 }());
