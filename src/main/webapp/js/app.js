@@ -31,7 +31,7 @@ var app = app || {};
             app.CourseController.getCourses(containerSelector);
         });
         
-        this.get('#/courses/:courseId/', function () {
+        this.get('#/courses/:courseId', function () {
             app.CourseController.getCourse(this, containerSelector);
         });
         
@@ -59,6 +59,37 @@ var app = app || {};
             app.SubmissionController.getSubmission(this, containerSelector);
         });
         
+        this.get('#/trainees/add/', function () {
+        	app.HomeController.getAddTrainee(containerSelector);
+        });
+        
+        this.post('#/trainees/add/', function () {
+        	app.HomeController.postAddTrainee(this);
+        });
+        
+        this.get('#/trainees/:traineeId/delete/', function () {
+        	app.HomeController.getDeleteTrainee(this, containerSelector);
+        });
+        
+        this.post('#/trainees/:traineeId/delete/', function () {
+        	app.HomeController.postDeleteTrainee(this);
+        });
+        
+        this.get('#/trainers/add/', function () {
+        	app.HomeController.getAddTrainer(containerSelector);
+        });
+        
+        this.post('#/trainers/add/', function () {
+        	app.HomeController.postAddTrainer(this);
+        });
+        
+        this.get('#/trainers/:trainerId/delete/', function () {
+        	app.HomeController.getDeleteTrainer(this, containerSelector);
+        });
+        
+        this.post('#/trainers/:trainerId/delete/', function () {
+        	app.HomeController.postDeleteTrainer(this, containerSelector 	);
+        });
     });
     
     sammy.run('#/');

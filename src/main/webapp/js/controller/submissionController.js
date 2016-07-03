@@ -36,7 +36,7 @@ app.SubmissionController = (function () {
         }
     ];
     var user = {
-        role: 'trainer'
+        role: 'trainee'
     };
     
     function getSubmissions(selector) {

@@ -30,6 +30,46 @@ app.HomeController = (function () {
     	fullName: 'Gosho Petrov',
         role: 'admin'
     };
+    var trainees = [
+        {
+        	id: 0,
+        	name: 'Gosho',
+        	email: 'pesho@gmail.com',
+        	facultyNumber: 71570,
+        	fieldOfStudy: 'Computer Science'
+        },
+        {
+        	id: 1,
+        	name: 'Pesho',
+        	email: 'pesho@gmail.com',
+        	facultyNumber: 71570,
+        	fieldOfStudy: 'Computer Science'
+        },
+        {
+        	id: 2,
+        	username: 'mariyka',
+        	name: 'Mariyka',
+        	email: 'pesho@gmail.com',
+        	facultyNumber: 71570,
+        	fieldOfStudy: 'Computer Science'
+        }
+    ];
+    var trainers = [
+        {
+        	id: 0,
+        	username: 'trainer',
+        	name: 'Gosho Trainer',
+        	email: 'trainer@sap.com',
+        	degree: 'PhD'
+        },
+        {
+        	id: 1,
+        	username: 'trainer',
+        	name: 'Gosho Trainer',
+        	email: 'trainer@sap.com',
+        	degree: 'PhD'
+        }
+    ];
     
     function getLogin(selector) {
         app.HomeView.renderLogin(selector);
@@ -52,11 +92,7 @@ app.HomeController = (function () {
     }
     
     function getSidebar(selector) {
-    	if (user.role == 'trainer' || user.role == 'trainee') {
-    		app.HomeView.renderSidebar(selector);
-    	} else if (user.role == 'admin') {
-    		app.HomeView.renderAdminSidebar(selector);
-    	}
+		app.HomeView.renderSidebar(selector);
     }
     
     function getHome(selector) {
@@ -95,14 +131,57 @@ app.HomeController = (function () {
                 });
             */ 
         } else if (user.role === 'admin') {
-        	app.HomeView.renderAdminHome(selector);
+        	app.HomeView.renderAdminHome(selector, trainees, trainers);
         }
+    }
+    
+    function getAddTrainee(selector) {
+    	app.HomeView.renderAddTrainee(selector);
+    }
+    
+    function postAddTrainee(context) {
+    	var facultyNumber = context.params['facultyNumber'],
+    	name = context.params['name'],
+    	email = context.params['email'],
+    	fieldOfStudy = context.params['fieldOfStudy'];
+    	
+    	
+    }
+    
+    function getDeleteTrainee(context, selector) {
+    	var id = context.params['traineeId'];
+    	
+    	app.HomeView.renderDeleteTrainee(selector, trainees[id]);
+    }
+    
+    function getAddTrainer(selector) {
+    	app.HomeView.renderAddTrainer(selector);
+    }
+    
+    function postAddTrainer(context) {
+    	var username = context.params['username'],
+    		name = context.params['name'],
+    		email = context.params['email'],
+    		degree = context.params['degree'];
+    	
+    	
+    }
+    
+    function getDeleteTrainer(context, selector) {
+    	var id = context.params['trainerId'];
+    	
+    	app.HomeView.renderDeleteTrainer(selector, trainers[id]);
     }
     
     return {
         getLogin: getLogin,
         postLogin: postLogin,
         getSidebar: getSidebar,
-        getHome: getHome
+        getHome: getHome,
+        getAddTrainee: getAddTrainee,
+        postAddTrainee: postAddTrainee,
+        getDeleteTrainee: getDeleteTrainee,
+        getAddTrainer: getAddTrainer,
+        getDeleteTrainer: getDeleteTrainer
     };
 }());

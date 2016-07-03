@@ -1,7 +1,7 @@
 var app = app || {};
 
 app.CourseDao = (function () {
-    var HOSTNAME = '';
+    var HOSTNAME = 'webapi/hmwsrest/v1/';
     
     function getCourse(courseId) {
         return $.ajax({
@@ -11,7 +11,7 @@ app.CourseDao = (function () {
         });
     }
     
-    function getCourses() {
+    function getAllCourses() {
         return $.ajax({
             method: 'GET',
             url: HOSTNAME + 'courses/',
@@ -35,15 +35,15 @@ app.CourseDao = (function () {
         });
     }
     
-    function addCourse(title, description) {
+    function addCourse(name, description) {
         return $.ajax({
             method: 'POST',
             url: HOSTNAME + 'courses/add',
             dataType: 'json',
-            data: {
-                title: title,
+            data: JSON.stringify({
+                name: name,
                 description: description
-            }
+            })
         });
     }
     
@@ -61,7 +61,7 @@ app.CourseDao = (function () {
     
     return {
         getCourse: getCourse,
-        getCourses: getCourses,
+        getAllCourses: getAllCourses,
         getCoursesByTraineeId: getCoursesByTraineeId,
         getCoursesByTrainerId: getCoursesByTrainerId,
         addCourse: addCourse,

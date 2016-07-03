@@ -17,7 +17,38 @@ app.UserDao = (function () {
         });
     }
     
+    function addTrainee(facultyNumber, name, email, fieldOfStudy) {
+		$.ajax({
+			method: 'POST',
+			url: HOSTNAME + 'trainees/add',
+			dataType: 'json',
+			contentType: 'application/json',
+			data: {
+				facultyNumber: facultyNumber,
+				name: name,
+				email: email,
+				fieldOfStudy: fieldOfStudy
+			}
+		});
+	}
+    
+    function addTrainer(username, name, email, degree) {
+    	return $.ajax({
+    		method: 'POST',
+    		url: HOSTNAME + 'trainers/add',
+    		dataType: 'json',
+    		contentType: 'application/json',
+    		data: {
+    			username: username,
+    			name: name,
+    			email: email,
+    			degree: degree
+    		}
+    	});
+    }
+    
     return {
-        login: login
+        login: login,
+        addTrainee: addTrainee,
     };
 }());

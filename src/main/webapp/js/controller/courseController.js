@@ -13,7 +13,7 @@ app.CourseController = (function () {
                 id: 2,
                 title: 'AngularJS',
                 description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
-                lectures: [{id: 1, title: 'Introduction to course', deadline: new Date(2016, 5, 20)}, {id: 2, title: 'Angular Seed', deadline: new Date(2016, 6, 1)}]
+                lectures: [{id: 1, title: 'Introduction to course', deadline: new Date(2016, 7, 26)}, {id: 2, title: 'Angular Seed', deadline: new Date(2016, 10, 1)}]
             },
             {
                 id: 3,
@@ -48,21 +48,18 @@ app.CourseController = (function () {
     }
     
     function getCourses(selector) {
-        if (user.role === 'trainee') {
-            app.CourseView.renderTraineeCourses(selector, courses);
-        } else if (user.role === 'trainer') {
-            app.CourseView.renderTrainerCourses(selector, courses);
-        }
-        
-        /*
-        app.CourseDao.getCourses()
-                .done(function (courses) {
-                    app.CourseView.renderCourses(selector, courses);
-                })
-                .error(function (error) {
-                    console.log(error);
-                });
-        */
+    	app.CourseDao.getAllCourses()
+	        .done(function (courses) {
+	        	console.log(courses);
+	        	if (user.role === 'trainee') {
+	                app.CourseView.renderTraineeCourses(selector, courses);
+	            } else if (user.role === 'trainer') {
+	                app.CourseView.renderTrainerCourses(selector, courses);
+	            }
+	        })
+	        .error(function (error) {
+	            console.log(error);
+	        });
     }
     
     function getAddCourse(selector) {
@@ -73,9 +70,6 @@ app.CourseController = (function () {
         var title = context.params['title'],
             description = context.params['description'];
         
-        courses.courses.push({title: title, description: description, lectures: []});
-        context.redirect('#/courses/');
-        /*
         app.CourseDao.addCourse(title, description)
             .done(function (course) {
                 context.redirect('#/courses/');
@@ -85,7 +79,6 @@ app.CourseController = (function () {
             .error(function (error) {
                 console.log(error);
             });
-        */
     }
     
     function getAddLecture(context, selector) {

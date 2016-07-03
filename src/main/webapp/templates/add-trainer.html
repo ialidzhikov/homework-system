@@ -1,0 +1,41 @@
+<div class="animate">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header card-primary card-inverse">
+                    <h3 class="card-title">Add Trainer</h3>
+                </div>
+                <div class="card-block">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <form method="POST" action="#/trainers/add/" role="form">
+                                <div class="form-group">
+                                    <label for="title">Username:</label>
+                                    <input type="text" class="form-control" id="username" name="username" placeholder="Username"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Name:</label>
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Name..."/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Email:</label>
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="Email..."/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Degree:</label>
+                                    <input type="text" class="form-control" id="degree" name="degree" placeholder="Degree..."/>
+                                </div>
+                                <a href="#/home/">
+                                    <button type="button" class="btn btn-default">
+                                        <i class="fa fa-arrow-left"></i><span>&nbsp;&nbsp; Back</span>
+                                    </button>
+                                </a>
+                                <input type="submit" class="btn btn-primary pull-right" value="Add"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

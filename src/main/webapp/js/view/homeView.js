@@ -14,12 +14,6 @@ app.HomeView = (function () {
         });
     }
     
-    function renderAdminSidebar(selector) {
-    	$.get('templates/admin-sidebar.html', function (template) {
-            $(selector).html(template);
-        });
-    }
-    
     function renderTraineeHome(selector, submissions, courses) {
         $.get('templates/trainee-home.html', function (template) {
             var data = {
@@ -44,18 +38,48 @@ app.HomeView = (function () {
         });
     }
     
-    function renderAdminHome(selector) {
+    function renderAdminHome(selector, trainees, trainers) {
     	$.get('templates/admin-home.html', function (template, trainee) {
+    		var html = Mustache.render(template, { trainees: trainees, trainers: trainers });
+            $(selector).html(html);
+        });
+    }
+    
+    function renderAddTrainee(selector) {
+    	$.get('templates/add-trainee.html', function (template) {
             $(selector).html(template);
         });
+    }
+    
+    function renderDeleteTrainee(selector, trainee) {
+    	$.get('templates/delete-trainee.html', function (template) {
+            var html = Mustache.render(template, trainee);
+    		$(selector).html(html);
+        });
+    }
+    
+    function renderAddTrainer(selector) {
+    	$.get('templates/add-trainer.html', function (template) {
+    		$(selector).html(template);
+    	});
+    }
+    
+    function renderDeleteTrainer(selector, trainer) {
+    	$.get('templates/delete-trainer.html', function (template) {
+    		var html = Mustache.render(template, trainer);
+    		$(selector).html(html);
+    	});
     }
     
     return {
         renderLogin: renderLogin,
         renderSidebar: renderSidebar,
-        renderAdminSidebar: renderAdminSidebar,
         renderTraineeHome: renderTraineeHome,
         renderTrainerHome: renderTrainerHome,
-        renderAdminHome: renderAdminHome
+        renderAdminHome: renderAdminHome,
+        renderAddTrainee: renderAddTrainee,
+        renderDeleteTrainee: renderDeleteTrainee,
+        renderAddTrainer: renderAddTrainer,
+        renderDeleteTrainer: renderDeleteTrainer
     };
 }());

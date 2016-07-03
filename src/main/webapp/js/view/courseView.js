@@ -13,11 +13,15 @@ app.CourseView = (function () {
             
             $('input:file').on('change', function() {
                 var lectureId = $(this).attr('data-lecture-id');
+                var file = this.files[0];
                 
-                //var file = this.files[0];
-                //console.log(file.type);
-                
-                //app.CourseDao.addHomework(lectureId, file);
+                app.CourseDao.addHomework(lectureId, file)
+                	.success(function (success) {
+                		console.log(success);
+                	})
+                	.error(function (error) {
+                		console.log(error);
+                	});
             });
         });
     }

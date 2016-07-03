@@ -1,0 +1,41 @@
+<div class="animate">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-header card-primary card-inverse">
+                    <h3 class="card-title">Delete Trainee</h3>
+                </div>
+                <div class="card-block">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <form method="POST" action="#/trainees/{{id}}/delete/" role="form">
+                                <div class="form-group">
+                                    <label for="title">Faculty number:</label>
+                                    <input type="text" class="form-control" id="title" name="facultyNumber" value="{{facultyNumber}}" disabled="disabled"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Name:</label>
+                                    <input type="text" class="form-control" id="description" name="name" value="{{name}}" disabled="disabled"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Email:</label>
+                                    <input type="email" class="form-control" id="email" name="email" value="{{email}}" disabled="disabled"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Field of study:</label>
+                                    <input type="text" class="form-control" id="fieldOfStudy" name="fieldOfStudy" value="{{fieldOfStudy}}" disabled="disabled"/>
+                                </div>
+                                <a href="#/home/">
+                                    <button type="button" class="btn btn-default">
+                                        <i class="fa fa-arrow-left"></i><span>&nbsp;&nbsp; Back</span>
+                                    </button>
+                                </a>
+                                <input type="submit" class="btn btn-primary pull-right" value="Delete"/>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
