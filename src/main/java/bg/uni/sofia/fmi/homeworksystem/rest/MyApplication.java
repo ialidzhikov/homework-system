@@ -10,12 +10,14 @@ import org.glassfish.jersey.server.ResourceConfig;
 import bg.uni.sofia.fmi.homeworksystem.services.CourseService;
 import bg.uni.sofia.fmi.homeworksystem.services.HomeService;
 import bg.uni.sofia.fmi.homeworksystem.services.TraineeService;
+import bg.uni.sofia.fmi.homeworksystem.services.TrainerService;
 
 public class MyApplication extends ResourceConfig {
    public MyApplication() {
 	   register(HomeService.class);
 	   register(CourseService.class);
 	   register(TraineeService.class);
+	   register(TrainerService.class);
 	   register(MOXyJsonProvider.class);
 	   register(JsonProcessingFeature.class);
 	   packages("org.glassfish.jersey.examples.jsonp.resource");
