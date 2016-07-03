@@ -13,6 +13,7 @@ import javax.persistence.TypedQuery;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import bg.uni.sofia.fmi.homeworksystem.model.Course;
 import bg.uni.sofia.fmi.homeworksystem.model.Trainee;
 
 
@@ -77,5 +78,14 @@ public class TraineeDAO extends AbstractDAO<Trainee>{
 			e.printStackTrace();
 		}
 		return password;
+	}
+	
+	public void addCourse (Trainee trainee, Course course){
+		em.getTransaction().begin();
+		trainee.getCourses().add(course);
+		em.merge(trainee);
+		course.getTrainees().add(trainee);
+		em.merge(course);
+		em.getTransaction().commit();
 	}
 }

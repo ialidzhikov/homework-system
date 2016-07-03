@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
@@ -36,6 +37,17 @@ public class Course implements Serializable {
 
 	@OneToMany(mappedBy = "course", fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
 	private List<Lecture> lectures = new LinkedList<>();
+
+	@ManyToMany(targetEntity=Trainee.class)
+	private List<Trainee> trainees = new LinkedList<>();
+	
+	public List<Trainee> getTrainees() {
+		return trainees;
+	}
+
+	public void setTrainees(List<Trainee> trainees) {
+		this.trainees = trainees;
+	}
 
 	public Course() {
 		super();

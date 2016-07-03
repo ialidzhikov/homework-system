@@ -34,6 +34,17 @@ public class Trainee implements Serializable, User {
 	@OneToMany(mappedBy = "trainee", fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
 	private List<UploadedSubmission> uploadedSubmissions = new LinkedList<>();
 
+	@ManyToMany(targetEntity=Course.class, mappedBy="trainees")
+	private List <Course> courses = new LinkedList<>();
+	
+	public List<Course> getCourses() {
+		return courses;
+	}
+
+	public void setCourses(List<Course> courses) {
+		this.courses = courses;
+	}
+
 	public Trainee() {
 		super();
 	}
