@@ -9,7 +9,6 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -20,10 +19,8 @@ import com.google.gson.JsonParser;
 
 import bg.uni.sofia.fmi.homeworksystem.contracts.User;
 import bg.uni.sofia.fmi.homeworksystem.dao.CourseDAO;
-import bg.uni.sofia.fmi.homeworksystem.dao.LectureDAO;
 import bg.uni.sofia.fmi.homeworksystem.dao.TrainerDAO;
 import bg.uni.sofia.fmi.homeworksystem.model.Course;
-import bg.uni.sofia.fmi.homeworksystem.model.Lecture;
 import bg.uni.sofia.fmi.homeworksystem.model.Trainer;
 
 @Path("hmwsrest/v1/courses")
