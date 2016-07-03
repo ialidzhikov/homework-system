@@ -181,6 +181,11 @@ public class Trainer implements Serializable, User, Jsonable {
 	}
 	
 	@Override
+	public String getUsername() {
+		return this.getUserName();
+	}
+	
+	@Override
 	public JsonObject toJson() {
 		final JsonObject trainer = new JsonObject();
 		trainer.addProperty("id", this.getId());

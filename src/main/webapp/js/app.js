@@ -7,8 +7,8 @@ var app = app || {};
         var sidebarSelector = '#sidebar-container',
             containerSelector = '#main-container';
         
-        this.before({ except: { path: '#(\/login\/|\/register\/)?' } }, function () {
-            app.HomeController.getSidebar(sidebarSelector);
+        this.before({ except: { path: '#(\/login\/)?' } }, function () {
+            app.HomeController.getSidebar(this, sidebarSelector);
         });
         
         this.get('#/', function () {

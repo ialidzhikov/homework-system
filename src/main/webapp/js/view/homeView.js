@@ -8,9 +8,10 @@ app.HomeView = (function () {
         });
     }
     
-    function renderSidebar(selector) {
+    function renderSidebar(selector, authenticated) {
         $.get('templates/sidebar.html', function (template) {
-            $(selector).html(template);
+        	var html = Mustache.render(template, authenticated);
+            $(selector).html(html);
         });
     }
     

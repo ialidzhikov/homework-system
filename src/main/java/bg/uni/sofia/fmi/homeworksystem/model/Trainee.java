@@ -183,7 +183,12 @@ public class Trainee implements Serializable, User, Jsonable {
 	public Role getUserRole() {
 		return Role.TRAINEE;
 	}
-   
+	
+	@Override
+	public String getUsername() {
+		return this.getUsername();
+	}
+	
 	@Override
 	public JsonObject toJson() {
 		final JsonObject trainee = new JsonObject();

@@ -23,9 +23,6 @@ app.CourseController = (function () {
             }
         ]
     };
-    var user = {
-        role: 'trainee'
-    };
     
     function getCourse(context, selector) {
         var courseId = context.params['courseId'];
@@ -48,25 +45,26 @@ app.CourseController = (function () {
     }
     
     function getCourses(selector) {
-    	/*
-    	if (user.role === 'trainee') {
-            app.CourseView.renderTraineeCourses(selector, courses);
-        } else if (user.role === 'trainer') {
-            app.CourseView.renderTrainerCourses(selector, courses);
-        }*/
-    	
-    	app.CourseDao.getAllCourses()
-	        .done(function (courses) {
-	        	console.log(courses);
-	        	if (user.role === 'trainee') {
-	                app.CourseView.renderTraineeCourses(selector, courses);
-	            } else if (user.role === 'trainer') {
-	                app.CourseView.renderTrainerCourses(selector, courses);
-	            }
-	        })
-	        .error(function (error) {
-	            console.log(error);
-	        });
+    	app.UserDao.getAuthenticated()
+	    	.success(function (authenticated) {
+	    		var role = authenticated.role;
+	    		
+	    		app.CourseDao.getAllCourses()
+			        .done(function (courses) {
+			        	console.log(courses);
+			        	if (role === 'TRAINEE') {
+			                app.CourseView.renderTraineeCourses(selector, courses);
+			            } else if (role === 'TRAINER') {
+			                app.CourseView.renderTrainerCourses(selector, courses);
+			            }
+			        })
+			        .error(function (error) {
+			            console.log(error);
+			        });
+	    	})
+	    	.error(function (error) {
+	    		console.log(error);
+	    	});
     }
     
     function getAddCourse(selector) {
