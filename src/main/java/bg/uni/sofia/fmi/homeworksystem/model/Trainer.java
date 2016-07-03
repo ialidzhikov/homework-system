@@ -15,9 +15,12 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
+import bg.uni.sofia.fmi.homeworksystem.contracts.User;
+import bg.uni.sofia.fmi.homeworksystem.utils.Role;
+
 @Entity
 @NamedQueries({ @NamedQuery(name = "getAllTrainers", query = "SELECT t FROM Trainer t") })
-public class Trainer implements Serializable {
+public class Trainer implements Serializable, User {
 
 	private static final long serialVersionUID = 6925326038482471293L;
 
@@ -36,7 +39,7 @@ public class Trainer implements Serializable {
 	private String email;
 
 	@OneToMany(mappedBy = "trainer", fetch = FetchType.EAGER)
-	private Set<Lecture> lectures = new HashSet<>();
+	private Set<Course> courses = new HashSet<>();
 
 	public Trainer() {
 		super();
@@ -99,12 +102,12 @@ public class Trainer implements Serializable {
 		this.email = email;
 	}
 
-	public Set<Lecture> getLectures() {
-		return lectures;
+	public Set<Course> getCourses() {
+		return courses;
 	}
 
-	public void setLectures(Set<Lecture> lectures) {
-		this.lectures = lectures;
+	public void setCourses(Set<Course> courses) {
+		this.courses = courses;
 	}
 
 	@Override
@@ -165,7 +168,12 @@ public class Trainer implements Serializable {
 	@Override
 	public String toString() {
 		return "Trainer [id=" + id + ", userName=" + userName + ", password=" + password + ", degree=" + degree
-				+ ", name=" + name + ", email=" + email + ", lectures=" + lectures + "]";
+				+ ", name=" + name + ", email=" + email + ", courses=" + courses + "]";
+	}
+
+	@Override
+	public Role getUserRole() {
+		return Role.TRAINER;
 	}
 
 }

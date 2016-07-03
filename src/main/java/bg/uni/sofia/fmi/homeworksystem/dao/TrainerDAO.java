@@ -14,8 +14,8 @@ import javax.inject.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 
+import bg.uni.sofia.fmi.homeworksystem.model.Course;
 import bg.uni.sofia.fmi.homeworksystem.model.Lecture;
-import bg.uni.sofia.fmi.homeworksystem.model.Submission;
 import bg.uni.sofia.fmi.homeworksystem.model.Trainer;
 import bg.uni.sofia.fmi.homeworksystem.model.UploadedSubmission;
 
@@ -60,13 +60,13 @@ public class TrainerDAO {
 
 	public List<UploadedSubmission> getAllUploadedSubmisiions(Trainer trainer) {
 		List<UploadedSubmission> uploadedSubmissions = new ArrayList<>();
-		Set<Lecture> lectures = trainer.getLectures();
-		List<Submission> submissions = new LinkedList<>();
-		for (Lecture lecture : lectures) {
-			submissions.addAll(lecture.getSubmissions());
+		Set<Course> courses = trainer.getCourses();
+		List<Lecture> lectures = new LinkedList<>();
+		for (Course course : courses) {
+			lectures.addAll(course.getLectures());
 		}
-		for (Submission submission : submissions) {
-			uploadedSubmissions.addAll(submission.getUploadedSubmissions());
+		for (Lecture lecture : lectures) {
+			uploadedSubmissions.addAll(lecture.getUploadedSubmissions());
 		}
 		Collections.sort(uploadedSubmissions, new Comparator<UploadedSubmission>() {
 

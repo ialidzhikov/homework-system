@@ -1,17 +1,17 @@
 package bg.uni.sofia.fmi.homeworksystem.dao;
 
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
-import bg.uni.sofia.fmi.homeworksystem.model.Submission;
+import bg.uni.sofia.fmi.homeworksystem.model.Lecture;
 import bg.uni.sofia.fmi.homeworksystem.model.Trainee;
 import bg.uni.sofia.fmi.homeworksystem.model.UploadedSubmission;
 
 
 @Singleton
 public class UploadedSubmissionDAO {
-	@PersistenceContext
+	@Inject
 	private EntityManager em;
 
 	public void addUploadedSubmission(UploadedSubmission uploadedSubmission){
@@ -19,8 +19,8 @@ public class UploadedSubmissionDAO {
 		Trainee trainee = uploadedSubmission.getTrainee();
 		trainee.getUploadedSubmissions().add(uploadedSubmission);
 		em.merge(trainee);
-		Submission submission = uploadedSubmission.getSubmission();
-		submission.getUploadedSubmissions().add(uploadedSubmission);
-		em.merge(submission);
+		Lecture lecture = uploadedSubmission.getLecture();
+		lecture.getUploadedSubmissions().add(uploadedSubmission);
+		em.merge(lecture);
 	}
 }

@@ -2,8 +2,8 @@
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="homeworksystem" transaction-type="RESOURCE_LOCAL">
 		<provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+		<class>bg.uni.sofia.fmi.homeworksystem.model.Course</class>
 		<class>bg.uni.sofia.fmi.homeworksystem.model.Lecture</class>
-		<class>bg.uni.sofia.fmi.homeworksystem.model.Submission</class>
 		<class>bg.uni.sofia.fmi.homeworksystem.model.Trainee</class>
 		<class>bg.uni.sofia.fmi.homeworksystem.model.Trainer</class>
 		<class>bg.uni.sofia.fmi.homeworksystem.model.UploadedSubmission</class>

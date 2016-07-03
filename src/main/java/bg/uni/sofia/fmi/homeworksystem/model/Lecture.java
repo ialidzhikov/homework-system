@@ -1,56 +1,50 @@
 package bg.uni.sofia.fmi.homeworksystem.model;
 
 import java.io.Serializable;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "getAllLectures", query = "SELECT l FROM Lecture l") })
 public class Lecture implements Serializable {
 
-	private static final long serialVersionUID = 4419124196015509182L;
+	private static final long serialVersionUID = -4918417868982503112L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	private String name;
-
-	private Boolean isFavouriteToTrainer;
-
 	@ManyToOne
-	private Trainer trainer;
-	
+	private Course course;
+
+	private String task;
+
+	@Temporal(TemporalType.DATE)
+	private Date endDate;
+
 	@OneToMany(mappedBy = "lecture", fetch = FetchType.EAGER)
-	private List<Submission> submissions = new LinkedList<>();
+	private Set<UploadedSubmission> uploadedSubmissions = new HashSet<>();
+
+	public Set<UploadedSubmission> getUploadedSubmissions() {
+		return uploadedSubmissions;
+	}
+
+	public void setUploadedSubmissions(Set<UploadedSubmission> uploadedSubmissions) {
+		this.uploadedSubmissions = uploadedSubmissions;
+	}
 
 	public Lecture() {
 		super();
 	}
 
-	public List<Submission> getSubmissions() {
-		return submissions;
-	}
-
-	public void setSubmissions(List<Submission> submissions) {
-		this.submissions = submissions;
-	}
-
-	public Lecture(String name, Boolean isFavouriteToTrainer, Trainer trainer) {
+	public Lecture(String task, Date endDate, Course course) {
 		super();
-		this.name = name;
-		this.isFavouriteToTrainer = isFavouriteToTrainer;
-		this.trainer = trainer;
+		this.task = task;
+		this.endDate = endDate;
+		this.course = course;
 	}
 
 	public Long getId() {
@@ -61,38 +55,38 @@ public class Lecture implements Serializable {
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public Course getCourse() {
+		return course;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setCourse(Course course) {
+		this.course = course;
 	}
 
-	public Boolean getIsFavouriteToTrainer() {
-		return isFavouriteToTrainer;
+	public String getTask() {
+		return task;
 	}
 
-	public void setIsFavouriteToTrainer(Boolean isFavouriteToTrainer) {
-		this.isFavouriteToTrainer = isFavouriteToTrainer;
-	}
-	
-	public Trainer getTrainer() {
-		return trainer;
+	public void setTask(String task) {
+		this.task = task;
 	}
 
-	public void setTrainer(Trainer trainer) {
-		this.trainer = trainer;
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
+		result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((isFavouriteToTrainer == null) ? 0 : isFavouriteToTrainer.hashCode());
-		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((trainer == null) ? 0 : trainer.hashCode());
+		result = prime * result + ((course == null) ? 0 : course.hashCode());
+		result = prime * result + ((task == null) ? 0 : task.hashCode());
 		return result;
 	}
 
@@ -105,33 +99,32 @@ public class Lecture implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Lecture other = (Lecture) obj;
+		if (endDate == null) {
+			if (other.endDate != null)
+				return false;
+		} else if (!endDate.equals(other.endDate))
+			return false;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (isFavouriteToTrainer == null) {
-			if (other.isFavouriteToTrainer != null)
+		if (course == null) {
+			if (other.course != null)
 				return false;
-		} else if (!isFavouriteToTrainer.equals(other.isFavouriteToTrainer))
+		} else if (!course.equals(other.course))
 			return false;
-		if (name == null) {
-			if (other.name != null)
+		if (task == null) {
+			if (other.task != null)
 				return false;
-		} else if (!name.equals(other.name))
-			return false;
-		if (trainer == null) {
-			if (other.trainer != null)
-				return false;
-		} else if (!trainer.equals(other.trainer))
+		} else if (!task.equals(other.task))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Lecture [id=" + id + ", name=" + name + ", isFavouriteToTrainer=" + isFavouriteToTrainer + ", trainer="
-				+ trainer + "]";
+		return "Lecture [id=" + id + ", course=" + course + ", task=" + task + ", endDate=" + endDate + "]";
 	}
 
 }

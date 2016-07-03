@@ -6,10 +6,13 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import bg.uni.sofia.fmi.homeworksystem.contracts.User;
+import bg.uni.sofia.fmi.homeworksystem.utils.Role;
+
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "getAllTrainees", query = "SELECT t FROM Trainee t") })
-public class Trainee implements Serializable {
+public class Trainee implements Serializable, User {
 
 	private static final long serialVersionUID = -4509815250067041676L;
 
@@ -26,8 +29,6 @@ public class Trainee implements Serializable {
 	private String email;
 
 	private String fieldOfStudy;
-	
-	
 
 	@OneToMany(mappedBy = "trainee", fetch = FetchType.EAGER)
 	private List<UploadedSubmission> uploadedSubmissions = new LinkedList<>();
@@ -160,6 +161,11 @@ public class Trainee implements Serializable {
 	public String toString() {
 		return "Trainee [id=" + id + ", facultyNumber=" + facultyNumber + ", password=" + password + ", name=" + name
 				+ ", email=" + email + ", fieldOfStudy=" + fieldOfStudy + "]";
+	}
+
+	@Override
+	public Role getUserRole() {
+		return Role.TRAINEE;
 	}
    
 	

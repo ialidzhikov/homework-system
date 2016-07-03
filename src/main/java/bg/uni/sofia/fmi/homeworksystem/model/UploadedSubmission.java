@@ -16,7 +16,7 @@ public class UploadedSubmission implements Serializable {
 	private Long id;
 
 	@ManyToOne
-	private Submission submission;
+	private Lecture lecture;
 
 	@ManyToOne
 	private Trainee trainee;
@@ -34,9 +34,9 @@ public class UploadedSubmission implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public UploadedSubmission(Submission submission, Trainee trainee, Date uploadDate, byte[] file) {
+	public UploadedSubmission(Lecture lecture, Trainee trainee, Date uploadDate, byte[] file) {
 		super();
-		this.submission = submission;
+		this.lecture = lecture;
 		this.trainee = trainee;
 		this.uploadDate = uploadDate;
 		this.file = file;
@@ -50,12 +50,12 @@ public class UploadedSubmission implements Serializable {
 		this.id = id;
 	}
 
-	public Submission getSubmission() {
-		return submission;
+	public Lecture getLecture() {
+		return lecture;
 	}
 
-	public void setSubmission(Submission submission) {
-		this.submission = submission;
+	public void setLecture(Lecture lecture) {
+		this.lecture = lecture;
 	}
 
 	public Trainee getTrainee() {
@@ -97,7 +97,7 @@ public class UploadedSubmission implements Serializable {
 		result = prime * result + Arrays.hashCode(file);
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((mark == null) ? 0 : mark.hashCode());
-		result = prime * result + ((submission == null) ? 0 : submission.hashCode());
+		result = prime * result + ((lecture == null) ? 0 : lecture.hashCode());
 		result = prime * result + ((trainee == null) ? 0 : trainee.hashCode());
 		result = prime * result + ((uploadDate == null) ? 0 : uploadDate.hashCode());
 		return result;
@@ -124,10 +124,10 @@ public class UploadedSubmission implements Serializable {
 				return false;
 		} else if (!mark.equals(other.mark))
 			return false;
-		if (submission == null) {
-			if (other.submission != null)
+		if (lecture == null) {
+			if (other.lecture != null)
 				return false;
-		} else if (!submission.equals(other.submission))
+		} else if (!lecture.equals(other.lecture))
 			return false;
 		if (trainee == null) {
 			if (other.trainee != null)
@@ -144,7 +144,7 @@ public class UploadedSubmission implements Serializable {
 
 	@Override
 	public String toString() {
-		return "UploadedSubmission [id=" + id + ", submission=" + submission + ", trainee=" + trainee + ", uploadDate="
+		return "UploadedSubmission [id=" + id + ", lecture=" + lecture + ", trainee=" + trainee + ", uploadDate="
 				+ uploadDate + ", mark=" + mark + "]";
 	}
 
