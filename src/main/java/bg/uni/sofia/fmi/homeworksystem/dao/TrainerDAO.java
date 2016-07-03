@@ -11,11 +11,13 @@ import java.util.Set;
 
 import javax.inject.Singleton;
 import javax.persistence.EntityTransaction;
+import javax.persistence.NoResultException;
 import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
 
 import bg.uni.sofia.fmi.homeworksystem.model.Course;
 import bg.uni.sofia.fmi.homeworksystem.model.Lecture;
+import bg.uni.sofia.fmi.homeworksystem.model.Trainee;
 import bg.uni.sofia.fmi.homeworksystem.model.Trainer;
 import bg.uni.sofia.fmi.homeworksystem.model.UploadedSubmission;
 
@@ -59,6 +61,14 @@ public class TrainerDAO extends AbstractDAO<Trainer> {
 
 	public List<Trainer> getAllTrainers() {
 		return em.createNamedQuery("getAllTrainers", Trainer.class).getResultList();
+	}
+	
+	public Trainer getTrainerByUsernameAndPass(String username, String password) {
+		try {
+			return em.createNamedQuery("getTrainerByUsernameAndPass", Trainer.class).setParameter("username", username).setParameter("password", password).getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
 	}
 
 	public List<UploadedSubmission> getAllUploadedSubmisiions(Trainer trainer) {

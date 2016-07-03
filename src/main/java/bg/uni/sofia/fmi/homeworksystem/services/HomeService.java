@@ -12,8 +12,10 @@ import javax.ws.rs.core.Response;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import bg.uni.sofia.fmi.homeworksystem.contracts.User;
 import bg.uni.sofia.fmi.homeworksystem.dao.TraineeDAO;
 import bg.uni.sofia.fmi.homeworksystem.dao.TrainerDAO;
+import bg.uni.sofia.fmi.homeworksystem.utils.Role;
 
 @RequestScoped
 @Path("hmwsrest/v1/user")
@@ -24,6 +26,9 @@ public class HomeService {
 	
 	@Inject
 	private TrainerDAO trainerDAO;
+	
+	@Inject
+	private CurrentUserContext userCtx;
 
 	
 	@Path("/login")
@@ -34,21 +39,12 @@ public class HomeService {
 		JsonObject userData = new JsonParser().parse(data).getAsJsonObject();
 		String username = userData.get("username").toString();
 		String pass = userData.get("password").toString();
-		traineeDAO.getAllTrainees();
+		User user = traineeDAO.getTraineeByUsernameAndPass(username, pass);
+		if (user == null) {
+			user = trainerDAO.getTrainerByUsernameAndPass(username, pass);
+		}
 		
-		return Response.ok("{\"role\": \"trainee\", \"fullname\" : \"Gosho Petrov\"}", MediaType.APPLICATION_JSON).build();
-	}
-	
-	@Path("/admin/register")
-	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response register(String data) {
-		
-		JsonObject userData = new JsonParser().parse(data).getAsJsonObject();
-		String username = userData.get("username").toString();
-		String pass = userData.get("password").toString();
-		
-		return null;
+		userCtx.setUser(user);
+		return Response.ok(user).build();
 	}
 }

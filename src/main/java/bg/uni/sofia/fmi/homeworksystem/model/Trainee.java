@@ -11,7 +11,8 @@ import bg.uni.sofia.fmi.homeworksystem.utils.Role;
 
 
 @Entity
-@NamedQueries({ @NamedQuery(name = "getAllTrainees", query = "SELECT t FROM Trainee t") })
+@NamedQueries({ @NamedQuery(name = "getAllTrainees", query = "SELECT t FROM Trainee t"),
+	@NamedQuery(name = "getTraineeByUsernameAndPass", query = "SELECT t FROM Trainer t WHERE t.userName = :username AND t.password = :password")})
 public class Trainee implements Serializable, User {
 
 	private static final long serialVersionUID = -4509815250067041676L;
