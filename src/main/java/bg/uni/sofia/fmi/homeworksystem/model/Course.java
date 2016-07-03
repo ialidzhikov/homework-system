@@ -114,6 +114,10 @@ public class Course implements Serializable, Jsonable, EntityObject{
 	public void setTrainer(Trainer trainer) {
 		this.trainer = trainer;
 	}
+	
+	public void addLecture(Lecture lecture) {
+		this.lectures.add(lecture);
+	}
 
 	@Override
 	public int hashCode() {

@@ -114,6 +114,10 @@ public class Trainer implements Serializable, User, Jsonable, EntityObject {
 	public void setCourses(Set<Course> courses) {
 		this.courses = courses;
 	}
+	
+	public void addCourse(Course course) {
+		this.courses.add(course);
+	}
 
 	@Override
 	public int hashCode() {
