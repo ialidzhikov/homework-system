@@ -43,7 +43,7 @@ public class MockData {
 	}
 	
 	private void createCourses () throws ParseException {
-		Course course = new Course("Java EE", "Java EE course description", true, ismail);
+		Course course = new Course("Java EE", "Java EE course description", false, ismail);
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Lecture lectureJersey = new Lecture("Jersey", "JAX-RS", formatter.parse("2016-08-10"), course);
 		Lecture lecture = new Lecture("JAX_RS", "JAX-RS", formatter.parse("2016-08-13"), course);

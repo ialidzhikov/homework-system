@@ -55,11 +55,38 @@ app.CourseDao = (function () {
         });
     }
     
+    function enroll(id) {
+    	return $.ajax({
+    		method: 'POST',
+    		url: HOSTNAME + 'courses/enroll',
+    		dataType: 'json',
+    		contentType: 'application/json',
+    		data: JSON.stringify({
+    			id: id
+    		})
+    	});
+    }
+    
+    function markAsFavourite(id, isFavourite) {
+    	return $.ajax({
+    		method: 'POST',
+    		url: HOSTNAME + 'courses/favourite',
+    		dataType: 'json',
+    		contentType: 'application/json',
+    		data: JSON.stringify({
+    			id: id,
+    			isFavourite: isFavourite
+    		})
+    	});
+    }
+    
     return {
         getCourse: getCourse,
         getAllCourses: getAllCourses,
         getMyCourses: getMyCourses,
         addCourse: addCourse,
-        addLecture: addLecture
+        addLecture: addLecture,
+        enroll: enroll,
+        markAsFavourite: markAsFavourite
     };
 }());

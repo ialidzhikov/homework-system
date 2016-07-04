@@ -137,6 +137,7 @@ public class SubmissionService {
 		}
 		
 		upSDAO.evaluateUploadedSubmission(uploadedSubmission, mark);
+		
 		return Response.ok("{}").build();
 	}
 	

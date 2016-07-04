@@ -1,28 +1,6 @@
 var app = app || {};
 
 app.CourseController = (function () {
-    var courses = {
-        courses: [
-            {
-                id: 1,
-                title: 'Java EE',
-                description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
-                lectures: [{id: 1, title: 'Introduction to course', deadline: new Date()}, {id: 2, title: 'JPA', deadline: new Date(2016, 7, 1)}]
-            },
-            {
-                id: 2,
-                title: 'AngularJS',
-                description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
-                lectures: [{id: 1, title: 'Introduction to course', deadline: new Date(2016, 7, 26)}, {id: 2, title: 'Angular Seed', deadline: new Date(2016, 10, 1)}]
-            },
-            {
-                id: 3,
-                title: 'JavaScript',
-                description: 'Some quick example text to build on the card title and make up the bulk of the card\'s content.',
-                lectures: [{id: 1, title: 'Introduction to course', deadline: new Date()}, {id: 2, title: 'Basics', deadline: new Date()}]
-            }
-        ]
-    };
     
     function getCourse(context, selector) {
         var id = context.params['courseId'];
@@ -54,12 +32,20 @@ app.CourseController = (function () {
 	    		var role = authenticated.role;
 	    		
 	    		app.CourseDao.getAllCourses()
-			        .done(function (courses) {
-			        	if (role === 'TRAINEE') {
-			                app.CourseView.renderTraineeCourses(selector, courses);
-			            } else if (role === 'TRAINER') {
-			                app.CourseView.renderTrainerCourses(selector, courses);
-			            }
+			        .success(function (courses) {
+			        	app.CourseDao.getMyCourses()
+			        		.success(function (myCourses) {			        			
+			        			if (role === 'TRAINEE') {
+			        				markEnrolledCourses(courses, myCourses);
+			        				
+					                app.CourseView.renderTraineeCourses(selector, courses);
+					            } else if (role === 'TRAINER') {
+					                app.CourseView.renderTrainerCourses(selector, myCourses);
+					            }
+			        		})
+			        		.error(function (error) {
+			        			console.log(error);
+			        		});
 			        })
 			        .error(function (error) {
 			            console.log(error);
@@ -112,12 +98,53 @@ app.CourseController = (function () {
         	});
     }
     
+    function postEnroll(context) {
+    	var id = context.params['courseId'];
+    	
+    	app.CourseDao.enroll(id)
+    		.success(function (response) {
+    			context.redirect('#/courses/');
+    			
+    			app.NotificationManager.notifySuccess('You have successfully enrolled course!');
+    		})
+    		.error(function (error) {
+    			console.log(error);
+    		});
+    }
+    
+    function markEnrolledCourses(courses, myCourses) {
+    	for (var i = 0; i < courses.length; i++) {
+    		for (var j = 0; j < myCourses.length; j++) {
+    			if (courses[i].id === myCourses[j].id) {
+    				courses[i].hasEnrolled = true;
+    				break;
+    			}
+    		}
+    	}
+    }
+    
+    function postMarkAsFavourite(context) {
+    	var id = context.params['courseId'];
+    	
+    	app.CourseDao.markAsFavourite(id, true)
+			.success(function (response) {
+				context.redirect('#/courses/');
+				
+				app.NotificationManager.notifySuccess('You have successfully marked course as favourite!');
+			})
+			.error(function (error) {
+				console.log(error);
+			});
+    }
+    
     return {
         getCourse: getCourse,
         getCourses: getCourses,
         getAddCourse: getAddCourse,
         postAddCourse: postAddCourse,
         getAddLecture: getAddLecture,
-        postAddLecture: postAddLecture
+        postAddLecture: postAddLecture,
+        postEnroll: postEnroll,
+        postMarkAsFavourite: postMarkAsFavourite
     };
 }());

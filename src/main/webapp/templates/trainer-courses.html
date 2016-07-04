@@ -15,6 +15,12 @@
                                     <h4 class="card-title">{{name}}</h4>
                                     <p class="card-text">{{description}}</p>
                                     <a href="#/courses/{{id}}" class="btn btn-primary">Administrate</a>
+                                    {{#isFavouriteToTrainer}}
+                                    <button class="btn btn-warning pull-right" disabled="disabled">Marked as Favourite</button>
+                                    {{/isFavouriteToTrainer}}
+                                    {{^isFavouriteToTrainer}}
+                                    <a href="#/courses/{{id}}/favourite/" class="btn btn-warning pull-right">Mark as Favourite</a>
+                                    {{/isFavouriteToTrainer}}
                                 </div>
                             </div>
                         </div>

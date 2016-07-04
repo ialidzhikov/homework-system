@@ -112,4 +112,35 @@ public class CourseService {
 		return Response.ok(response).build();
 	}
 	
+	@Path("/enroll")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response enroll(String data) {
+		JsonObject courseData = new JsonParser().parse(data).getAsJsonObject();
+		Long id = courseData.get("id").getAsLong();
+		
+		Course course = this.courseDAO.getById(Course.class, id);
+		Trainee trainee = (Trainee) this.userContext.getUser();
+		trainee.getCourses().add(course);
+		course.getTrainees().add(trainee);
+		
+		return Response.ok("{}", MediaType.APPLICATION_JSON).build();
+	}
+	
+	@Path("/favourite")
+	@POST
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response markCourseAsTrainerFavourite(String data) {
+		JsonObject courseData = new JsonParser().parse(data).getAsJsonObject();
+		Long id = courseData.get("id").getAsLong();
+		Boolean isFavourite = courseData.get("isFavourite").getAsBoolean();
+		
+		Course course = this.courseDAO.getById(Course.class, id);
+		course.setIsFavouriteToTrainer(isFavourite);
+		courseDAO.update(course);
+		
+		return Response.ok("{}", MediaType.APPLICATION_JSON).build();
+	}
 }

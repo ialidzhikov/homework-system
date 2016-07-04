@@ -51,6 +51,14 @@ var app = app || {};
             app.CourseController.postAddLecture(this, containerSelector);
         });
         
+        this.get('#/courses/:courseId/enroll/', function () {
+        	app.CourseController.postEnroll(this);
+        });
+        
+        this.get('#/courses/:courseId/favourite/', function () {
+        	app.CourseController.postMarkAsFavourite(this);
+        });
+        
         this.get('#/submissions/', function () {
             app.SubmissionController.getSubmissions(containerSelector);
         });

@@ -15,15 +15,20 @@ app.CourseView = (function () {
                 var lectureId = $(this).attr('data-lecture-id');
                 var file = this.files[0];
                 
-                app.SubmissionDao.addHomework(lectureId, file)
-                	.success(function (success) {
-                		console.log(success);
-                		
-                		app.NotificationManager.notifySuccess('You have successfully uploaded a homework!');
-                	})
-                	.error(function (error) {
-                		console.log(error);
-                	});
+                if (file.type === 'application/x-zip-compressed') {
+                	app.SubmissionDao.addHomework(lectureId, file)
+	                	.success(function (success) {
+	                		console.log(success);
+	                		
+	                		app.NotificationManager.notifySuccess('You have successfully uploaded a homework!');
+	                	})
+	                	.error(function (error) {
+	                		console.log(error);
+	                	});
+                } else {
+                	app.NotificationManager.notifyError("You have to upload a zip archive!");
+                }
+                
             });
         });
     }
