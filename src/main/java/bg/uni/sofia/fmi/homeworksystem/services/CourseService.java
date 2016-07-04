@@ -31,6 +31,7 @@ public class CourseService {
 	
 	@Inject
 	private CourseDAO courseDAO;
+	
 	@Inject
 	private TrainerDAO trainerDAO;
 	

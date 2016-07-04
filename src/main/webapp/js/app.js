@@ -59,6 +59,10 @@ var app = app || {};
             app.SubmissionController.getSubmission(this, containerSelector);
         });
         
+        this.post('#/submissions/:submissionId/', function () {
+        	app.SubmissionController.postSubmissionMark(this);
+        });
+        
         this.get('#/trainees/add/', function () {
         	app.HomeController.getAddTrainee(containerSelector);
         });

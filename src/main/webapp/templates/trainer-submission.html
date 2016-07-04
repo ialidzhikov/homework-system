@@ -10,7 +10,6 @@
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Course</th>
                                 <th>Lecture</th>
                                 <th>Submitted By</th>
                                 <th>Submitted On</th>
@@ -22,12 +21,11 @@
                         <tbody>
                             <tr>
                                 <td>{{id}}</td>
-                                <td>{{courseName}}</td>
-                                <td>{{lectureName}}</td>
-                                <td>{{submittedBy}}</td>
-                                <td>{{submittedOn}}</td>
+                                <td>{{lecture.name}}</td>
+                                <td>{{trainee.name}}</td>
+                                <td>{{uploadDate}}</td>
                                 <td>
-                                    <a href="#/">
+                                    <a href="webapi/hmwsrest/v1/submission/{{id}}/file" download>
                                         <i class="fa fa-archive"></i>
                                         <span>&nbsp; Solution</span>
                                     </a>
@@ -49,9 +47,7 @@
                                     </a>
                                     {{/mark}}
                                     {{^mark}}
-                                    <a href="#/">
-                                        <button class="btn btn-warning">Evaluate</button>
-                                    </a>
+                                    <input type="submit" class="btn btn-warning" value="Evaluate"/>
                                     {{/mark}}
                                 </td>
                             </tr>

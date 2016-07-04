@@ -1,25 +1,7 @@
 var app = app || {};
 
 app.HomeController = (function () {
-    var submissions = [
-        {
-            id: 1,
-            courseName: 'Java EE',
-            lectureName: 'Introduction to course',
-            submittedBy: 'Pesho',
-            submittedOn: '6/25/2016 15:33',
-            mark: 8
-        },
-        {
-            id: 2,
-            courseName: 'Java EE',
-            lectureName: 'Introduction to course',
-            submittedBy: 'Gosho',
-            submittedOn: '6/26/2016 15:33',
-            mark: null
-        }
-    ];
-    
+	
     function getLogin(selector) {
         app.HomeView.renderLogin(selector);
     }
@@ -71,13 +53,19 @@ app.HomeController = (function () {
 							console.log(error);
 						});
 				} else {
-					app.CourseDao.getAllCourses()
-						.success(function (courses) {
-							if (role === 'TRAINEE') {
-								app.HomeView.renderTraineeHome(selector, submissions, courses);
-							} else if (role === 'TRAINER') {
-								app.HomeView.renderTrainerHome(selector, submissions, courses);
-							}
+					app.SubmissionDao.getSubmissions()
+						.success(function (submissions) {
+							app.CourseDao.getAllCourses()
+								.success(function (courses) {
+									if (role === 'TRAINEE') {
+										app.HomeView.renderTraineeHome(selector, submissions, courses);
+									} else if (role === 'TRAINER') {
+										app.HomeView.renderTrainerHome(selector, submissions, courses);
+									}
+								})
+								.error(function (error) {
+									console.log(error);
+								});
 						})
 						.error(function (error) {
 							console.log(error);

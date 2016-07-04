@@ -199,12 +199,6 @@ public class Trainee implements Serializable, User, Jsonable, EntityObject {
 		trainee.addProperty("email", this.getEmail());
 		trainee.addProperty("fieldOfStudy", this.getFieldOfStudy());
 		
-		JsonArray uploadedSubmissions = new JsonArray();
-		for (UploadedSubmission uploadedSubmission : this.getUploadedSubmissions()) {
-			uploadedSubmissions.add(uploadedSubmission.toJson());
-		}
-		trainee.add("uploadedSubmissions", uploadedSubmissions);
-		
 		return trainee;
 	}
 }

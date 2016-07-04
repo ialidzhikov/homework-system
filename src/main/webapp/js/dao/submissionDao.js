@@ -3,24 +3,27 @@ var app = app || {};
 app.SubmissionDao = (function () {
     var HOSTNAME = 'webapi/hmwsrest/v1/';
     
-    function getSubmissionsByTraineeId(traineeId) {
+    function getSubmissions() {
         return $.ajax({
             method: 'GET',
-            url: HOSTNAME + 'submissions?query={"traineeId": "' + traineeId + '"}',
-            dataType: 'json'
+            url: HOSTNAME + 'submission',
+            dataType: 'json',
+            contentType: 'application/json'
         });
     }
     
-    function getSubmissionsByTrainerId(trainerId) {
+    function getSubmission(id) {
         return $.ajax({
             method: 'GET',
-            url: HOSTNAME + 'submissions?query={"trainerId": "' + trainerId + '"}',
-            dataType: 'json'
+            url: HOSTNAME + 'submission/' + id,
+            dataType: 'json',
+            contentType: 'application/json'
         });
     }
     
     function addHomework(lectureId, file) {
-    	var formData = new FormData(file);
+    	var formData = new FormData();
+    	formData.append('file', file);
     	return $.ajax({
     		method: 'POST',
     		url: HOSTNAME + 'submission/' + lectureId,
@@ -32,9 +35,22 @@ app.SubmissionDao = (function () {
     	});
     }
     
+    function addSubmissionMark(id, mark) {
+    	return $.ajax({
+    		method: 'PUT',
+    		url: HOSTNAME + 'submission/' + id,
+    		dataType: 'json',
+    		contentType: 'application/json',
+    		data: JSON.stringify({ 
+    			mark: mark
+    		})
+    	});
+    }
+    
     return {
-        getSubmissionsByTraineeId: getSubmissionsByTraineeId,
-        getSubmissionsByTrainerId: getSubmissionsByTrainerId,
-        addHomework: addHomework
+        getSubmissions: getSubmissions,
+        getSubmission: getSubmission,
+        addHomework: addHomework,
+        addSubmissionMark: addSubmissionMark
     };
 }());

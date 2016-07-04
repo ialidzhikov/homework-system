@@ -15,12 +15,11 @@ app.CourseView = (function () {
                 var lectureId = $(this).attr('data-lecture-id');
                 var file = this.files[0];
                 
-                console.log(lectureId);
-                console.log(file);
-                
                 app.SubmissionDao.addHomework(lectureId, file)
                 	.success(function (success) {
                 		console.log(success);
+                		
+                		app.NotificationManager.notifySuccess('You have successfully uploaded a homework!');
                 	})
                 	.error(function (error) {
                 		console.log(error);

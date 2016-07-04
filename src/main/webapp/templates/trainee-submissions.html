@@ -9,7 +9,6 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Course</th>
                             <th>Lecture</th>
                             <th>Submitted On</th>
                             <th>File</th>
@@ -20,11 +19,10 @@
                         {{#submissions}}
                         <tr>
                             <td>{{id}}</td>
-                            <td>{{courseName}}</td>
-                            <td>{{lectureName}}</td>
-                            <td>{{submittedOn}}</td>
+                            <td>{{lecture.name}}</td>
+                            <td>{{uploadDate}}</td>
                             <td>
-                                <a href="#/">
+                                <a href="webapi/hmwsrest/v1/submission/{{id}}/file" download>
                                     <i class="fa fa-archive"></i>
                                     <span>&nbsp; Solution</span>
                                 </a>

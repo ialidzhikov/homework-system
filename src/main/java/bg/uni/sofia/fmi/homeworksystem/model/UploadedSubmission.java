@@ -159,7 +159,7 @@ public class UploadedSubmission implements Serializable, Jsonable, EntityObject 
 	public JsonObject toJson() {
 		final JsonObject uploadedSubmission = new JsonObject();
 		uploadedSubmission.addProperty("id", this.getId());
-		SimpleDateFormat formatter = new SimpleDateFormat("DD-MMM-YYYY HH:mm");
+		SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-YYYY HH:mm");
 		uploadedSubmission.addProperty("uploadDate", formatter.format(this.getUploadDate()));
 		uploadedSubmission.addProperty("mark", this.getMark());
 		uploadedSubmission.add("lecture", this.getLecture().toJson());
