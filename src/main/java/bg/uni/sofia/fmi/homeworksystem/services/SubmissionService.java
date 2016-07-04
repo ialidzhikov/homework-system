@@ -137,9 +137,7 @@ public class SubmissionService {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
 		
-		uploadedSubmission.setMark(mark);
-		upSDAO.update(uploadedSubmission);
-		
+		upSDAO.evaluateUploadedSubmission(uploadedSubmission, mark);
 		return Response.ok("{}").build();
 	}
 	
