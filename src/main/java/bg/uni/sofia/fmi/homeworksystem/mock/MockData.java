@@ -25,10 +25,11 @@ public class MockData {
 	private final EntityManager em = emp.getEntityManager();
 	
 	private Trainer ismail;
+	private Trainer stoyo;
 	
 	public void createUsers(@Observes @Initialized(ApplicationScoped.class) Object init) throws ParseException {
 		Trainer admin = new Trainer("admin", getHashedPassword("admin"), "PhD", "Admin", "");
-		Trainer stoyo = new Trainer("Stoyo", getHashedPassword("1"), "PhD", "Stoyan Vellev", "iliqnvidenov92@gmail.com");
+		stoyo = new Trainer("Stoyo", getHashedPassword("1"), "PhD", "Stoyan Vellev", "iliqnvidenov92@gmail.com");
 		ismail = new Trainer("Ismail", getHashedPassword("1"), "PhD" ,"Ismail Alidzhikov", "i.alidjikov@gmail.com");
 		Trainee iliyan = new Trainee("Iliyan", getHashedPassword("1"), "Iliyan Videnov", "iliqnvidenov92@gmail.com", "Computer Science");
 		Trainee hristo = new Trainee("Hristo", getHashedPassword("1"), "Iliyan Videnov", "hristokirilov7@gmail.com", "Computer Science");
@@ -54,6 +55,12 @@ public class MockData {
 		course.addLecture(lecture3);
 		ismail.addCourse(course);
 		this.update(ismail);
+		
+		Course courseJavaSe = new Course("Java SE", "First steps with Java...", true, stoyo);
+		Lecture lectureIntro = new Lecture("Introduction to course", "And your task is...", formatter.parse("2016-08-10"), courseJavaSe);
+		course.addLecture(lectureIntro);
+		stoyo.addCourse(courseJavaSe);
+		this.update(stoyo);
 	}
 	
 	private String getHashedPassword(String password) {

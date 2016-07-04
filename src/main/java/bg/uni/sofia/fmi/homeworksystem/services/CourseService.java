@@ -1,5 +1,6 @@
 package bg.uni.sofia.fmi.homeworksystem.services;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -21,7 +22,9 @@ import bg.uni.sofia.fmi.homeworksystem.contracts.User;
 import bg.uni.sofia.fmi.homeworksystem.dao.CourseDAO;
 import bg.uni.sofia.fmi.homeworksystem.dao.TrainerDAO;
 import bg.uni.sofia.fmi.homeworksystem.model.Course;
+import bg.uni.sofia.fmi.homeworksystem.model.Trainee;
 import bg.uni.sofia.fmi.homeworksystem.model.Trainer;
+import bg.uni.sofia.fmi.homeworksystem.utils.Role;
 
 @Path("hmwsrest/v1/courses")
 public class CourseService {
@@ -50,11 +53,33 @@ public class CourseService {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllCourses() {
-		if (this.userContext.getUser() == null) {
+		List<Course> courses = this.courseDAO.getAllCourses();
+		
+		JsonArray coursesJson = new JsonArray();
+		for (Course course : courses) {
+			coursesJson.add(course.toJson());
+		}
+		
+		return Response.ok(coursesJson.toString(), MediaType.APPLICATION_JSON).build();
+	}
+	
+	@Path("/my")
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getCoursesByUserRole() {
+		User user = this.userContext.getUser();
+		if (user == null) {
 			Response.status(Status.FORBIDDEN).build();
 		}
 		
-		List<Course> courses = this.courseDAO.getAllCourses();
+		List<Course> courses = null;
+		if (user.getUserRole().equals(Role.TRAINEE)) {
+			courses = ((Trainee) user).getCourses();
+		} else if (user.getUserRole().equals(Role.TRAINER)) {
+			Trainer trainer = (Trainer) user;
+			courses = new ArrayList<Course>(trainer.getCourses());
+		}
+		
 		JsonArray coursesJson = new JsonArray();
 		for (Course course : courses) {
 			coursesJson.add(course.toJson());

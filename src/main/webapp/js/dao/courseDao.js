@@ -19,6 +19,14 @@ app.CourseDao = (function () {
         });
     }
     
+    function getMyCourses() {
+    	return $.ajax({
+            method: 'GET',
+            url: HOSTNAME + 'courses/my',
+            dataType: 'json'
+        });
+    }
+    
     function addCourse(name, description) {
         return $.ajax({
             method: 'POST',
@@ -50,6 +58,7 @@ app.CourseDao = (function () {
     return {
         getCourse: getCourse,
         getAllCourses: getAllCourses,
+        getMyCourses: getMyCourses,
         addCourse: addCourse,
         addLecture: addLecture
     };

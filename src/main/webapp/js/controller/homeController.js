@@ -55,7 +55,7 @@ app.HomeController = (function () {
 				} else {
 					app.SubmissionDao.getSubmissions()
 						.success(function (submissions) {
-							app.CourseDao.getAllCourses()
+							app.CourseDao.getMyCourses()
 								.success(function (courses) {
 									if (role === 'TRAINEE') {
 										app.HomeView.renderTraineeHome(selector, submissions, courses);
