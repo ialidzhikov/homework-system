@@ -45,7 +45,7 @@ public class MockData {
 		Course course = new Course("Java EE", "Java EE course description", true, ismail);
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Lecture lectureJersey = new Lecture("Jersey", "JAX-RS", formatter.parse("2016-08-10"), course);
-		Lecture lecture = new Lecture("JAX_RS", "JAX-RS", formatter.parse(""), course);
+		Lecture lecture = new Lecture("JAX_RS", "JAX-RS", formatter.parse("2016-08-13"), course);
 		Lecture lecture2 = new Lecture("Servlets", "Servlets", new Date(), course);
 		Lecture lecture3 = new Lecture("CDI", "CDI", new Date(), course);
 		course.addLecture(lectureJersey);
