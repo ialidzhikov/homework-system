@@ -15,7 +15,7 @@ app.CourseView = (function () {
                 var lectureId = $(this).attr('data-lecture-id');
                 var file = this.files[0];
                 
-                if (file.type === 'application/x-zip-compressed') {
+                if (file.type === 'application/x-zip-compressed' || file.name.endsWith('.zip')) {
                 	app.SubmissionDao.addHomework(lectureId, file)
 	                	.success(function (success) {
 	                		console.log(success);
