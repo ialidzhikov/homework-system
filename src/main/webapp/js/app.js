@@ -28,7 +28,7 @@ var app = app || {};
             app.HomeController.getHome(this, containerSelector);
         });
         
-        this.get('#/courses/', function () {
+        this.get('#/courses', function () {
             app.CourseController.getCourses(containerSelector);
         });
         

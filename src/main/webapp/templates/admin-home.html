@@ -1,6 +1,6 @@
 <div class="animate">
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-lg-12">
             <div class="card">
                 <div class="card-header card-primary card-inverse">
                     <h3 class="card-title">Trainees</h3>
@@ -17,6 +17,17 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
+                        <tfoot>
+                        	<tr>
+                        		<td colspan="6">
+                        			<a href="#/trainees/add/">
+					            		<button type="button" class="btn btn-default">
+					                		<i class="fa fa-plus"></i><span>&nbsp;&nbsp; Add trainee</span>
+					            		</button>
+					        		</a>
+                        		</td>
+                        	</tr>
+                        </tfoot>
                         <tbody>
                             {{#trainees}}
                             <tr>
@@ -33,24 +44,13 @@
                             </tr>
                             {{/trainees}}
                         </tbody>
-                        <tfoot>
-                        	<tr>
-                        		<td colspan="6">
-                        			<a href="#/trainees/add/">
-					            		<button type="button" class="btn btn-default">
-					                		<i class="fa fa-plus"></i><span>&nbsp;&nbsp; Add trainee</span>
-					            		</button>
-					        		</a>
-                        		</td>
-                        	</tr>
-                        </tfoot>
                     </table>
                 </div>
             </div>
         </div>
     </div>
     <div class="row">
-        <div class="col-sm-12">
+        <div class="col-lg-12">
             <div class="card">
                 <div class="card-header card-primary card-inverse">
                     <h3 class="card-title">Trainers</h3>
@@ -67,6 +67,17 @@
                                 <th>Action</th>
                             </tr>
                         </thead>
+                        <tfoot>
+                        	<tr>
+                        		<td colspan="6">
+                        			<a href="#/trainers/add/">
+					            		<button type="button" class="btn btn-default">
+					                		<i class="fa fa-plus"></i><span>&nbsp;&nbsp; Add trainer</span>
+					            		</button>
+					        		</a>
+                        		</td>
+                        	</tr>
+                        </tfoot>
                         <tbody>
                             {{#trainers}}
                             <tr>
@@ -83,17 +94,6 @@
                             </tr>
                             {{/trainers}}
                         </tbody>
-                        <tfoot>
-                        	<tr>
-                        		<td colspan="6">
-                        			<a href="#/trainers/add/">
-					            		<button type="button" class="btn btn-default">
-					                		<i class="fa fa-plus"></i><span>&nbsp;&nbsp; Add trainer</span>
-					            		</button>
-					        		</a>
-                        		</td>
-                        	</tr>
-                        </tfoot>
                     </table>
                 </div>
             </div>

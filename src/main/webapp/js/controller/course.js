@@ -1,3 +1,5 @@
+'use strict';
+
 var app = app || {};
 
 app.CourseController = (function () {
@@ -11,18 +13,25 @@ app.CourseController = (function () {
 	                .done(function (lectures) {
 	                	var role = authenticated.role;
 	            		
+	                	lectures.forEach(function (lecture) {
+	                        lecture.isUploadActive = new Date(lecture.endDate) > new Date();
+	                        lecture.endDate = moment(lecture.endDate).format('DD-MMM-YYYY HH:mm');
+	                    });
+	                	
 	            		if (role === 'TRAINEE' || role === 'ADMIN') {
-	            			app.CourseView.renderTraineeCourse(selector, lectures, id);
+	            			app.Renderer.render(selector, 'templates/trainee-course.html', { lectures: lectures })
+	            				.success(function () {
+	            					addUploadEventHandler();	            					
+	            				});
 	            		} else if (role === 'TRAINER') {
-	            			app.CourseView.renderTrainerCourse(selector, lectures, id);
+	            			var data = {
+	            				courseId: id,
+	            				lectures: lectures
+	            			};
+	            			
+	            			app.Renderer.render(selector, 'templates/trainer-course.html', data);
 	            		}
-	                })
-	                .error(function (error) {
-	                    console.log(error);
 	                });
-        	})
-        	.error(function (error) {
-        		console.log(error);
         	});
     }
     
@@ -34,82 +43,84 @@ app.CourseController = (function () {
 	    		app.CourseDao.getAllCourses()
 			        .success(function (courses) {
 			        	app.CourseDao.getMyCourses()
-			        		.success(function (myCourses) {			        			
+			        		.success(function (myCourses) {
 			        			if (role === 'TRAINEE') {
 			        				markEnrolledCourses(courses, myCourses);
 			        				
-					                app.CourseView.renderTraineeCourses(selector, courses);
+					                app.Renderer.render(selector, 'templates/trainee-courses.html', { courses: courses });
 					            } else if (role === 'TRAINER') {
-					                app.CourseView.renderTrainerCourses(selector, myCourses);
+					                app.Renderer.render(selector, 'templates/trainer-courses.html', { courses: myCourses});
 					            }
-			        		})
-			        		.error(function (error) {
-			        			console.log(error);
 			        		});
-			        })
-			        .error(function (error) {
-			            console.log(error);
 			        });
-	    	})
-	    	.error(function (error) {
-	    		console.log(error);
 	    	});
     }
     
     function getAddCourse(selector) {
-        app.CourseView.renderAddCourse(selector);
+        app.Renderer.render(selector, 'templates/add-course.html');
     }
     
     function postAddCourse(context) {
-        var title = context.params['title'],
-            description = context.params['description'];
-        
-        app.CourseDao.addCourse(title, description)
+        app.CourseDao.addCourse(context.params)
             .done(function (course) {
-                context.redirect('#/courses/');
+                context.redirect('#/courses');
 
-                app.NotificationManager.notifySuccess('Course "' + course.title + '" successfully added!');
-            })
-            .error(function (error) {
-                console.log(error);
+                app.NotificationManager.notifySuccess('Course "' + course.name + '" successfully added!');
             });
     }
     
     function getAddLecture(context, selector) {
-        var id = context.params['courseId'];
-        
-        app.CourseView.renderAddLecture(selector, id);
+        app.Renderer.render(selector, 'templates/add-lecture.html', { id: context.params['courseId'] });
     }
     
     function postAddLecture(context, selector) {
-        var id = context.params['courseId'],
-            title = context.params['title'],
-            deadline = context.params['deadline'],
-            task = context.params['task'];
-    
-        app.CourseDao.addLecture(id, title, deadline, task)
+        app.CourseDao.addLecture(context.params)
         	.success(function () {
-        		context.redirect('#/courses/' +  id);
+        		context.redirect('#/courses/' +  context.params['courseId']);
         		
-        		app.NotificationManager.notifySuccess('You have successfully add new lecture!');
-        	})
-        	.error(function (error) {
-        		console.log(error);
+        		app.NotificationManager.notifySuccess('You have successfully added new lecture!');
         	});
     }
     
     function postEnroll(context) {
-    	var id = context.params['courseId'];
-    	
-    	app.CourseDao.enroll(id)
-    		.success(function (response) {
-    			context.redirect('#/courses/');
+    	app.CourseDao.enroll(context.params['courseId'])
+    		.success(function () {
+    			context.redirect('#/courses');
     			
     			app.NotificationManager.notifySuccess('You have successfully enrolled course!');
-    		})
-    		.error(function (error) {
-    			console.log(error);
     		});
+    }
+    
+    function postMarkAsFavourite(context) {
+    	var id = context.params['courseId'];
+    	
+    	app.CourseDao.markAsFavourite(id, true)
+			.success(function (response) {
+				context.redirect('#/courses');
+				
+				app.NotificationManager.notifySuccess('You have successfully marked course as favourite!');
+			})
+			.error(function (error) {
+				console.log(error);
+			});
+    }
+    
+    function addUploadEventHandler() {
+    	$('input:file').on('change', function() {
+            var lectureId = $(this).attr('data-lecture-id');
+            var file = this.files[0];
+            
+            if (file.type === 'application/x-zip-compressed' || file.name.endsWith('.zip')) {
+            	app.SubmissionDao.addHomework(lectureId, file)
+                	.success(function (success) {
+                		console.log(success);
+                		
+                		app.NotificationManager.notifySuccess('You have successfully uploaded a homework!');
+                	});
+            } else {
+            	app.NotificationManager.notifyError('You have to upload a zip archive!');
+            }
+        });
     }
     
     function markEnrolledCourses(courses, myCourses) {
@@ -121,20 +132,6 @@ app.CourseController = (function () {
     			}
     		}
     	}
-    }
-    
-    function postMarkAsFavourite(context) {
-    	var id = context.params['courseId'];
-    	
-    	app.CourseDao.markAsFavourite(id, true)
-			.success(function (response) {
-				context.redirect('#/courses/');
-				
-				app.NotificationManager.notifySuccess('You have successfully marked course as favourite!');
-			})
-			.error(function (error) {
-				console.log(error);
-			});
     }
     
     return {

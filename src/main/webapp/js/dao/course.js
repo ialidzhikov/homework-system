@@ -1,3 +1,5 @@
+'use strict';
+
 var app = app || {};
 
 app.CourseDao = (function () {
@@ -27,31 +29,23 @@ app.CourseDao = (function () {
         });
     }
     
-    function addCourse(name, description) {
+    function addCourse(course) {
         return $.ajax({
             method: 'POST',
             url: HOSTNAME + 'courses/add',
             dataType: 'json',
             contentType: 'application/json',
-            data: JSON.stringify({
-                name: name,
-                description: description
-            })
+            data: JSON.stringify(course)
         });
     }
     
-    function addLecture(courseId, title, deadline, task) {
+    function addLecture(lecture) {
         return $.ajax({
             method: 'POST',
             url: HOSTNAME + 'course/lecture',
             dataType: 'json',
             contentType: 'application/json',
-            data: JSON.stringify({
-                courseId: courseId,
-                name: title,
-                endDate: deadline,
-                task: task
-            })
+            data: JSON.stringify(lecture)
         });
     }
     
