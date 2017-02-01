@@ -1,3 +1,5 @@
+'use strict';
+
 var app = app || {};
 
 (function () {
@@ -7,7 +9,7 @@ var app = app || {};
         var sidebarSelector = '#sidebar-container',
             containerSelector = '#main-container';
         
-        this.before({ except: { path: '#(\/login\/)?' } }, function () {
+        this.before({ except: { path: '#(\/login\/)?' }}, function () {
             app.HomeController.getSidebar(this, sidebarSelector);
         });
         
@@ -15,11 +17,11 @@ var app = app || {};
             this.redirect('#/home/');
         });
         
-        this.get('#/login/', function () {
+        this.get('#/login', function () {
             app.HomeController.getLogin(containerSelector);
         });
         
-        this.post('#/login/', function () {
+        this.post('#/login', function () {
             app.HomeController.postLogin(this);
         });
         

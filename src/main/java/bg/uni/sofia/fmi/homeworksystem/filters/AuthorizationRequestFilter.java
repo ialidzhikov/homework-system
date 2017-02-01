@@ -37,7 +37,7 @@ public class AuthorizationRequestFilter implements Filter {
         String restLoginPath = request.getContextPath() + LOGIN_URI;
         String path = request.getRequestURI().toString();
 		if (curUserCtx.getUser() == null && !path.equals(restLoginPath)) {
-			response.sendRedirect(loginPath);
+			//response.sendRedirect(loginPath);
 		}
 		
 		chain.doFilter(req, res);

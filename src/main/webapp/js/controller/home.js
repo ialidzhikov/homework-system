@@ -1,3 +1,5 @@
+'use strict';
+
 var app = app || {};
 
 app.HomeController = (function () {
@@ -29,7 +31,8 @@ app.HomeController = (function () {
     			app.HomeView.renderSidebar(selector, authenticated);
     		})
     		.error(function (error) {
-    			context.redirect('#/login/');
+    			//console.log(error);
+    			//context.redirect('#/login');
     		});
     }
     
@@ -73,7 +76,7 @@ app.HomeController = (function () {
 				}
 			})
 			.error(function (error) {
-				context.redirect('#/login/');
+				context.redirect('#/login');
 			});
     }
     
@@ -176,7 +179,7 @@ app.HomeController = (function () {
     function getLogout(context) {
     	app.UserDao.logout()
     		.success(function () {
-    			context.redirect('#/login/');
+    			context.redirect('#/login');
     			
     			app.NotificationManager.notifySuccess("You have successfully logged out!");
     		})
