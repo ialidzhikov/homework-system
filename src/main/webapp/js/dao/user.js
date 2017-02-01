@@ -3,17 +3,13 @@ var app = app || {};
 app.UserDao = (function () {
     var HOSTNAME = 'webapi/hmwsrest/v1/';
     
-    
-    function login(username, password) {
+    function login(user) {
         return $.ajax({
             method: 'POST',
             url: HOSTNAME + 'user/login',
             dataType: 'json',
             contentType: 'application/json',
-            data: JSON.stringify({
-                username: username,
-                password: password
-            })
+            data: JSON.stringify(user)
         });
     }
     
@@ -26,19 +22,13 @@ app.UserDao = (function () {
     	});
     }
     
-    function addTrainee(facultyNumber, password, name, email, fieldOfStudy) {
+    function addTrainee(trainee) {
 		return $.ajax({
 			method: 'POST',
 			url: HOSTNAME + 'trainees',
 			dataType: 'json',
 			contentType: 'application/json',
-			data: JSON.stringify({
-				facultyNumber: facultyNumber,
-				password: password,
-				name: name,
-				email: email,
-				fieldOfStudy: fieldOfStudy
-			})
+			data: JSON.stringify(trainee)
 		});
 	}
     
@@ -63,19 +53,13 @@ app.UserDao = (function () {
     	});
     }
     
-    function addTrainer(username, password, name, email, degree) {
+    function addTrainer(trainer) {
     	return $.ajax({
     		method: 'POST',
     		url: HOSTNAME + 'trainers',
     		dataType: 'json',
     		contentType: 'application/json',
-    		data: JSON.stringify({
-    			username: username,
-    			password: password,
-    			name: name,
-    			email: email,
-    			degree: degree
-    		})
+    		data: JSON.stringify(trainer)
     	});
     }
     

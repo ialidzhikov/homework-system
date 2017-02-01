@@ -5,34 +5,25 @@ var app = app || {};
 app.HomeController = (function () {
 	
     function getLogin(selector) {
-        app.HomeView.renderLogin(selector);
+        app.Renderer.render(selector, 'templates/login.html');
     }
     
     function postLogin(context) {
-        var username = context.params['username'],
-            password = context.params['password'];
+        app.UserDao.login(context.params)
+            .success(function () {
+                context.redirect('#/home');
         
-        app.UserDao.login(username, password)
-            .success(function (user) {
-                context.redirect('#/home/');
-        
-                app.NotificationManager.notifySuccess("You have successfully logged in!");
+                app.NotificationManager.notifySuccess('You have successfully logged in!');
             })
-            .error(function (error) {
-                console.log(error);
-                
-                app.NotificationManager.notifyError("Invalid username or password!");
+            .error(function () {
+                app.NotificationManager.notifyError('Invalid username or password!');
             });
     }
     
-    function getSidebar(context, selector) {
+    function getSidebar(selector) {
     	app.UserDao.getAuthenticated()
     		.success(function (authenticated) {
-    			app.HomeView.renderSidebar(selector, authenticated);
-    		})
-    		.error(function (error) {
-    			//console.log(error);
-    			//context.redirect('#/login');
+    			app.Renderer.render(selector, 'templates/sidebar.html', authenticated);
     		});
     }
     
@@ -46,14 +37,13 @@ app.HomeController = (function () {
 						.success(function (trainers) {
 							app.UserDao.getAllTrainees()
 								.success(function (trainees) {
-									app.HomeView.renderAdminHome(selector, trainees, trainers);
-								})
-								.error(function (error) {
-									console.log(error);
+									var data = {
+										trainers: trainers,
+										trainees: trainees
+									};
+									
+									app.Renderer.render(selector, 'templates/admin-home.html', data);
 								});
-						})
-						.error(function (error) {
-							console.log(error);
 						});
 				} else {
 					app.SubmissionDao.getSubmissions()
@@ -61,17 +51,21 @@ app.HomeController = (function () {
 							app.CourseDao.getMyCourses()
 								.success(function (courses) {
 									if (role === 'TRAINEE') {
-										app.HomeView.renderTraineeHome(selector, submissions, courses);
+										var data = {
+											submissions: submissions,
+											courses: courses
+										};
+										
+										app.Renderer.render(selector, 'templates/trainee-home.html', data);
 									} else if (role === 'TRAINER') {
-										app.HomeView.renderTrainerHome(selector, submissions, courses);
+										var data = {
+											submissions: submissions,
+											courses: courses
+										};
+										
+										app.Renderer.render(selector, 'templates/trainer-home.html', data);
 									}
-								})
-								.error(function (error) {
-									console.log(error);
 								});
-						})
-						.error(function (error) {
-							console.log(error);
 						});
 				}
 			})
@@ -81,98 +75,60 @@ app.HomeController = (function () {
     }
     
     function getAddTrainee(selector) {
-    	app.HomeView.renderAddTrainee(selector);
+    	app.Renderer.render(selector, 'templates/add-trainee.html');
     }
     
     function postAddTrainee(context) {
-    	var facultyNumber = context.params['facultyNumber'],
-    		password = context.params['password'],
-    		name = context.params['name'],
-    		email = context.params['email'],
-    		fieldOfStudy = context.params['fieldOfStudy'];
-    	
-    	app.UserDao.addTrainee(facultyNumber, password, name, email, fieldOfStudy)
+    	app.UserDao.addTrainee(context.params)
     		.success(function () {
-    			context.redirect('#/home/');
+    			context.redirect('#/home');
     			
-    			app.NotificationManager.notifySuccess("You have successfully added new trainee!");
-    		})
-    		.error(function (error) {
-    			console.log(error);
+    			app.NotificationManager.notifySuccess('You have successfully added new trainee!');
     		});
     }
     
     function getDeleteTrainee(context, selector) {
-    	var id = context.params['traineeId'];
-    	
-    	app.UserDao.getTraineeById(id)
+    	app.UserDao.getTraineeById(context.params['traineeId'])
     		.success(function (trainee) {
-    			app.HomeView.renderDeleteTrainee(selector, trainee);
-    		})
-    		.error(function (error) {
-    			console.log(error);
+    			app.Renderer.render(selector, 'templates/delete-trainee.html', trainee);
     		});
     }
     
     function postDeleteTrainee(context) {
-    	var id = context.params['traineeId'];
-    	
-    	app.UserDao.deleteTrainee(id)
+    	app.UserDao.deleteTrainee(context.params['traineeId'])
     		.success(function () {
-    			context.redirect('#/home/');
+    			context.redirect('#/home');
     			
-    			app.NotificationManager.notifySuccess("You have successfully deleted trainee!");
-    		})
-    		.error(function (error) {
-    			console.log(error);
+    			app.NotificationManager.notifySuccess('You have successfully deleted trainee!');
     		});
     }
     
     function getAddTrainer(selector) {
-    	app.HomeView.renderAddTrainer(selector);
+    	app.Renderer.render(selector, 'templates/add-trainer.html');
     }
     
     function postAddTrainer(context) {
-    	var username = context.params['username'],
-    		password = context.params['password'],
-    		name = context.params['name'],
-    		email = context.params['email'],
-    		degree = context.params['degree'];
-    	
-    	app.UserDao.addTrainer(username, password, name, email, degree)
+    	app.UserDao.addTrainer(context.params)
     		.success(function () {
-    			context.redirect('#/home/');
+    			context.redirect('#/home');
     			
-    			app.NotificationManager.notifySuccess("You have successfully added new trainer!");
-    		})
-    		.error(function (error) {
-    			console.log(error);
+    			app.NotificationManager.notifySuccess('You have successfully added new trainer!');
     		});
     }
     
     function getDeleteTrainer(context, selector) {
-    	var id = context.params['trainerId'];
-    	
-    	app.UserDao.getTrainerById(id)
+    	app.UserDao.getTrainerById(context.params['trainerId'])
 			.success(function (trainer) {
-				app.HomeView.renderDeleteTrainer(selector, trainer);
-			})
-			.error(function (error) {
-				console.log(error);
+				app.Renderer.render(selector, 'templates/delete-trainer.html', trainer);
 			});
     }
     
     function postDeleteTrainer(context) {
-    	var id = context.params['trainerId'];
-    	
-    	app.UserDao.deleteTrainer(id)
+    	app.UserDao.deleteTrainer(context.params['trainerId'])
     		.success(function () {
-    			context.redirect('#/home/');
+    			context.redirect('#/home');
     			
-    			app.NotificationManager.notifySuccess("You have successfully deleted trainer!");
-    		})
-    		.error(function (error) {
-    			console.log(error);
+    			app.NotificationManager.notifySuccess('You have successfully deleted trainer!');
     		});
     }
     
@@ -181,10 +137,7 @@ app.HomeController = (function () {
     		.success(function () {
     			context.redirect('#/login');
     			
-    			app.NotificationManager.notifySuccess("You have successfully logged out!");
-    		})
-    		.error(function (error) {
-    			console.log(error);
+    			app.NotificationManager.notifySuccess('You have successfully logged out!');
     		});
     }
     

@@ -6,15 +6,14 @@ var app = app || {};
     moment().format();
     
     var sammy = Sammy(function () {
-        var sidebarSelector = '#sidebar-container',
-            containerSelector = '#main-container';
+        var containerSelector = '#main-container';
         
         this.before({ except: { path: '#(\/login\/)?' }}, function () {
-            app.HomeController.getSidebar(this, sidebarSelector);
+            app.HomeController.getSidebar('#sidebar-container');
         });
         
         this.get('#/', function () {
-            this.redirect('#/home/');
+            this.redirect('#/home');
         });
         
         this.get('#/login', function () {
@@ -25,7 +24,7 @@ var app = app || {};
             app.HomeController.postLogin(this);
         });
         
-        this.get('#/home/', function () {
+        this.get('#/home', function () {
             app.HomeController.getHome(this, containerSelector);
         });
         

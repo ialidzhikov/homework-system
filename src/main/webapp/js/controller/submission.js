@@ -1,40 +1,6 @@
 var app = app || {};
 
 app.SubmissionController = (function () {
-    var submissions = [
-        {
-            id: 0,
-            courseName: 'Java EE',
-            lectureName: 'Introduction to course',
-            submittedBy: 'Pesho',
-            submittedOn: '6/25/2016 15:33',
-            mark: 8
-        },
-        {
-            id: 1,
-            courseName: 'Java EE',
-            lectureName: 'Introduction to course',
-            submittedBy: 'Gosho',
-            submittedOn: '6/25/2016 15:33',
-            mark: 8
-        },
-        {
-            id: 2,
-            courseName: 'Java EE',
-            submittedBy: 'Gosho',
-            lectureName: 'Introduction to course',
-            submittedOn: '6/25/2016 15:33',
-            mark: null
-        },
-        {
-            id: 3,
-            courseName: 'Java EE',
-            lectureName: 'Introduction to course',
-            submittedBy: 'Pesho',
-            submittedOn: '6/25/2016 15:33',
-            mark: null
-        }
-    ];
     
     function getSubmissions(selector) {
     	app.UserDao.getAuthenticated()
