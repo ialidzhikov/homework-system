@@ -1,3 +1,5 @@
+'use strict';
+
 var app = app || {};
 
 app.SubmissionController = (function () {
@@ -10,17 +12,11 @@ app.SubmissionController = (function () {
     			app.SubmissionDao.getSubmissions()
 	        		.success(function (submissions) {
 	        			if (role === 'TRAINEE') {
-	        				app.SubmissionView.renderTraineeSubmissions(selector, submissions);
+	        				app.Renderer.render(selector, 'templates/trainee-submissions.html', { submissions: submissions });
 	        			} else if (role === 'TRAINER') {
-	        				app.SubmissionView.renderTrainerSubmissions(selector, submissions);
+	        				app.Renderer.render(selector, 'templates/trainer-submissions.html', { submissions: submissions });
 	        			}
-	        		})
-	        		.error(function (error) {
-	        			console.log(error);
 	        		});
-    		})
-    		.error(function (error) {
-    			console.log(error);
     		});
     }
     
@@ -33,18 +29,10 @@ app.SubmissionController = (function () {
         		
         		app.SubmissionDao.getSubmission(id)
         			.success(function (submission) {
-        				if (role === 'TRAINEE') {
-        					
-        				} else if (role === 'TRAINER') {
-        					app.SubmissionView.renderTrainerSubmission(selector, submission);        					
+        				if (role === 'TRAINER') {
+        					app.Renderer.render(selector, 'templates/trainer-submission.html', submission);        					
         				}
-        			})
-        			.error(function (error) {
-        				console.log(error);
         			});
-        	})
-        	.error(function (error) {
-        		console.log(error);
         	});
     }
     
@@ -53,13 +41,8 @@ app.SubmissionController = (function () {
     		mark = context.params['mark'];
     	
     	app.SubmissionDao.addSubmissionMark(id, mark)
-    		.success(function (response) {
-    			console.log(response);
-    			
+    		.success(function () {
     			context.redirect('#/submissions/');
-    		})
-    		.error(function (error) {
-    			console.log(error);
     		});
     }
     
