@@ -8,6 +8,7 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -24,6 +25,7 @@ public class Lecture implements Serializable, Jsonable, EntityObject {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
+	@JsonIgnore
 	@ManyToOne
 	private Course course;
 	
@@ -34,6 +36,7 @@ public class Lecture implements Serializable, Jsonable, EntityObject {
 	@Temporal(TemporalType.DATE)
 	private Date endDate;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "lecture", fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
 	private Set<UploadedSubmission> uploadedSubmissions = new HashSet<>();
 

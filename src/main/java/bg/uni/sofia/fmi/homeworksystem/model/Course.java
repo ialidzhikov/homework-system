@@ -16,15 +16,13 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import bg.uni.sofia.fmi.homeworksystem.contracts.EntityObject;
-import bg.uni.sofia.fmi.homeworksystem.contracts.Jsonable;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "getAllCourses", query = "SELECT c FROM Course c") })
-public class Course implements Serializable, Jsonable, EntityObject{
+public class Course implements Serializable, EntityObject {
 
 	private static final long serialVersionUID = 4419124196015509182L;
 
@@ -44,6 +42,7 @@ public class Course implements Serializable, Jsonable, EntityObject{
 	@OneToMany(mappedBy = "course", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Lecture> lectures = new LinkedList<>();
 
+	@JsonIgnore
 	@ManyToMany(targetEntity = Trainee.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Trainee> trainees = new LinkedList<>();
 
@@ -166,22 +165,5 @@ public class Course implements Serializable, Jsonable, EntityObject{
 	public String toString() {
 		return "Course [id=" + id + ", name=" + name + ", isFavouriteToTrainer=" + isFavouriteToTrainer + ", trainer="
 				+ trainer.getName() + "]";
-	}
-	
-	@Override
-	public JsonObject toJson() {
-		final JsonObject course = new JsonObject();
-		course.addProperty("id", this.id);
-		course.addProperty("name", this.name);
-		course.addProperty("description", this.description);
-		course.addProperty("isFavouriteToTrainer", this.isFavouriteToTrainer);
-		
-		JsonArray lectures = new JsonArray();
-		for (Lecture lecture : this.getLectures()) {
-			lectures.add(lecture.toJson());
-		}
-		course.add("lectures", lectures);
-		
-		return course;
 	}
 }

@@ -33,7 +33,6 @@ import com.google.gson.JsonParser;
 
 import bg.uni.sofia.fmi.homeworksystem.contracts.User;
 import bg.uni.sofia.fmi.homeworksystem.dao.LectureDAO;
-import bg.uni.sofia.fmi.homeworksystem.dao.TrainerDAO;
 import bg.uni.sofia.fmi.homeworksystem.dao.UploadedSubmissionDAO;
 import bg.uni.sofia.fmi.homeworksystem.model.Lecture;
 import bg.uni.sofia.fmi.homeworksystem.model.Trainee;
@@ -57,9 +56,6 @@ public class SubmissionService {
 	
 	@Inject
 	private LectureDAO lectureDAO;
-	
-	@Inject
-	private TrainerDAO trainerDAO;
 	
 	@POST
 	@Path("/{lectureId}")
@@ -99,10 +95,10 @@ public class SubmissionService {
 			
 		} else if (user.getUserRole().equals(Role.TRAINER)) {
 			Trainer trainer = (Trainer) user;
-			
-			uploadedSubmissions = trainerDAO.getAllUploadedSubmisiions(trainer);
+
+			uploadedSubmissions = upSDAO.getAllUploadedSubmissionsForTrainer(trainer.getId());
 		}
-		
+
 		JsonArray uploadedSubmissionsJson = new JsonArray();
 		for (UploadedSubmission uploadedSubmission : uploadedSubmissions) {
 			uploadedSubmissionsJson.add(uploadedSubmission.toJson());
@@ -138,7 +134,7 @@ public class SubmissionService {
 		
 		upSDAO.evaluateUploadedSubmission(uploadedSubmission, mark);
 		
-		return Response.ok("{}").build();
+		return Response.ok().build();
 	}
 	
 	@GET

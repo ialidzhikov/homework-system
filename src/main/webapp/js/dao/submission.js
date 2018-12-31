@@ -41,7 +41,6 @@ app.SubmissionDao = (function () {
     	return $.ajax({
     		method: 'PUT',
     		url: HOSTNAME + 'submission/' + id,
-    		dataType: 'json',
     		contentType: 'application/json',
     		data: JSON.stringify({ 
     			mark: mark

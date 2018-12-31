@@ -41,9 +41,7 @@ public class EmailSender {
 
 			System.out.println("Done");
 
-		}
-
-		catch (MessagingException e) {
+		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
 	}

@@ -14,7 +14,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
-import com.google.gson.JsonArray;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.JsonObject;
 
 import bg.uni.sofia.fmi.homeworksystem.contracts.EntityObject;
@@ -43,6 +43,7 @@ public class Trainer implements Serializable, User, Jsonable, EntityObject {
 
 	private String email;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "trainer", fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
 	private Set<Course> courses = new HashSet<>();
 
@@ -202,12 +203,6 @@ public class Trainer implements Serializable, User, Jsonable, EntityObject {
 		trainer.addProperty("name", this.getName());
 		trainer.addProperty("degree", this.getDegree());
 		trainer.addProperty("email", this.getEmail());
-		
-		JsonArray courses = new JsonArray();
-		for (Course course : this.getCourses()) {
-			courses.add(course.toJson());
-		}
-		trainer.add("courses", courses);
 		
 		return trainer;
 	}

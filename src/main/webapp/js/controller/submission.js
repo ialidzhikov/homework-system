@@ -43,7 +43,10 @@ app.SubmissionController = (function () {
     	app.SubmissionDao.addSubmissionMark(id, mark)
     		.success(function () {
     			context.redirect('#/submissions/');
-    		});
+    		})
+    		.error(function (error) {
+    			console.log(error);
+    		});;
     }
     
     return {

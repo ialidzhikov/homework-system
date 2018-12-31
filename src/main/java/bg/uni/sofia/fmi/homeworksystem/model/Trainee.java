@@ -4,21 +4,27 @@ import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import bg.uni.sofia.fmi.homeworksystem.contracts.EntityObject;
-import bg.uni.sofia.fmi.homeworksystem.contracts.Jsonable;
 import bg.uni.sofia.fmi.homeworksystem.contracts.User;
 import bg.uni.sofia.fmi.homeworksystem.utils.Role;
-
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "getAllTrainees", query = "SELECT t FROM Trainee t"),
 @NamedQuery(name = "getTraineeByUsernameAndPass", query = "SELECT t FROM Trainer t WHERE t.userName = :username AND t.password = :password")})
-public class Trainee implements Serializable, User, Jsonable, EntityObject {
+public class Trainee implements Serializable, User, EntityObject {
 
 	private static final long serialVersionUID = -4509815250067041676L;
 
@@ -39,6 +45,7 @@ public class Trainee implements Serializable, User, Jsonable, EntityObject {
 	@OneToMany(mappedBy = "trainee", fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
 	private List<UploadedSubmission> uploadedSubmissions = new LinkedList<>();
 
+	@JsonIgnore
 	@ManyToMany(targetEntity=Course.class, mappedBy="trainees", fetch=FetchType.EAGER, cascade=CascadeType.ALL)
 	private List <Course> courses = new LinkedList<>();
 	
@@ -188,17 +195,5 @@ public class Trainee implements Serializable, User, Jsonable, EntityObject {
 	@Override
 	public String getUsername() {
 		return this.getFacultyNumber();
-	}
-	
-	@Override
-	public JsonObject toJson() {
-		final JsonObject trainee = new JsonObject();
-		trainee.addProperty("id", this.getId());
-		trainee.addProperty("facultyNumber", this.getFacultyNumber());
-		trainee.addProperty("name", this.getName());
-		trainee.addProperty("email", this.getEmail());
-		trainee.addProperty("fieldOfStudy", this.getFieldOfStudy());
-		
-		return trainee;
 	}
 }

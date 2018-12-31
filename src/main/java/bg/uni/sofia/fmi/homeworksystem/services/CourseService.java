@@ -14,7 +14,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -38,6 +37,12 @@ public class CourseService {
 	@Inject
 	private TrainerDAO trainerDAO;
 	
+	@GET
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<Course> getAll() {
+		return courseDAO.getAllCourses();
+	}
+
 	@Path("{id}")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -50,19 +55,6 @@ public class CourseService {
 		return Response.ok(course).build();
 	}
 	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAllCourses() {
-		List<Course> courses = this.courseDAO.getAllCourses();
-		
-		JsonArray coursesJson = new JsonArray();
-		for (Course course : courses) {
-			coursesJson.add(course.toJson());
-		}
-		
-		return Response.ok(coursesJson.toString(), MediaType.APPLICATION_JSON).build();
-	}
-	
 	@Path("/my")
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -72,20 +64,15 @@ public class CourseService {
 			Response.status(Status.FORBIDDEN).build();
 		}
 		
-		List<Course> courses = null;
+		List<Course> courses = new ArrayList<>();
 		if (user.getUserRole().equals(Role.TRAINEE)) {
 			courses = ((Trainee) user).getCourses();
 		} else if (user.getUserRole().equals(Role.TRAINER)) {
 			Trainer trainer = (Trainer) user;
 			courses = new ArrayList<Course>(trainer.getCourses());
 		}
-		
-		JsonArray coursesJson = new JsonArray();
-		for (Course course : courses) {
-			coursesJson.add(course.toJson());
-		}
-		
-		return Response.ok(coursesJson.toString(), MediaType.APPLICATION_JSON).build();
+
+		return Response.ok(courses).build();
 	}
 	
 	@Path("/add")

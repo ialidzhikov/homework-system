@@ -1,6 +1,7 @@
 package bg.uni.sofia.fmi.homeworksystem.services;
 
 import java.util.List;
+
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -13,7 +14,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -35,8 +35,8 @@ public class TraineeService{
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getTraineeById(@PathParam("id") Long id) {
 		Trainee trainee = traineeDAO.getById(Trainee.class, id);
-		if(trainee != null){
-			return Response.ok(trainee.toJson().toString(), MediaType.APPLICATION_JSON).build();
+		if (trainee != null) {
+			return Response.ok(trainee).build();
 		}
 		
 		return Response.status(Status.BAD_REQUEST).build();
@@ -44,17 +44,12 @@ public class TraineeService{
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getAll() {
-		if(userCtx.getUser() == null){
+	public List<Trainee> getAll() {
+		if (userCtx.getUser() == null) {
 			Response.status(Status.FORBIDDEN).build();
 		}
 		
-		List<Trainee> trainees = this.traineeDAO.getAllTrainees();
-		JsonArray traineesJSON = new JsonArray();
-		for (Trainee trainee : trainees) {
-			traineesJSON.add(trainee.toJson());
-		}
-		return Response.ok(traineesJSON.toString(), MediaType.APPLICATION_JSON).build();
+		return this.traineeDAO.getAllTrainees();
 	}
 	
 	@POST
@@ -90,5 +85,4 @@ public class TraineeService{
 		String fieldOfStudy = traineeData.get("fieldOfStudy").getAsString();
 		return new Trainee(facultyNumber, password, name, email, fieldOfStudy);
 	}
-	
 }

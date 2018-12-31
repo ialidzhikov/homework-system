@@ -13,7 +13,8 @@ import bg.uni.sofia.fmi.homeworksystem.contracts.EntityObject;
 import bg.uni.sofia.fmi.homeworksystem.contracts.Jsonable;
 
 @Entity
-@NamedQueries({ @NamedQuery(name = "getAllUploadedSubmissions", query = "SELECT u FROM UploadedSubmission u")})
+@NamedQueries({ @NamedQuery(name = "getAllUploadedSubmissions", query = "SELECT u FROM UploadedSubmission u"),
+		@NamedQuery(name = "getAllUploadedSubmissionsForTrainer", query = "SELECT u FROM Trainer t INNER JOIN t.courses c INNER JOIN c.lectures l INNER JOIN l.uploadedSubmissions u WHERE t.id=:id") })
 public class UploadedSubmission implements Serializable, Jsonable, EntityObject {
 
 	private static final long serialVersionUID = -6894627518598913945L;
@@ -38,7 +39,6 @@ public class UploadedSubmission implements Serializable, Jsonable, EntityObject 
 
 	public UploadedSubmission() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public UploadedSubmission(Lecture lecture, Trainee trainee, Date uploadDate, byte[] file) {
@@ -151,10 +151,10 @@ public class UploadedSubmission implements Serializable, Jsonable, EntityObject 
 
 	@Override
 	public String toString() {
-		return "UploadedSubmission [id=" + id + ", lecture=" + lecture.getTask() + ", trainee=" + trainee.getName() + ", uploadDate="
-				+ uploadDate + ", mark=" + mark + "]";
+		return "UploadedSubmission [id=" + id + ", lecture=" + lecture.getTask() + ", trainee=" + trainee.getName()
+				+ ", uploadDate=" + uploadDate + ", mark=" + mark + "]";
 	}
-	
+
 	@Override
 	public JsonObject toJson() {
 		final JsonObject uploadedSubmission = new JsonObject();
@@ -163,8 +163,7 @@ public class UploadedSubmission implements Serializable, Jsonable, EntityObject 
 		uploadedSubmission.addProperty("uploadDate", formatter.format(this.getUploadDate()));
 		uploadedSubmission.addProperty("mark", this.getMark());
 		uploadedSubmission.add("lecture", this.getLecture().toJson());
-		uploadedSubmission.add("trainee", this.getTrainee().toJson());
-		
+
 		return uploadedSubmission;
 	}
 }
