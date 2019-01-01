@@ -28,7 +28,6 @@ app.UserDao = (function () {
 		return $.ajax({
 			method: 'POST',
 			url: HOSTNAME + 'trainees',
-			dataType: 'json',
 			contentType: 'application/json',
 			data: JSON.stringify(trainee)
 		});
@@ -46,12 +45,7 @@ app.UserDao = (function () {
     function deleteTrainee(id) {
     	return $.ajax({
     		method: 'DELETE',
-    		url: HOSTNAME + 'trainees',
-    		dataType: 'json',
-    		contentType: 'application/json',
-    		data: JSON.stringify({
-    			id: id
-    		})
+    		url: HOSTNAME + 'trainees/' + id
     	});
     }
     
@@ -59,7 +53,6 @@ app.UserDao = (function () {
     	return $.ajax({
     		method: 'POST',
     		url: HOSTNAME + 'trainers',
-    		dataType: 'json',
     		contentType: 'application/json',
     		data: JSON.stringify(trainer)
     	});
@@ -86,12 +79,7 @@ app.UserDao = (function () {
     function deleteTrainer(id) {
     	return $.ajax({
     		method: 'DELETE',
-    		url: HOSTNAME + 'trainers',
-    		dataType: 'json',
-    		contentType: 'application/json',
-    		data: JSON.stringify({
-    			id: id
-    		})
+    		url: HOSTNAME + 'trainers/' + id
     	});
     }
     

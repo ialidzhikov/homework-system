@@ -35,7 +35,7 @@ public class TrainerDAO extends AbstractDAO<Trainer> {
 	}
 
 	public Trainer findTrainerByUserName(String userName) {
-		String txtQuery = "SELECT t FROM Trainer t WHERE t.userName=:userName";
+		String txtQuery = "SELECT t FROM Trainer t WHERE t.username=:userName";
 		TypedQuery<Trainer> query = em.createQuery(txtQuery, Trainer.class);
 		query.setParameter("userName", userName);
 		return queryTrainer(query);

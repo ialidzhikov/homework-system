@@ -1,21 +1,29 @@
 package bg.uni.sofia.fmi.homeworksystem.model;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
-import com.google.gson.JsonObject;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 import bg.uni.sofia.fmi.homeworksystem.contracts.EntityObject;
-import bg.uni.sofia.fmi.homeworksystem.contracts.Jsonable;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "getAllUploadedSubmissions", query = "SELECT u FROM UploadedSubmission u"),
 		@NamedQuery(name = "getAllUploadedSubmissionsForTrainer", query = "SELECT u FROM Trainer t INNER JOIN t.courses c INNER JOIN c.lectures l INNER JOIN l.uploadedSubmissions u WHERE t.id=:id") })
-public class UploadedSubmission implements Serializable, Jsonable, EntityObject {
+public class UploadedSubmission implements Serializable, EntityObject {
 
 	private static final long serialVersionUID = -6894627518598913945L;
 
@@ -29,6 +37,7 @@ public class UploadedSubmission implements Serializable, Jsonable, EntityObject 
 	@ManyToOne
 	private Trainee trainee;
 
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MMM-YYYY HH:mm")
 	@Temporal(TemporalType.DATE)
 	private Date uploadDate = new Date();
 
@@ -153,17 +162,5 @@ public class UploadedSubmission implements Serializable, Jsonable, EntityObject 
 	public String toString() {
 		return "UploadedSubmission [id=" + id + ", lecture=" + lecture.getTask() + ", trainee=" + trainee.getName()
 				+ ", uploadDate=" + uploadDate + ", mark=" + mark + "]";
-	}
-
-	@Override
-	public JsonObject toJson() {
-		final JsonObject uploadedSubmission = new JsonObject();
-		uploadedSubmission.addProperty("id", this.getId());
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-YYYY HH:mm");
-		uploadedSubmission.addProperty("uploadDate", formatter.format(this.getUploadDate()));
-		uploadedSubmission.addProperty("mark", this.getMark());
-		uploadedSubmission.add("lecture", this.getLecture().toJson());
-
-		return uploadedSubmission;
 	}
 }

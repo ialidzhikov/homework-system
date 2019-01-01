@@ -43,7 +43,6 @@ app.CourseDao = (function () {
         return $.ajax({
             method: 'POST',
             url: HOSTNAME + 'course/lecture',
-            dataType: 'json',
             contentType: 'application/json',
             data: JSON.stringify(lecture)
         });

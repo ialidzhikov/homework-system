@@ -15,17 +15,15 @@ import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.gson.JsonObject;
 
 import bg.uni.sofia.fmi.homeworksystem.contracts.EntityObject;
-import bg.uni.sofia.fmi.homeworksystem.contracts.Jsonable;
 import bg.uni.sofia.fmi.homeworksystem.contracts.User;
 import bg.uni.sofia.fmi.homeworksystem.utils.Role;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "getAllTrainers", query = "SELECT t FROM Trainer t"),
-	@NamedQuery(name = "getTrainerByUsernameAndPass", query = "SELECT t FROM Trainer t WHERE t.userName = :username AND t.password = :password")})
-public class Trainer implements Serializable, User, Jsonable, EntityObject {
+	@NamedQuery(name = "getTrainerByUsernameAndPass", query = "SELECT t FROM Trainer t WHERE t.username = :username AND t.password = :password")})
+public class Trainer implements Serializable, User, EntityObject {
 
 	private static final long serialVersionUID = 6925326038482471293L;
 
@@ -33,7 +31,7 @@ public class Trainer implements Serializable, User, Jsonable, EntityObject {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 
-	private String userName;
+	private String username;
 
 	private String password;
 
@@ -53,7 +51,7 @@ public class Trainer implements Serializable, User, Jsonable, EntityObject {
 
 	public Trainer(String userName, String password, String degree, String name, String email) {
 		super();
-		this.userName = userName;
+		this.username = userName;
 		this.password = password;
 		this.degree = degree;
 		this.name = name;
@@ -69,11 +67,11 @@ public class Trainer implements Serializable, User, Jsonable, EntityObject {
 	}
 
 	public String getUserName() {
-		return userName;
+		return username;
 	}
 
 	public void setUserName(String userName) {
-		this.userName = userName;
+		this.username = userName;
 	}
 
 	public String getPassword() {
@@ -129,7 +127,7 @@ public class Trainer implements Serializable, User, Jsonable, EntityObject {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((userName == null) ? 0 : userName.hashCode());
+		result = prime * result + ((username == null) ? 0 : username.hashCode());
 		return result;
 	}
 
@@ -167,17 +165,17 @@ public class Trainer implements Serializable, User, Jsonable, EntityObject {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
-		if (userName == null) {
-			if (other.userName != null)
+		if (username == null) {
+			if (other.username != null)
 				return false;
-		} else if (!userName.equals(other.userName))
+		} else if (!username.equals(other.username))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Trainer [id=" + id + ", userName=" + userName + ", password=" + password + ", degree=" + degree
+		return "Trainer [id=" + id + ", userName=" + username + ", password=" + password + ", degree=" + degree
 				+ ", name=" + name + ", email=" + email + "]";
 	}
 
@@ -193,17 +191,5 @@ public class Trainer implements Serializable, User, Jsonable, EntityObject {
 	@Override
 	public String getUsername() {
 		return this.getUserName();
-	}
-	
-	@Override
-	public JsonObject toJson() {
-		final JsonObject trainer = new JsonObject();
-		trainer.addProperty("id", this.getId());
-		trainer.addProperty("username", this.getUserName());
-		trainer.addProperty("name", this.getName());
-		trainer.addProperty("degree", this.getDegree());
-		trainer.addProperty("email", this.getEmail());
-		
-		return trainer;
 	}
 }

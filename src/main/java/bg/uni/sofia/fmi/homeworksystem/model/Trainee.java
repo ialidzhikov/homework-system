@@ -22,8 +22,7 @@ import bg.uni.sofia.fmi.homeworksystem.contracts.User;
 import bg.uni.sofia.fmi.homeworksystem.utils.Role;
 
 @Entity
-@NamedQueries({ @NamedQuery(name = "getAllTrainees", query = "SELECT t FROM Trainee t"),
-@NamedQuery(name = "getTraineeByUsernameAndPass", query = "SELECT t FROM Trainer t WHERE t.userName = :username AND t.password = :password")})
+@NamedQueries({ @NamedQuery(name = "getAllTrainees", query = "SELECT t FROM Trainee t") })
 public class Trainee implements Serializable, User, EntityObject {
 
 	private static final long serialVersionUID = -4509815250067041676L;
@@ -42,13 +41,14 @@ public class Trainee implements Serializable, User, EntityObject {
 
 	private String fieldOfStudy;
 
-	@OneToMany(mappedBy = "trainee", fetch = FetchType.EAGER, cascade=CascadeType.ALL, orphanRemoval=true)
+	@JsonIgnore
+	@OneToMany(mappedBy = "trainee", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<UploadedSubmission> uploadedSubmissions = new LinkedList<>();
 
 	@JsonIgnore
-	@ManyToMany(targetEntity=Course.class, mappedBy="trainees", fetch=FetchType.EAGER, cascade=CascadeType.ALL)
-	private List <Course> courses = new LinkedList<>();
-	
+	@ManyToMany(targetEntity = Course.class, mappedBy = "trainees", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	private List<Course> courses = new LinkedList<>();
+
 	public List<Course> getCourses() {
 		return courses;
 	}
@@ -191,7 +191,7 @@ public class Trainee implements Serializable, User, EntityObject {
 	public Role getUserRole() {
 		return Role.TRAINEE;
 	}
-	
+
 	@Override
 	public String getUsername() {
 		return this.getFacultyNumber();

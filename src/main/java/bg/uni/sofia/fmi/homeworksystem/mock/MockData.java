@@ -47,7 +47,7 @@ public class MockData {
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Lecture lectureJersey = new Lecture("Jersey", "JAX-RS", formatter.parse("2016-08-10"), course);
 		Lecture lecture = new Lecture("JAX_RS", "JAX-RS", formatter.parse("2016-08-13"), course);
-		Lecture lecture2 = new Lecture("Servlets", "Servlets", new Date(), course);
+		Lecture lecture2 = new Lecture("Servlets", "Servlets", formatter.parse("2019-08-13"), course);
 		Lecture lecture3 = new Lecture("CDI", "CDI", new Date(), course);
 		course.addLecture(lectureJersey);
 		course.addLecture(lecture);

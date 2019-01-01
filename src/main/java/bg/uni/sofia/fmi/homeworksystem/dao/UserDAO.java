@@ -20,7 +20,7 @@ public class UserDAO {
 	public User validateCredentials(String userName, String password) {
 		String hashedPassword = getHashedPassword(password);
 		User user = lookInTrainer(userName, hashedPassword);
-	
+
 		if (user == null){
 			user = lookInTrainee(userName, hashedPassword);
 		}
@@ -28,9 +28,9 @@ public class UserDAO {
 	}
 	
 	private User lookInTrainer (String userName, String hashedPassword){
-		String txtQuery = "SELECT t FROM Trainer t WHERE t.userName=:userName AND t.password=:password";
+		String txtQuery = "SELECT t FROM Trainer t WHERE t.username=:username AND t.password=:password";
 		TypedQuery<Trainer> queryTrainer = em.createQuery(txtQuery, Trainer.class);
-		queryTrainer.setParameter("userName", userName);
+		queryTrainer.setParameter("username", userName);
 		queryTrainer.setParameter("password", hashedPassword);
 		try{
 			return queryTrainer.getSingleResult();
@@ -40,9 +40,9 @@ public class UserDAO {
 	}
 	
 	private User lookInTrainee (String userName, String hashedPassword){
-		String txtQuery = "SELECT t FROM Trainee t WHERE t.facultyNumber=:userName AND t.password=:password";
+		String txtQuery = "SELECT t FROM Trainee t WHERE t.facultyNumber=:username AND t.password=:password";
 		TypedQuery<Trainee> queryTrainee = em.createQuery(txtQuery, Trainee.class);
-		queryTrainee.setParameter("userName", userName);
+		queryTrainee.setParameter("username", userName);
 		queryTrainee.setParameter("password", hashedPassword);
 		try{
 			return queryTrainee.getSingleResult();

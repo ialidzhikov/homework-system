@@ -13,11 +13,11 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -43,15 +43,13 @@ public class LectureService {
 	@Path("/{courseId}/lecture")
 	public Response getLecturesByCourseId(@PathParam("courseId") String courseIdStr) {
 		long courseId = Long.parseLong(courseIdStr);
-		
+
 		Course course = courseDAO.getById(Course.class, courseId);
-		
-		JsonArray jArray = new JsonArray();
-		for (Lecture c : course.getLectures()) {
-			jArray.add(c.toJson());
+		if (course == null) {
+			return Response.status(Status.NOT_FOUND).build();
 		}
-		
-		return Response.ok(jArray.toString(), MediaType.APPLICATION_JSON).build();
+
+		return Response.ok(course.getLectures()).build();
 	}
 	
 	@POST
@@ -75,6 +73,6 @@ public class LectureService {
 		Course course = courseDAO.getById(Course.class, courseId);
 		Lecture newLecture = new Lecture(name, task, endDate, course);
 		lectureDAO.save(newLecture);
-		return Response.ok("{}").build();
+		return Response.ok().build();
 	}
 }

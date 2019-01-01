@@ -14,21 +14,18 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import bg.uni.sofia.fmi.homeworksystem.dao.TraineeDAO;
 import bg.uni.sofia.fmi.homeworksystem.model.Trainee;
 
-@Path("hmwsrest/v1/trainees") 
-public class TraineeService{
-	
+@Path("hmwsrest/v1/trainees")
+public class TraineeService {
+
 	@Inject
 	private TraineeDAO traineeDAO;
-	
+
 	@Inject
 	private CurrentUserContext userCtx;
-	
+
 	@Path("/{id}")
 	@GET
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -38,51 +35,39 @@ public class TraineeService{
 		if (trainee != null) {
 			return Response.ok(trainee).build();
 		}
-		
+
 		return Response.status(Status.BAD_REQUEST).build();
 	}
-	
+
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Trainee> getAll() {
 		if (userCtx.getUser() == null) {
 			Response.status(Status.FORBIDDEN).build();
 		}
-		
+
 		return this.traineeDAO.getAllTrainees();
 	}
-	
+
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response add(String data) {
-		Trainee tempTrainee = createTempTraineeObj(data);		
-		if(traineeDAO.save(tempTrainee)){
-			return Response.status(Status.CREATED).entity("{}").build();
+	public Response add(Trainee trainee) {
+		if (traineeDAO.save(trainee)) {
+			return Response.status(Status.CREATED).build();
 		}
+
 		return Response.status(Status.BAD_REQUEST).build();
 	}
-	
+
 	@DELETE
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response delete(String data) {
-		JsonObject traineeJson = new JsonParser().parse(data).getAsJsonObject();
-		Long id = traineeJson.get("id").getAsLong();
+	@Path("{id}")
+	public Response delete(@PathParam("id") Long id) {
 		Trainee traineeToDelete = traineeDAO.getById(Trainee.class, id);
-		if(traineeDAO.delete(traineeToDelete)){
-			return Response.status(Status.OK).entity("{}").build();
+		if (traineeDAO.delete(traineeToDelete)) {
+			return Response.ok().build();
 		}
+
 		return Response.status(Status.BAD_REQUEST).build();
-	}
-	
-	private Trainee createTempTraineeObj(String data){
-		JsonObject traineeData = new JsonParser().parse(data).getAsJsonObject();
-		String name = traineeData.get("name").getAsString();
-		String password = traineeData.get("password").getAsString();
-		String email = traineeData.get("email").getAsString();
-		String facultyNumber = traineeData.get("facultyNumber").getAsString();
-		String fieldOfStudy = traineeData.get("fieldOfStudy").getAsString();
-		return new Trainee(facultyNumber, password, name, email, fieldOfStudy);
 	}
 }

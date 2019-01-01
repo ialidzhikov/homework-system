@@ -27,7 +27,6 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
@@ -99,12 +98,7 @@ public class SubmissionService {
 			uploadedSubmissions = upSDAO.getAllUploadedSubmissionsForTrainer(trainer.getId());
 		}
 
-		JsonArray uploadedSubmissionsJson = new JsonArray();
-		for (UploadedSubmission uploadedSubmission : uploadedSubmissions) {
-			uploadedSubmissionsJson.add(uploadedSubmission.toJson());
-		}
-		
-		return Response.ok(uploadedSubmissionsJson.toString(), MediaType.APPLICATION_JSON).build();
+		return Response.ok(uploadedSubmissions).build();
 	}
 	
 	@GET
@@ -116,7 +110,7 @@ public class SubmissionService {
 			return Response.status(Status.NOT_FOUND).build();
 		}
 		
-		return Response.ok(uploadedSubmission.toJson().toString(), MediaType.APPLICATION_JSON).build();
+		return Response.ok(uploadedSubmission).build();
 	}
 	
 	@PUT

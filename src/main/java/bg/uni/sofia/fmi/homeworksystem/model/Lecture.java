@@ -1,23 +1,32 @@
 package bg.uni.sofia.fmi.homeworksystem.model;
 
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 
 import bg.uni.sofia.fmi.homeworksystem.contracts.EntityObject;
-import bg.uni.sofia.fmi.homeworksystem.contracts.Jsonable;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "getAllLectures", query = "SELECT l FROM Lecture l") })
-public class Lecture implements Serializable, Jsonable, EntityObject {
+public class Lecture implements Serializable, EntityObject {
 
 	private static final long serialVersionUID = -4918417868982503112L;
 
@@ -33,6 +42,7 @@ public class Lecture implements Serializable, Jsonable, EntityObject {
 	
 	private String task;
 
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MMM-YYYY HH:mm")
 	@Temporal(TemporalType.DATE)
 	private Date endDate;
 
@@ -146,24 +156,6 @@ public class Lecture implements Serializable, Jsonable, EntityObject {
 	@Override
 	public String toString() {
 		return "Lecture [id=" + id + ", course=" + course.getName() + ", task=" + task + ", endDate=" + endDate + "]";
-	}
-	
-	@Override
-	public JsonObject toJson() {
-		final JsonObject lecture = new JsonObject();
-		lecture.addProperty("id", this.getId());
-		lecture.addProperty("name", this.getName());
-		lecture.addProperty("task", this.getTask());
-		SimpleDateFormat formatter = new SimpleDateFormat("dd-MMM-YYYY HH:mm");
-		lecture.addProperty("endDate", formatter.format(this.getEndDate()));
-		
-		JsonArray uploadedSubmissions = new JsonArray();
-		for (UploadedSubmission uploadedSubmission : this.getUploadedSubmissions()) {
-			uploadedSubmissions.add(uploadedSubmission.getId());
-		}
-		lecture.add("uploadedSubmissions", uploadedSubmissions);
-		
-		return lecture;
 	}
 
 }

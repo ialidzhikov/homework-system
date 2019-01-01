@@ -6,12 +6,8 @@ import java.util.List;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.persistence.EntityTransaction;
-import javax.persistence.NoResultException;
 import javax.persistence.RollbackException;
 import javax.persistence.TypedQuery;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import bg.uni.sofia.fmi.homeworksystem.model.Course;
 import bg.uni.sofia.fmi.homeworksystem.model.Trainee;
@@ -19,7 +15,6 @@ import bg.uni.sofia.fmi.homeworksystem.model.Trainee;
 
 @ApplicationScoped
 public class TraineeDAO extends AbstractDAO<Trainee>{
-	private final Logger LOGGER = LoggerFactory.getLogger(TraineeDAO.class);
 	
 	@Override
 	public boolean save(final Trainee trainee) {
@@ -51,14 +46,6 @@ public class TraineeDAO extends AbstractDAO<Trainee>{
 		String txtQuery = "SELECT t FROM Trainee t";
 		TypedQuery<Trainee> query = em.createQuery(txtQuery, Trainee.class);
 		return query.getResultList();
-	}
-	
-	public Trainee getTraineeByUsernameAndPass(String username, String password) {
-		try {
-			return em.createNamedQuery("getTraineeByUsernameAndPass", Trainee.class).setParameter("username", username).setParameter("password", password).getSingleResult();
-		} catch (NoResultException e) {
-			return null;
-		}
 	}
 
 	private Trainee queryTrainee(TypedQuery<Trainee> query) {
