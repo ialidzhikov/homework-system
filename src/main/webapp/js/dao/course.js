@@ -5,10 +5,10 @@ var app = app || {};
 app.CourseDao = (function () {
     var HOSTNAME = 'webapi/hmwsrest/v1/';
     
-    function getCourse(courseId) {
+    function getLectures(courseId) {
         return $.ajax({
             method: 'GET',
-            url: HOSTNAME + 'course/' + courseId + '/lecture',
+            url: HOSTNAME + 'courses/' + courseId + '/lectures',
             dataType: 'json'
         });
     }
@@ -32,17 +32,17 @@ app.CourseDao = (function () {
     function addCourse(course) {
         return $.ajax({
             method: 'POST',
-            url: HOSTNAME + 'courses/add',
+            url: HOSTNAME + 'courses',
             dataType: 'json',
             contentType: 'application/json',
             data: JSON.stringify(course)
         });
     }
     
-    function addLecture(lecture) {
+    function addLecture(courseId, lecture) {
         return $.ajax({
             method: 'POST',
-            url: HOSTNAME + 'course/lecture',
+            url: HOSTNAME + 'courses/' + courseId + '/lectures',
             contentType: 'application/json',
             data: JSON.stringify(lecture)
         });
@@ -51,30 +51,23 @@ app.CourseDao = (function () {
     function enroll(id) {
     	return $.ajax({
     		method: 'POST',
-    		url: HOSTNAME + 'courses/enroll',
-    		dataType: 'json',
-    		contentType: 'application/json',
-    		data: JSON.stringify({
-    			id: id
-    		})
+    		url: HOSTNAME + 'courses/' + id + '/enroll'
     	});
     }
     
     function markAsFavourite(id, isFavourite) {
     	return $.ajax({
     		method: 'POST',
-    		url: HOSTNAME + 'courses/favourite',
-    		dataType: 'json',
+    		url: HOSTNAME + 'courses/' + id + '/favourite',
     		contentType: 'application/json',
     		data: JSON.stringify({
-    			id: id,
     			isFavourite: isFavourite
     		})
     	});
     }
     
     return {
-        getCourse: getCourse,
+        getLectures: getLectures,
         getAllCourses: getAllCourses,
         getMyCourses: getMyCourses,
         addCourse: addCourse,

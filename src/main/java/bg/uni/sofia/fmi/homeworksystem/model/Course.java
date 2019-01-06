@@ -21,7 +21,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import bg.uni.sofia.fmi.homeworksystem.contracts.EntityObject;
 
 @Entity
-@NamedQueries({ @NamedQuery(name = "getAllCourses", query = "SELECT c FROM Course c") })
+@NamedQueries({ @NamedQuery(name = "getAllCourses", query = "SELECT c FROM Course c"),
+		@NamedQuery(name = "getCoursesForTrainer", query = "SELECT c FROM Course c INNER JOIN c.trainer t WHERE t.id = :id") })
 public class Course implements Serializable, EntityObject {
 
 	private static final long serialVersionUID = 4419124196015509182L;
@@ -39,40 +40,12 @@ public class Course implements Serializable, EntityObject {
 	@ManyToOne
 	private Trainer trainer;
 
-	@OneToMany(mappedBy = "course", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Lecture> lectures = new LinkedList<>();
-
 	@JsonIgnore
 	@ManyToMany(targetEntity = Trainee.class, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Trainee> trainees = new LinkedList<>();
 
-	public List<Trainee> getTrainees() {
-		return trainees;
-	}
-
-	public void setTrainees(List<Trainee> trainees) {
-		this.trainees = trainees;
-	}
-
-	public Course() {
-		super();
-	}
-
-	public List<Lecture> getLectures() {
-		return lectures;
-	}
-
-	public void setLectures(List<Lecture> lectures) {
-		this.lectures = lectures;
-	}
-
-	public Course(String name, String description, Boolean isFavouriteToTrainer, Trainer trainer) {
-		super();
-		this.name = name;
-		this.description = description;
-		this.isFavouriteToTrainer = isFavouriteToTrainer;
-		this.trainer = trainer;
-	}
+	@OneToMany(mappedBy = "course", fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Lecture> lectures = new LinkedList<>();
 
 	public Long getId() {
 		return id;
@@ -113,7 +86,23 @@ public class Course implements Serializable, EntityObject {
 	public void setTrainer(Trainer trainer) {
 		this.trainer = trainer;
 	}
-	
+
+	public List<Trainee> getTrainees() {
+		return trainees;
+	}
+
+	public void setTrainees(List<Trainee> trainees) {
+		this.trainees = trainees;
+	}
+
+	public List<Lecture> getLectures() {
+		return lectures;
+	}
+
+	public void setLectures(List<Lecture> lectures) {
+		this.lectures = lectures;
+	}
+
 	public void addLecture(Lecture lecture) {
 		this.lectures.add(lecture);
 	}

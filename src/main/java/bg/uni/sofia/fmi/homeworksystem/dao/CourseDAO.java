@@ -38,6 +38,11 @@ public class CourseDAO extends AbstractDAO<Course>{
 		return em.createNamedQuery("getAllCourses", Course.class).getResultList();
 	}
 	
+	public List<Course> getCoursesForTrainer(Long id) {
+		return em.createNamedQuery("getCoursesForTrainer", Course.class)
+				.setParameter("id", id).getResultList();
+	}
+	
 	@Override
 	public boolean delete(final Course course) {
     	EntityTransaction transaction = em.getTransaction();

@@ -16,7 +16,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -27,9 +26,6 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-
 import bg.uni.sofia.fmi.homeworksystem.contracts.User;
 import bg.uni.sofia.fmi.homeworksystem.dao.LectureDAO;
 import bg.uni.sofia.fmi.homeworksystem.dao.UploadedSubmissionDAO;
@@ -37,6 +33,7 @@ import bg.uni.sofia.fmi.homeworksystem.model.Lecture;
 import bg.uni.sofia.fmi.homeworksystem.model.Trainee;
 import bg.uni.sofia.fmi.homeworksystem.model.Trainer;
 import bg.uni.sofia.fmi.homeworksystem.model.UploadedSubmission;
+import bg.uni.sofia.fmi.homeworksystem.rest.request.EvaluationRequest;
 import bg.uni.sofia.fmi.homeworksystem.utils.Role;
 
 @RequestScoped
@@ -49,10 +46,10 @@ public class SubmissionService {
 	
 	@Inject
 	private CurrentUserContext currentUserCtx;
-	
+
 	@Inject
 	private UploadedSubmissionDAO upSDAO;
-	
+
 	@Inject
 	private LectureDAO lectureDAO;
 	
@@ -117,16 +114,13 @@ public class SubmissionService {
 	@Path("/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response putSubmissionMark(@PathParam("id") Long id, String data) {
-		JsonObject submissionJson = new JsonParser().parse(data).getAsJsonObject();
-		Double mark = submissionJson.get("mark").getAsDouble();
-		
+	public Response putSubmissionMark(@PathParam("id") Long id, EvaluationRequest request) {
 		UploadedSubmission uploadedSubmission = upSDAO.getById(UploadedSubmission.class, id);
 		if (uploadedSubmission == null) {
 			return Response.status(Status.BAD_REQUEST).build();
 		}
-		
-		upSDAO.evaluateUploadedSubmission(uploadedSubmission, mark);
+
+		upSDAO.evaluateUploadedSubmission(uploadedSubmission, request.getMark());
 		
 		return Response.ok().build();
 	}
@@ -139,7 +133,7 @@ public class SubmissionService {
 		StreamingOutput fileStream = new StreamingOutput() {
 			
 			@Override
-			public void write(OutputStream outputStream) throws IOException, WebApplicationException {
+			public void write(OutputStream outputStream) throws IOException {
 				byte[] fileBytes = uploadedSubmission.getFile();
 				outputStream.write(fileBytes);
 				outputStream.flush();

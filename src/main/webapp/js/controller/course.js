@@ -9,7 +9,7 @@ app.CourseController = (function () {
         
         app.UserDao.getAuthenticated()
         	.success(function (authenticated) {
-        		app.CourseDao.getCourse(id)
+        		app.CourseDao.getLectures(id)
 	                .done(function (lectures) {
 	                	var role = authenticated.role;
 	            		
@@ -49,7 +49,7 @@ app.CourseController = (function () {
 			        				
 					                app.Renderer.render(selector, 'templates/trainee-courses.html', { courses: courses });
 					            } else if (role === 'TRAINER') {
-					                app.Renderer.render(selector, 'templates/trainer-courses.html', { courses: myCourses});
+					                app.Renderer.render(selector, 'templates/trainer-courses.html', { courses: myCourses });
 					            }
 			        		});
 			        });
@@ -74,7 +74,8 @@ app.CourseController = (function () {
     }
     
     function postAddLecture(context, selector) {
-        app.CourseDao.addLecture(context.params)
+    	context.params.endDate = moment(context.params.endDate, "YYYY-MM-DD").format("DD-MMM-YYYY HH:mm");
+        app.CourseDao.addLecture(context.params['courseId'], context.params)
         	.success(function () {
         		context.redirect('#/courses/' +  context.params['courseId']);
         		

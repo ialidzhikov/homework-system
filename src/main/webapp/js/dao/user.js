@@ -9,18 +9,16 @@ app.UserDao = (function () {
         return $.ajax({
             method: 'POST',
             url: HOSTNAME + 'user/login',
-            dataType: 'json',
             contentType: 'application/json',
             data: JSON.stringify(user)
         });
     }
-    
+
     function getTraineeById(id) {
     	return $.ajax({
     		method: 'GET',
     		url: HOSTNAME + 'trainees/' + id,
-    		dataType: 'json',
-    		contentType: 'application/json',
+    		dataType: 'json'
     	});
     }
     
@@ -37,8 +35,7 @@ app.UserDao = (function () {
     	return $.ajax({
     		method: 'GET',
     		url: HOSTNAME + 'trainees',
-    		dataType: 'json',
-    		contentType: 'application/json'
+    		dataType: 'json'
     	});
     }
     
@@ -62,8 +59,7 @@ app.UserDao = (function () {
     	return $.ajax({
     		method: 'GET',
     		url: HOSTNAME + 'trainers/' + id,
-    		dataType: 'json',
-    		contentType: 'application/json',
+    		dataType: 'json'
     	});
     }
     
@@ -71,8 +67,7 @@ app.UserDao = (function () {
     	return $.ajax({
     		method: 'GET',
     		url: HOSTNAME + 'trainers',
-    		dataType: 'json',
-    		contentType: 'application/json'
+    		dataType: 'json'
     	});
     }
     
@@ -87,17 +82,14 @@ app.UserDao = (function () {
     	return $.ajax({
     		method: 'GET',
     		url: HOSTNAME + 'user/authenticated',
-    		dataType: 'json',
-    		contentType: 'application/json'
+    		dataType: 'json'
     	});
     }
     
     function logout() {
     	return $.ajax({
     		method: 'POST',
-    		url: HOSTNAME + 'user/logout',
-    		dataType: 'json',
-    		contentType: 'application/json'
+    		url: HOSTNAME + 'user/logout'
     	});
     }
     

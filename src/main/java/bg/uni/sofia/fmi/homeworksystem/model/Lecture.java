@@ -21,11 +21,13 @@ import javax.persistence.TemporalType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import bg.uni.sofia.fmi.homeworksystem.contracts.EntityObject;
 
 @Entity
 @NamedQueries({ @NamedQuery(name = "getAllLectures", query = "SELECT l FROM Lecture l") })
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Lecture implements Serializable, EntityObject {
 
 	private static final long serialVersionUID = -4918417868982503112L;
@@ -42,7 +44,7 @@ public class Lecture implements Serializable, EntityObject {
 	
 	private String task;
 
-	@JsonFormat(shape = Shape.STRING, pattern = "dd-MMM-YYYY HH:mm")
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MMM-yyyy HH:mm")
 	@Temporal(TemporalType.DATE)
 	private Date endDate;
 

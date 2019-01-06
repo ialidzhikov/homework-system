@@ -37,11 +37,11 @@ public class UploadedSubmission implements Serializable, EntityObject {
 	@ManyToOne
 	private Trainee trainee;
 
-	@JsonFormat(shape = Shape.STRING, pattern = "dd-MMM-YYYY HH:mm")
+	@JsonFormat(shape = Shape.STRING, pattern = "dd-MMM-yyyy HH:mm")
 	@Temporal(TemporalType.DATE)
 	private Date uploadDate = new Date();
 
-	private Double mark = null;
+	private Double mark;
 
 	@Lob
 	private byte[] file;

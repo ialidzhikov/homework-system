@@ -43,7 +43,7 @@ public class MockData {
 	}
 	
 	private void createCourses () throws ParseException {
-		Course course = new Course("Java EE", "Java EE course description", false, ismail);
+		Course course = getCourse("Java EE", "Java EE course description", false, ismail);
 		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 		Lecture lectureJersey = new Lecture("Jersey", "JAX-RS", formatter.parse("2016-08-10"), course);
 		Lecture lecture = new Lecture("JAX_RS", "JAX-RS", formatter.parse("2016-08-13"), course);
@@ -56,7 +56,7 @@ public class MockData {
 		ismail.addCourse(course);
 		this.update(ismail);
 		
-		Course courseJavaSe = new Course("Java SE", "First steps with Java...", true, stoyo);
+		Course courseJavaSe = getCourse("Java SE", "First steps with Java...", true, stoyo);
 		Lecture lectureIntro = new Lecture("Introduction to course", "And your task is...", formatter.parse("2016-08-10"), courseJavaSe);
 		course.addLecture(lectureIntro);
 		stoyo.addCourse(courseJavaSe);
@@ -106,5 +106,14 @@ public class MockData {
         }
         
         return true;
+    }
+    
+    private Course getCourse(String name, String description, Boolean isFavouriteToTrainer, Trainer trainer) {
+    	Course course = new Course();
+    	course.setName(name);
+    	course.setDescription(description);
+    	course.setIsFavouriteToTrainer(isFavouriteToTrainer);
+    	course.setTrainer(trainer);
+    	return course;
     }
 }
